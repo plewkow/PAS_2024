@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
-import pl.lodz.p.edu.rest.model.Client;
+import pl.lodz.p.edu.rest.model.user.Client;
 import org.bson.types.ObjectId;
 
 public class ClientRepository {

@@ -2,9 +2,9 @@ package pl.lodz.p.edu.rest.manager;
 
 import org.bson.types.ObjectId;
 
-import pl.lodz.p.edu.rest.model.ClientType;
+import pl.lodz.p.edu.rest.model.user.ClientType;
 import pl.lodz.p.edu.rest.repository.ClientRepository;
-import pl.lodz.p.edu.rest.model.Client;
+import pl.lodz.p.edu.rest.model.user.Client;
 
 import java.util.Map;
 

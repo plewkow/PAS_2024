@@ -3,6 +3,7 @@ package pl.lodz.p.edu.rest.manager;
 import com.mongodb.client.ClientSession;
 import pl.lodz.p.edu.rest.model.*;
 import org.bson.types.ObjectId;
+import pl.lodz.p.edu.rest.model.user.Client;
 import pl.lodz.p.edu.rest.repository.MongoEntity;
 import pl.lodz.p.edu.rest.repository.RentRepository;
 
