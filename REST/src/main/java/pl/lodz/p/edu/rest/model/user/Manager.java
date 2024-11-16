@@ -6,7 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 public class Manager extends User {
     public Manager(String login, String password, String firstName, String lastName) {
         super(login, password, firstName, lastName);
-        this.setRole(Role.ADMIN);
+        this.setRole(Role.MANAGER);
     }
 
     public Manager() {

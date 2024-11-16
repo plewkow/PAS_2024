@@ -14,7 +14,7 @@ public class Client extends User {
                   String lastName,
                   @BsonProperty("clientType") ClientType clientType) {
         super(login, password, firstName, lastName);
-        this.setRole(Role.ADMIN);
+        this.setRole(Role.CLIENT);
     }
 
     public Client() {
