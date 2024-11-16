@@ -12,13 +12,13 @@
 //public class RentManager {
 //    private final RentRepository rentRepository;
 //    ClientManager clientManager;
-//    ItemManager itemManager;
+//    ItemService itemService;
 //    private final MongoEntity mongoEntity;
 //
-//    public RentManager(RentRepository rentRepository, ClientManager clientManager, ItemManager itemManager) {
+//    public RentManager(RentRepository rentRepository, ClientManager clientManager, ItemService itemService) {
 //        this.rentRepository = rentRepository;
 //        this.clientManager = clientManager;
-//        this.itemManager = itemManager;
+//        this.itemService = itemService;
 //        mongoEntity = new MongoEntity();
 //    }
 //
@@ -35,7 +35,7 @@
 //
 //        try (ClientSession session = mongoEntity.getMongoClient().startSession()) {
 //            session.startTransaction();
-//            itemManager.setUnavailable(item.getId());
+//            itemService.setUnavailable(item.getId());
 //            Rent rent = new Rent(beginTime, client, item);
 //            ObjectId id = rentRepository.addRent(rent);
 //            System.out.println("Rent added: " + id);
@@ -52,7 +52,7 @@
 //            session.startTransaction();
 //            Rent rent = rentRepository.getRent(rentId);
 //            Item item = rent.getItem();
-//            itemManager.setAvailable(item.getId());
+//            itemService.setAvailable(item.getId());
 //            rent.setEndTime(LocalDateTime.now());
 //            rent.setArchive(true);
 //            rentRepository.updateRent(rent);
