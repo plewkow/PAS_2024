@@ -1,14 +1,10 @@
 package pl.lodz.p.edu.rest.controller;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.edu.rest.dto.ClientDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
-import pl.lodz.p.edu.rest.model.user.ClientType;
 import pl.lodz.p.edu.rest.model.user.Role;
-import pl.lodz.p.edu.rest.model.user.User;
 import pl.lodz.p.edu.rest.service.UserService;
 
 import java.util.List;
@@ -22,14 +18,15 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping()
-//    public List<User> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
-
     @GetMapping()
-    public String getAllUsers() {
-        return "null";
+    public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) Role role) {
+        List<UserDTO> users;
+        if (role == null) {
+            users = userService.getAllUsers();
+        } else {
+            users = userService.getUsersByRole(role);
+        }
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping()

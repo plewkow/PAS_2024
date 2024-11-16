@@ -4,8 +4,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
+import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class UserRepository extends AbstractMongoEntity {
@@ -27,5 +30,13 @@ public class UserRepository extends AbstractMongoEntity {
     
     public User findById(ObjectId id) {
         return userCollection.find(Filters.eq("_id", id)).first();
+    }
+
+    public List<User> findByRole(Role role) {
+        return userCollection.find(Filters.eq("role", role)).into(new ArrayList<>());
+    }
+
+    public List<User> findAll() {
+        return userCollection.find().into(new ArrayList<>());
     }
 }

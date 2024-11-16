@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.ClientDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.mapper.UserMapper;
 import pl.lodz.p.edu.rest.model.user.*;
 import pl.lodz.p.edu.rest.repository.UserRepository;
 
-import java.util.Objects;
+import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper = new UserMapper();
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -66,5 +68,15 @@ public class UserService {
                     user.getLastName(),
                     user.getRole());
         }
+    }
+
+    public List<UserDTO> getUsersByRole(Role role) {
+        List<User> users = userRepository.findByRole(role);
+        return userMapper.toDTO(users);
+    }
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.toDTO(users);
     }
 }
