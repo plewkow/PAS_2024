@@ -1,3 +1,11 @@
+//package pl.lodz.p.edu.rest.model.user;
+//
+//public enum ClientType {
+//    DIAMONDMEMBERSHIP,
+//    MEMBERSHIP,
+//    NOMEMBERSHIP;
+//}
+
 package pl.lodz.p.edu.rest.model.user;
 
 import org.bson.codecs.pojo.annotations.BsonCreator;

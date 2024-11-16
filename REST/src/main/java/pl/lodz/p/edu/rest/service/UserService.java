@@ -2,9 +2,12 @@ package pl.lodz.p.edu.rest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.edu.rest.dto.ClientDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.*;
 import pl.lodz.p.edu.rest.repository.UserRepository;
+
+import java.util.Objects;
 
 @Service
 public class UserService {

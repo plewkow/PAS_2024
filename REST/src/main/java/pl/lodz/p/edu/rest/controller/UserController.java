@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.edu.rest.dto.ClientDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.model.user.ClientType;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.User;
 import pl.lodz.p.edu.rest.service.UserService;
