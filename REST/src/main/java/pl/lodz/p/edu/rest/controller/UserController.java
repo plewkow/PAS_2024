@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.controller;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable ObjectId id) {
-        UserDTO user = userService.getUser(id);
+        UserDTO user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 }

@@ -1,6 +1,8 @@
 package pl.lodz.p.edu.rest.repository;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.edu.rest.model.user.User;
 
