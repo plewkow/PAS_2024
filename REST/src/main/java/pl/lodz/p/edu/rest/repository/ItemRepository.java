@@ -4,11 +4,15 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.ApplicationScope;
 import pl.lodz.p.edu.rest.model.item.Item;
 import org.bson.types.ObjectId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -26,8 +30,20 @@ public class ItemRepository {
         return result.getInsertedId().asObjectId().getValue();
     }
 
-    public Item getItem(ObjectId id) {
+    public Item getItemById(ObjectId id) {
         return itemCollection.find(Filters.eq("_id", id)).first();
+    }
+
+    public List<Item> getItemsByBasePrice(int basePrice) {
+        return itemCollection.find(Filters.eq("basePrice", basePrice)).into(new ArrayList<>());
+    }
+
+    public List<Item> getItemsByItemName(String itemName) {
+        return itemCollection.find(Filters.eq("itemName", itemName)).into(new ArrayList<>());
+    }
+
+    public List<Item> getItemsByItemType(String itemType) {
+        return itemCollection.find(Filters.eq("itemType", itemType)).into(new ArrayList<>());
     }
 
     public void updateItem(Item item) {

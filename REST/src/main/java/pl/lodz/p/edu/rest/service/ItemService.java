@@ -12,6 +12,9 @@ import pl.lodz.p.edu.rest.mapper.ItemMapper;
 import pl.lodz.p.edu.rest.model.item.*;
 import pl.lodz.p.edu.rest.repository.ItemRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequestScope
 @Service
 public class ItemService {
@@ -25,34 +28,67 @@ public class ItemService {
     public MusicDTO addMusic(MusicDTO musicDTO) {
         Music music = ItemMapper.toMusic(musicDTO);
         ObjectId id = itemRepository.addItem(music);
-        Music addedMusic = (Music) itemRepository.getItem(id);
+        Music addedMusic = (Music) itemRepository.getItemById(id);
         return ItemMapper.toMusicDTO(addedMusic);
     }
 
     public MovieDTO addMovie(MovieDTO movieDTO) {
         Movie movie = ItemMapper.toMovie(movieDTO);
         ObjectId id = itemRepository.addItem(movie);
-        Movie addedMovie = (Movie) itemRepository.getItem(id);
+        Movie addedMovie = (Movie) itemRepository.getItemById(id);
         return ItemMapper.toMovieDTO(addedMovie);
     }
 
     public ComicsDTO addComics(ComicsDTO comicsDTO) {
         Comics comics = ItemMapper.toComics(comicsDTO);
         ObjectId id = itemRepository.addItem(comics);
-        Comics addedComics = (Comics) itemRepository.getItem(id);
+        Comics addedComics = (Comics) itemRepository.getItemById(id);
         return ItemMapper.toComicsDTO(addedComics);
     }
 
-    public ItemDTO getItem(ObjectId id) {
-        Item item = itemRepository.getItem(id);
+    public ItemDTO getItemById(ObjectId id) {
+        Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new NullPointerException("Item not found");
         }
         return ItemMapper.toDTO(item);
     }
 
+    public List<ItemDTO> getItemsByBasePrice(int basePrice) {
+        List<Item> items = itemRepository.getItemsByBasePrice(basePrice);
+        return items.stream()
+                .map(item -> new ItemDTO(
+                        item.getBasePrice(),
+                        item.getItemName(),
+                        item.isAvailable(),
+                        item.getItemType()
+                )).collect(Collectors.toList());
+    }
+
+    public List<ItemDTO> getItemsByItemName(String itemName) {
+        List<Item> items = itemRepository.getItemsByItemName(itemName);
+        return items.stream()
+                .map(item -> new ItemDTO(
+                        item.getBasePrice(),
+                        item.getItemName(),
+                        item.isAvailable(),
+                        item.getItemType()
+                )).collect(Collectors.toList());
+    }
+
+    public List<ItemDTO> getItemsByItemType(String itemType) {
+        List<Item> items = itemRepository.getItemsByItemType(itemType);
+        return items.stream()
+                .map(item -> new ItemDTO(
+                        item.getBasePrice(),
+                        item.getItemName(),
+                        item.isAvailable(),
+                        item.getItemType()
+                )).collect(Collectors.toList());
+    }
+
     public void updateItem(ObjectId id, ItemDTO itemDTO) {
-        Item item = itemRepository.getItem(id);
+        Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new NullPointerException("Item not found");
         }
@@ -62,7 +98,7 @@ public class ItemService {
     }
 
     public void removeItem(ObjectId id) {
-        Item item = itemRepository.getItem(id);
+        Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new NullPointerException("Item not found");
         }
@@ -70,7 +106,7 @@ public class ItemService {
     }
 
     public void setAvailable(ObjectId id) {
-        Item item = itemRepository.getItem(id);
+        Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new NullPointerException("Item not found");
         }
@@ -79,7 +115,7 @@ public class ItemService {
     }
 
     public void setUnavailable(ObjectId id) {
-        Item item = itemRepository.getItem(id);
+        Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new NullPointerException("Item not found");
         }

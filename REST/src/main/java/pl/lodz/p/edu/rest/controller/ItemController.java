@@ -41,7 +41,7 @@ public class ItemController {
 
     @GetMapping("/manager/getItem")
     public ResponseEntity<ItemDTO> getItem(@RequestParam ObjectId id) {
-        ItemDTO itemDTO = itemService.getItem(id);
+        ItemDTO itemDTO = itemService.getItemById(id);
         return ResponseEntity.ok(itemDTO);
     }
 
