@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.edu.rest.model.user.User;
 
+
 @Repository
 public class UserRepository extends AbstractMongoEntity {
     private MongoCollection<User> userCollection;
@@ -20,5 +21,9 @@ public class UserRepository extends AbstractMongoEntity {
 
     public void save(User user) {
         userCollection.insertOne(user);
+    }
+    
+    public User findById(ObjectId id) {
+        return userCollection.find(Filters.eq("_id", id)).first();
     }
 }

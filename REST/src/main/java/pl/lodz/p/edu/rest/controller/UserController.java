@@ -33,8 +33,13 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
-        System.out.println(userDTO.getRole());
         UserDTO user = userService.addUser(userDTO);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable ObjectId id) {
+        UserDTO user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }
 }

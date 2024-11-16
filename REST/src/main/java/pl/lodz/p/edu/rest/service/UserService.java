@@ -38,12 +38,32 @@ public class UserService {
                     user.getLastName());
         };
         userRepository.save(createdUser);
-        System.out.println(createdUser.getRole());
         return new UserDTO(
                 createdUser.getLogin(),
                 createdUser.getPassword(),
                 createdUser.getFirstName(),
                 createdUser.getLastName(),
                 createdUser.getRole());
+    }
+
+    public UserDTO getUserById(ObjectId id) {
+        User user = userRepository.findById(id);
+        if (user.getRole() == Role.CLIENT) {
+            Client client = (Client) user;
+            return new ClientDTO(
+                    client.getLogin(),
+                    client.getPassword(),
+                    client.getFirstName(),
+                    client.getLastName(),
+                    client.getRole(),
+                    client.getClientType());
+        } else {
+            return new UserDTO(
+                    user.getLogin(),
+                    user.getPassword(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getRole());
+        }
     }
 }
