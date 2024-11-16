@@ -3,6 +3,7 @@ package pl.lodz.p.edu.rest.controller;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.service.UserService;
@@ -38,6 +39,12 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable ObjectId id) {
         UserDTO user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateUserDTO> updateUser(@PathVariable ObjectId id, @RequestBody UpdateUserDTO userDTO) {
+        UpdateUserDTO user = userService.updateUser(id, userDTO);
         return ResponseEntity.ok(user);
     }
 }

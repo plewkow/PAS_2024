@@ -1,7 +1,9 @@
 package pl.lodz.p.edu.rest.repository;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.edu.rest.model.user.Role;
@@ -9,6 +11,9 @@ import pl.lodz.p.edu.rest.model.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
 
 @Repository
 public class UserRepository extends AbstractMongoEntity {
@@ -38,5 +43,15 @@ public class UserRepository extends AbstractMongoEntity {
 
     public List<User> findAll() {
         return userCollection.find().into(new ArrayList<>());
+    }
+
+    public UpdateResult update(ObjectId id, String firstName, String lastName) {
+        return userCollection.updateOne(
+                Filters.eq("_id", id),
+                combine(
+                        set("firstName", firstName),
+                        set("lastName", lastName)
+                )
+        );
     }
 }

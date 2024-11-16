@@ -1,9 +1,11 @@
 package pl.lodz.p.edu.rest.service;
 
+import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.ClientDTO;
+import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.mapper.UserMapper;
 import pl.lodz.p.edu.rest.model.user.*;
@@ -78,5 +80,13 @@ public class UserService {
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return userMapper.toDTO(users);
+    }
+
+    public UpdateUserDTO updateUser(ObjectId id, UpdateUserDTO userDTO) {
+        UpdateResult result = userRepository.update(id, userDTO.getFirstName(), userDTO.getLastName());
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return userDTO;
     }
 }
