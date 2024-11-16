@@ -4,9 +4,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
-import pl.lodz.p.edu.rest.model.Item;
+import org.springframework.stereotype.Repository;
+import pl.lodz.p.edu.rest.model.item.Item;
 import org.bson.types.ObjectId;
 
+@Repository
 public class ItemRepository {
     private final MongoCollection<Item> itemCollection;
 

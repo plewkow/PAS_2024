@@ -1,8 +1,6 @@
-package pl.lodz.p.edu.rest.model;
+package pl.lodz.p.edu.rest.model.item;
 
-import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
-import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 @BsonDiscriminator("Music")

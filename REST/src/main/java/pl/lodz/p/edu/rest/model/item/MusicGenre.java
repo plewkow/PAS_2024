@@ -1,4 +1,4 @@
-package pl.lodz.p.edu.rest.model;
+package pl.lodz.p.edu.rest.model.item;
 
 public enum MusicGenre {
     Jazz(1),

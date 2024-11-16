@@ -2,6 +2,7 @@ package pl.lodz.p.edu.rest.model;
 
 import org.bson.codecs.pojo.annotations.*;
 import org.bson.types.ObjectId;
+import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.model.user.Client;
 
 import java.time.LocalDateTime;
