@@ -54,4 +54,18 @@ public class UserRepository extends AbstractMongoEntity {
                 )
         );
     }
+
+    public UpdateResult activateUser(ObjectId id) {
+        return userCollection.updateOne(
+                Filters.eq("_id", id),
+                set("active", true)
+        );
+    }
+
+    public UpdateResult deactivateUser(ObjectId id) {
+        return userCollection.updateOne(
+                Filters.eq("_id", id),
+                set("active", false)
+        );
+    }
 }

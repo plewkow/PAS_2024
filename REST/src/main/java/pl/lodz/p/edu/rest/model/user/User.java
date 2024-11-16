@@ -18,8 +18,8 @@ public abstract class User {
     private String firstName;
     @BsonProperty("lastName")
     private String lastName;
-    @BsonProperty("archive")
-    private boolean isArchive;
+    @BsonProperty("active")
+    private boolean isActive;
     @BsonProperty("role")
     private Role role;
 
@@ -36,7 +36,7 @@ public abstract class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.isArchive = false;
+        this.isActive = true;
     }
 
     public ObjectId getId() {
@@ -79,12 +79,12 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public boolean isArchive() {
-        return isArchive;
+    public boolean getActive() {
+        return isActive;
     }
 
-    public void setArchive(boolean archive) {
-        isArchive = archive;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Role getRole() {

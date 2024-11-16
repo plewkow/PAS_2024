@@ -47,4 +47,16 @@ public class UserController {
         UpdateUserDTO user = userService.updateUser(id, userDTO);
         return ResponseEntity.ok(user);
     }
+
+    @PostMapping("/activate/{id}")
+    public ResponseEntity<UserDTO> activateUser(@PathVariable ObjectId id) {
+        UserDTO user = userService.activateUser(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/deactivate/{id}")
+    public ResponseEntity<UserDTO> deactivateUser(@PathVariable ObjectId id) {
+        UserDTO user = userService.deactivateUser(id);
+        return ResponseEntity.ok(user);
+    }
 }

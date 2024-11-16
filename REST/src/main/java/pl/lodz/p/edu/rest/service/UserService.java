@@ -89,4 +89,20 @@ public class UserService {
         }
         return userDTO;
     }
+
+    public UserDTO activateUser(ObjectId id) {
+        UpdateResult result = userRepository.activateUser(id);
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return getUserById(id);
+    }
+
+    public UserDTO deactivateUser(ObjectId id) {
+        UpdateResult result = userRepository.deactivateUser(id);
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return getUserById(id);
+    }
 }
