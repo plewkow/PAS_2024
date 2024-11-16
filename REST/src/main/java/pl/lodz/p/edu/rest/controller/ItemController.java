@@ -1,8 +1,10 @@
 package pl.lodz.p.edu.rest.controller;
 
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
@@ -10,6 +12,8 @@ import pl.lodz.p.edu.rest.dto.MusicDTO;
 import pl.lodz.p.edu.rest.service.ItemService;
 
 @RestController
+@RequestScope
+@RequestMapping("/items")
 public class ItemController {
     ItemService itemService;
 

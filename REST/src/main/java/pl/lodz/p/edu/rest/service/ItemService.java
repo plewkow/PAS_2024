@@ -3,6 +3,7 @@ package pl.lodz.p.edu.rest.service;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
@@ -11,6 +12,7 @@ import pl.lodz.p.edu.rest.mapper.ItemMapper;
 import pl.lodz.p.edu.rest.model.item.*;
 import pl.lodz.p.edu.rest.repository.ItemRepository;
 
+@RequestScope
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;

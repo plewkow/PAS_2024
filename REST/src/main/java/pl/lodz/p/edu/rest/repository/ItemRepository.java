@@ -5,10 +5,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.annotation.ApplicationScope;
 import pl.lodz.p.edu.rest.model.item.Item;
 import org.bson.types.ObjectId;
 
 @Repository
+@Transactional
+@ApplicationScope
 public class ItemRepository {
     private final MongoCollection<Item> itemCollection;
 
