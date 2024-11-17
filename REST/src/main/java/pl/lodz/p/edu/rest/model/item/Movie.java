@@ -2,7 +2,7 @@ package pl.lodz.p.edu.rest.model.item;
 
 import org.bson.codecs.pojo.annotations.*;
 
-@BsonDiscriminator("Movie")
+@BsonDiscriminator("movie")
 public class Movie extends Item {
     @BsonProperty("minutes")
     private int minutes;

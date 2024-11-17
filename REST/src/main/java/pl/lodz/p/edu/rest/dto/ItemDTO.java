@@ -6,6 +6,9 @@ public class ItemDTO {
     private boolean available;
     protected String itemType;
 
+    public ItemDTO() {
+    }
+
     public ItemDTO(int basePrice, String itemName, boolean available) {
         this.basePrice = basePrice;
         this.itemName = itemName;

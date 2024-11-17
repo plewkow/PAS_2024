@@ -25,26 +25,34 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public MusicDTO addMusic(MusicDTO musicDTO) {
-        Music music = ItemMapper.toMusic(musicDTO);
-        ObjectId id = itemRepository.addItem(music);
-        Music addedMusic = (Music) itemRepository.getItemById(id);
-        return ItemMapper.toMusicDTO(addedMusic);
+    public ItemDTO addItem(ItemDTO itemDTO) {
+        ObjectId id;
+        Item addedItem;
+
+        switch (itemDTO.getItemType().toLowerCase()) {
+            case "music":
+                Music music = ItemMapper.toMusic((MusicDTO) itemDTO);
+                id = itemRepository.addItem(music);
+                addedItem = itemRepository.getItemById(id);
+                return ItemMapper.toMusicDTO((Music) addedItem);
+
+            case "movie":
+                Movie movie = ItemMapper.toMovie((MovieDTO) itemDTO);
+                id = itemRepository.addItem(movie);
+                addedItem = itemRepository.getItemById(id);
+                return ItemMapper.toMovieDTO((Movie) addedItem);
+
+            case "comics":
+                Comics comics = ItemMapper.toComics((ComicsDTO) itemDTO);
+                id = itemRepository.addItem(comics);
+                addedItem = itemRepository.getItemById(id);
+                return ItemMapper.toComicsDTO((Comics) addedItem);
+
+            default:
+                throw new IllegalArgumentException("Invalid item type: " + itemDTO.getItemType());
+        }
     }
 
-    public MovieDTO addMovie(MovieDTO movieDTO) {
-        Movie movie = ItemMapper.toMovie(movieDTO);
-        ObjectId id = itemRepository.addItem(movie);
-        Movie addedMovie = (Movie) itemRepository.getItemById(id);
-        return ItemMapper.toMovieDTO(addedMovie);
-    }
-
-    public ComicsDTO addComics(ComicsDTO comicsDTO) {
-        Comics comics = ItemMapper.toComics(comicsDTO);
-        ObjectId id = itemRepository.addItem(comics);
-        Comics addedComics = (Comics) itemRepository.getItemById(id);
-        return ItemMapper.toComicsDTO(addedComics);
-    }
 
     public ItemDTO getItemById(ObjectId id) {
         Item item = itemRepository.getItemById(id);
@@ -84,39 +92,41 @@ public class ItemService {
                 )).collect(Collectors.toList());
     }
 
-    public void updateMusic(ObjectId id, MusicDTO musicDTO) {
-        Music music = (Music) itemRepository.getItemById(id);
-        if (music == null) {
-            throw new NullPointerException("Music item not found");
+    public void updateItem(ObjectId id, ItemDTO itemDTO) {
+        Item item = itemRepository.getItemById(id);
+        if (item == null) {
+            throw new NullPointerException("Item not found");
         }
-        music.setBasePrice(musicDTO.getBasePrice());
-        music.setItemName(musicDTO.getItemName());
-        music.setGenre(musicDTO.getGenre());
-        music.setVinyl(musicDTO.isVinyl());
-        itemRepository.updateItem(music);
-    }
 
-    public void updateMovie(ObjectId id, MovieDTO movieDTO) {
-        Movie movie = (Movie) itemRepository.getItemById(id);
-        if (movie == null) {
-            throw new NullPointerException("Movie item not found");
-        }
-        movie.setBasePrice(movieDTO.getBasePrice());
-        movie.setItemName(movieDTO.getItemName());
-        movie.setMinutes(movieDTO.getMinutes());
-        movie.setCasette(movieDTO.isCasette());
-        itemRepository.updateItem(movie);
-    }
+        item.setBasePrice(itemDTO.getBasePrice());
+        item.setItemName(itemDTO.getItemName());
 
-    public void updateComics(ObjectId id, ComicsDTO comicsDTO) {
-        Comics comics = (Comics) itemRepository.getItemById(id);
-        if (comics == null) {
-            throw new NullPointerException("Comics item not found");
+        switch (itemDTO.getClass().getSimpleName().toLowerCase()) {
+            case "musicdto":
+                Music music = (Music) item;
+                MusicDTO musicDTO = (MusicDTO) itemDTO;
+                music.setGenre(musicDTO.getGenre());
+                music.setVinyl(musicDTO.isVinyl());
+                break;
+
+            case "moviedto":
+                Movie movie = (Movie) item;
+                MovieDTO movieDTO = (MovieDTO) itemDTO;
+                movie.setMinutes(movieDTO.getMinutes());
+                movie.setCasette(movieDTO.isCasette());
+                break;
+
+            case "comicsdto":
+                Comics comics = (Comics) item;
+                ComicsDTO comicsDTO = (ComicsDTO) itemDTO;
+                comics.setPageNumber(comicsDTO.getPagesNumber());
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown item type: " + itemDTO.getClass().getSimpleName());
         }
-        comics.setBasePrice(comicsDTO.getBasePrice());
-        comics.setItemName(comicsDTO.getItemName());
-        comics.setPageNumber(comicsDTO.getPagesNumber());
-        itemRepository.updateItem(comics);
+
+        itemRepository.updateItem(item);
     }
 
     public void removeItem(ObjectId id) {

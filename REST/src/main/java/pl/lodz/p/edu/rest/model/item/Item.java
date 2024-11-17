@@ -3,7 +3,7 @@ package pl.lodz.p.edu.rest.model.item;
 import org.bson.codecs.pojo.annotations.*;
 import org.bson.types.ObjectId;
 
-@BsonDiscriminator("Item")
+@BsonDiscriminator("item")
 public class Item {
     @BsonId
     private ObjectId id;

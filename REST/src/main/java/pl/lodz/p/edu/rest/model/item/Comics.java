@@ -3,7 +3,7 @@ package pl.lodz.p.edu.rest.model.item;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-@BsonDiscriminator("Comics")
+@BsonDiscriminator("comics")
 public class Comics extends Item {
     @BsonProperty("pageNumber")
     private int pageNumber;
