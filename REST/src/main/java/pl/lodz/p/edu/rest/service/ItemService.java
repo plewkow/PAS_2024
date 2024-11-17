@@ -60,8 +60,7 @@ public class ItemService {
                 .map(item -> new ItemDTO(
                         item.getBasePrice(),
                         item.getItemName(),
-                        item.isAvailable(),
-                        item.getItemType()
+                        item.isAvailable()
                 )).collect(Collectors.toList());
     }
 
@@ -71,8 +70,7 @@ public class ItemService {
                 .map(item -> new ItemDTO(
                         item.getBasePrice(),
                         item.getItemName(),
-                        item.isAvailable(),
-                        item.getItemType()
+                        item.isAvailable()
                 )).collect(Collectors.toList());
     }
 
@@ -82,19 +80,43 @@ public class ItemService {
                 .map(item -> new ItemDTO(
                         item.getBasePrice(),
                         item.getItemName(),
-                        item.isAvailable(),
-                        item.getItemType()
+                        item.isAvailable()
                 )).collect(Collectors.toList());
     }
 
-    public void updateItem(ObjectId id, ItemDTO itemDTO) {
-        Item item = itemRepository.getItemById(id);
-        if (item == null) {
-            throw new NullPointerException("Item not found");
+    public void updateMusic(ObjectId id, MusicDTO musicDTO) {
+        Music music = (Music) itemRepository.getItemById(id);
+        if (music == null) {
+            throw new NullPointerException("Music item not found");
         }
-        item.setBasePrice(itemDTO.getBasePrice());
-        item.setItemName(itemDTO.getItemName());
-        itemRepository.updateItem(item);
+        music.setBasePrice(musicDTO.getBasePrice());
+        music.setItemName(musicDTO.getItemName());
+        music.setGenre(musicDTO.getGenre());
+        music.setVinyl(musicDTO.isVinyl());
+        itemRepository.updateItem(music);
+    }
+
+    public void updateMovie(ObjectId id, MovieDTO movieDTO) {
+        Movie movie = (Movie) itemRepository.getItemById(id);
+        if (movie == null) {
+            throw new NullPointerException("Movie item not found");
+        }
+        movie.setBasePrice(movieDTO.getBasePrice());
+        movie.setItemName(movieDTO.getItemName());
+        movie.setMinutes(movieDTO.getMinutes());
+        movie.setCasette(movieDTO.isCasette());
+        itemRepository.updateItem(movie);
+    }
+
+    public void updateComics(ObjectId id, ComicsDTO comicsDTO) {
+        Comics comics = (Comics) itemRepository.getItemById(id);
+        if (comics == null) {
+            throw new NullPointerException("Comics item not found");
+        }
+        comics.setBasePrice(comicsDTO.getBasePrice());
+        comics.setItemName(comicsDTO.getItemName());
+        comics.setPageNumber(comicsDTO.getPagesNumber());
+        itemRepository.updateItem(comics);
     }
 
     public void removeItem(ObjectId id) {

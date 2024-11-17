@@ -1,10 +1,8 @@
 package pl.lodz.p.edu.rest.controller;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
@@ -12,8 +10,7 @@ import pl.lodz.p.edu.rest.dto.MusicDTO;
 import pl.lodz.p.edu.rest.service.ItemService;
 
 @RestController
-@RequestScope
-@RequestMapping("/items")
+@RequestMapping("api/items")
 public class ItemController {
     ItemService itemService;
 
@@ -21,37 +18,50 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping("/manager/music")
-    public ResponseEntity<MusicDTO> createMusic(@RequestBody MusicDTO createdMusic) {
+    @PostMapping("/music")
+    public ResponseEntity<MusicDTO> addMusic(@RequestBody MusicDTO createdMusic) {
         MusicDTO musicDTO = itemService.addMusic(createdMusic);
         return ResponseEntity.ok(musicDTO);
     }
 
-    @PostMapping("/manager/movie")
-    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO createdMovie) {
+    @PostMapping("/movie")
+    public ResponseEntity<MovieDTO> addMovie(@RequestBody MovieDTO createdMovie) {
         MovieDTO movieDTO = itemService.addMovie(createdMovie);
         return ResponseEntity.ok(movieDTO);
     }
 
-    @PostMapping("/manager/comics")
-    public ResponseEntity<ComicsDTO> createComics(@RequestBody ComicsDTO createdComics) {
+    @PostMapping("/comics")
+    public ResponseEntity<ComicsDTO> addComics(@RequestBody ComicsDTO createdComics) {
         ComicsDTO comicsDTO = itemService.addComics(createdComics);
         return ResponseEntity.ok(comicsDTO);
     }
 
-    @GetMapping("/manager/getItem")
-    public ResponseEntity<ItemDTO> getItem(@RequestParam ObjectId id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemDTO> getItem(@PathVariable ObjectId id) {
         ItemDTO itemDTO = itemService.getItemById(id);
         return ResponseEntity.ok(itemDTO);
     }
 
-    @PostMapping("/manager/updateItem")
-    public void updateItem(@RequestParam ObjectId id, @RequestBody ItemDTO updatedItem) {
-        itemService.updateItem(id, updatedItem);
+    @PutMapping("/updateMusic/{id}")
+    public ResponseEntity<Void> updateMusic(@PathVariable ObjectId id, @RequestBody MusicDTO musicDTO) {
+        itemService.updateMusic(id, musicDTO);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/admin/deleteItem")
-    public void deleteItem(@RequestParam ObjectId id) {
+    @PutMapping("/updateMovie/{id}")
+    public ResponseEntity<Void> updateMovie(@PathVariable ObjectId id, @RequestBody MovieDTO movieDTO) {
+        itemService.updateMovie(id, movieDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/updateComics/{id}")
+    public ResponseEntity<Void> updateComics(@PathVariable ObjectId id, @RequestBody ComicsDTO comicsDTO) {
+        itemService.updateComics(id, comicsDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteItem/{id}")
+    public void removeItem(@PathVariable ObjectId id) {
         itemService.removeItem(id);
     }
 }

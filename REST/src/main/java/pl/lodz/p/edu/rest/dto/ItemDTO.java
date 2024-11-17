@@ -4,13 +4,12 @@ public class ItemDTO {
     private int basePrice;
     private String itemName;
     private boolean available;
-    private String itemType;
+    protected String itemType;
 
-    public ItemDTO(int basePrice, String itemName, boolean available, String itemType) {
+    public ItemDTO(int basePrice, String itemName, boolean available) {
         this.basePrice = basePrice;
         this.itemName = itemName;
         this.available = available;
-        this.itemType = itemType;
     }
 
     public int getBasePrice() {

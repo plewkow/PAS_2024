@@ -24,7 +24,6 @@ public class ItemMapper {
                 music.getBasePrice(),
                 music.getItemName(),
                 music.isAvailable(),
-                music.getItemType(),
                 music.getGenre(),
                 music.isVinyl()
         );
@@ -35,7 +34,6 @@ public class ItemMapper {
                 movie.getBasePrice(),
                 movie.getItemName(),
                 movie.isAvailable(),
-                movie.getItemType(),
                 movie.getMinutes(),
                 movie.isCasette()
         );
@@ -46,7 +44,6 @@ public class ItemMapper {
                 comics.getBasePrice(),
                 comics.getItemName(),
                 comics.isAvailable(),
-                comics.getItemType(),
                 comics.getPageNumber()
         );
     }
@@ -58,7 +55,6 @@ public class ItemMapper {
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
-                    item.getItemType(),
                     music.getGenre(),
                     music.isVinyl()
             );
@@ -68,7 +64,6 @@ public class ItemMapper {
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
-                    item.getItemType(),
                     movie.getMinutes(),
                     movie.isCasette()
             );
@@ -78,7 +73,6 @@ public class ItemMapper {
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
-                    item.getItemType(),
                     comics.getPageNumber()
             );
         }

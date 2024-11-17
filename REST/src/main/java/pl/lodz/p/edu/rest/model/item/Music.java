@@ -15,7 +15,7 @@ public class Music extends Item {
                  @BsonProperty("genre") MusicGenre genre,
                  @BsonProperty("vinyl") boolean vinyl) {
         super(basePrice, itemName);
-        this.itemType = "movie";
+        this.itemType = "music";
         this.genre = genre;
         this.vinyl = vinyl;
     }

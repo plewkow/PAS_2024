@@ -3,8 +3,9 @@ package pl.lodz.p.edu.rest.dto;
 public class ComicsDTO extends ItemDTO {
     private int pagesNumber;
 
-    public ComicsDTO(int basePrice, String itemName, boolean available, String itemType, int pagesNumber) {
-        super(basePrice, itemName, available, itemType);
+    public ComicsDTO(int basePrice, String itemName, boolean available, int pagesNumber) {
+        super(basePrice, itemName, available);
+        this.itemType = "comics";
         this.pagesNumber = pagesNumber;
     }
 
