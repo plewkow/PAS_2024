@@ -24,52 +24,14 @@ public class UserService {
     }
 
     public UserDTO addUser(UserDTO user) {
-        User createdUser = switch (user.getRole()) {
-            case CLIENT -> new Client(
-                    user.getLogin(),
-                    user.getPassword(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    ClientType.createNoMembership());
-            case ADMIN -> new Admin(
-                    user.getLogin(),
-                    user.getPassword(),
-                    user.getFirstName(),
-                    user.getLastName());
-            case MANAGER -> new Manager(
-                    user.getLogin(),
-                    user.getPassword(),
-                    user.getFirstName(),
-                    user.getLastName());
-        };
+        User createdUser = userMapper.convertToUser(user);
         userRepository.save(createdUser);
-        return new UserDTO(
-                createdUser.getLogin(),
-                createdUser.getPassword(),
-                createdUser.getFirstName(),
-                createdUser.getLastName(),
-                createdUser.getRole());
+        return userMapper.convertToUserDTO(createdUser);
     }
 
     public UserDTO getUserById(ObjectId id) {
         User user = userRepository.findById(id);
-        if (user.getRole() == Role.CLIENT) {
-            Client client = (Client) user;
-            return new ClientDTO(
-                    client.getLogin(),
-                    client.getPassword(),
-                    client.getFirstName(),
-                    client.getLastName(),
-                    client.getRole(),
-                    client.getClientType());
-        } else {
-            return new UserDTO(
-                    user.getLogin(),
-                    user.getPassword(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getRole());
-        }
+        return userMapper.convertToUserDTO(user);
     }
 
     public List<UserDTO> getUsersByRole(Role role) {
