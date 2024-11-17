@@ -62,35 +62,35 @@ public class ItemService {
         return ItemMapper.toDTO(item);
     }
 
-    public List<ItemDTO> getItemsByBasePrice(int basePrice) {
-        List<Item> items = itemRepository.getItemsByBasePrice(basePrice);
-        return items.stream()
-                .map(item -> new ItemDTO(
-                        item.getBasePrice(),
-                        item.getItemName(),
-                        item.isAvailable()
-                )).collect(Collectors.toList());
-    }
-
-    public List<ItemDTO> getItemsByItemName(String itemName) {
-        List<Item> items = itemRepository.getItemsByItemName(itemName);
-        return items.stream()
-                .map(item -> new ItemDTO(
-                        item.getBasePrice(),
-                        item.getItemName(),
-                        item.isAvailable()
-                )).collect(Collectors.toList());
-    }
-
-    public List<ItemDTO> getItemsByItemType(String itemType) {
-        List<Item> items = itemRepository.getItemsByItemType(itemType);
-        return items.stream()
-                .map(item -> new ItemDTO(
-                        item.getBasePrice(),
-                        item.getItemName(),
-                        item.isAvailable()
-                )).collect(Collectors.toList());
-    }
+//    public List<ItemDTO> getItemsByBasePrice(int basePrice) {
+//        List<Item> items = itemRepository.getItemsByBasePrice(basePrice);
+//        return items.stream()
+//                .map(item -> new ItemDTO(
+//                        item.getBasePrice(),
+//                        item.getItemName(),
+//                        item.isAvailable()
+//                )).collect(Collectors.toList());
+//    }
+//
+//    public List<ItemDTO> getItemsByItemName(String itemName) {
+//        List<Item> items = itemRepository.getItemsByItemName(itemName);
+//        return items.stream()
+//                .map(item -> new ItemDTO(
+//                        item.getBasePrice(),
+//                        item.getItemName(),
+//                        item.isAvailable()
+//                )).collect(Collectors.toList());
+//    }
+//
+//    public List<ItemDTO> getItemsByItemType(String itemType) {
+//        List<Item> items = itemRepository.getItemsByItemType(itemType);
+//        return items.stream()
+//                .map(item -> new ItemDTO(
+//                        item.getBasePrice(),
+//                        item.getItemName(),
+//                        item.isAvailable()
+//                )).collect(Collectors.toList());
+//    }
 
     public void updateItem(ObjectId id, ItemDTO itemDTO) {
         Item item = itemRepository.getItemById(id);
@@ -149,7 +149,7 @@ public class ItemService {
     public void setUnavailable(ObjectId id) {
         Item item = itemRepository.getItemById(id);
         if (item == null) {
-            throw new NullPointerException("Item not found");
+            throw new IllegalArgumentException("Item not found with id: " + id);
         }
         item.setAvailable(false);
         itemRepository.updateItem(item);

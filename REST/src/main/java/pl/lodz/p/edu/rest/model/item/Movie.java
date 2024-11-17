@@ -1,9 +1,12 @@
 package pl.lodz.p.edu.rest.model.item;
 
 import org.bson.codecs.pojo.annotations.*;
+import org.bson.types.ObjectId;
 
 @BsonDiscriminator("movie")
 public class Movie extends Item {
+    @BsonId
+    ObjectId id;
     @BsonProperty("minutes")
     private int minutes;
     @BsonProperty("casette")
@@ -21,6 +24,16 @@ public class Movie extends Item {
 
     public Movie() {
 
+    }
+
+    @Override
+    public ObjectId getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public int getMinutes() {

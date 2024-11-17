@@ -21,6 +21,7 @@ public class ItemMapper {
 
     public static MusicDTO toMusicDTO(Music music) {
         return new MusicDTO(
+                music.getId(),
                 music.getBasePrice(),
                 music.getItemName(),
                 music.isAvailable(),
@@ -31,6 +32,7 @@ public class ItemMapper {
 
     public static MovieDTO toMovieDTO(Movie movie) {
         return new MovieDTO(
+                movie.getId(),
                 movie.getBasePrice(),
                 movie.getItemName(),
                 movie.isAvailable(),
@@ -41,6 +43,7 @@ public class ItemMapper {
 
     public static ComicsDTO toComicsDTO(Comics comics) {
         return new ComicsDTO(
+                comics.getId(),
                 comics.getBasePrice(),
                 comics.getItemName(),
                 comics.isAvailable(),
@@ -52,6 +55,7 @@ public class ItemMapper {
         if (item instanceof Music) {
             Music music = (Music) item;
             return new MusicDTO(
+                    item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
@@ -61,6 +65,7 @@ public class ItemMapper {
         } else if (item instanceof Movie) {
             Movie movie = (Movie) item;
             return new MovieDTO(
+                    item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
@@ -70,11 +75,25 @@ public class ItemMapper {
         } else {
             Comics comics = (Comics) item;
             return new ComicsDTO(
+                    item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
                     comics.getPageNumber()
             );
+        }
+    }
+
+    public static Item toItem(ItemDTO itemDTO) {
+        switch (itemDTO.getItemType().toLowerCase()) {
+            case "music":
+                return toMusic((MusicDTO) itemDTO);
+            case "movie":
+                return toMovie((MovieDTO) itemDTO);
+            case "comics":
+                return toComics((ComicsDTO) itemDTO);
+            default:
+                throw new IllegalArgumentException("Nieznany type: " + itemDTO.getItemType());
         }
     }
 }

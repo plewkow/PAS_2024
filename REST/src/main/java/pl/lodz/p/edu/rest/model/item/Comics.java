@@ -1,10 +1,14 @@
 package pl.lodz.p.edu.rest.model.item;
 
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
 @BsonDiscriminator("comics")
 public class Comics extends Item {
+    @BsonId
+    ObjectId id;
     @BsonProperty("pageNumber")
     private int pageNumber;
 
@@ -18,6 +22,16 @@ public class Comics extends Item {
 
     public Comics() {
 
+    }
+
+    @Override
+    public ObjectId getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public int getPageNumber() {

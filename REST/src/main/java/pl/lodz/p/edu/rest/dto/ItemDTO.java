@@ -1,6 +1,9 @@
 package pl.lodz.p.edu.rest.dto;
 
+import org.bson.types.ObjectId;
+
 public class ItemDTO {
+    ObjectId id;
     private int basePrice;
     private String itemName;
     private boolean available;
@@ -9,10 +12,19 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(int basePrice, String itemName, boolean available) {
+    public ItemDTO(ObjectId id, int basePrice, String itemName, boolean available) {
+        this.id = id;
         this.basePrice = basePrice;
         this.itemName = itemName;
         this.available = available;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public int getBasePrice() {
