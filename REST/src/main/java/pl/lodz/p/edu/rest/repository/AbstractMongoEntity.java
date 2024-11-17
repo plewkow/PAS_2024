@@ -11,6 +11,9 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import pl.lodz.p.edu.rest.model.user.Admin;
+import pl.lodz.p.edu.rest.model.user.Client;
+import pl.lodz.p.edu.rest.model.user.Manager;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public abstract class AbstractMongoEntity implements AutoCloseable  {
             PojoCodecProvider.builder()
                     .automatic(true)
                     .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+                    .register(Client.class, Admin.class, Manager.class)
                     .build()
     );
 

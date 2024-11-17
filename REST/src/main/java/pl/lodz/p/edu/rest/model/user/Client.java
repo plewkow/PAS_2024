@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.model.user;
 
+import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
@@ -15,6 +16,7 @@ public class Client extends User {
                   @BsonProperty("clientType") ClientType clientType) {
         super(login, password, firstName, lastName);
         this.setRole(Role.CLIENT);
+        this.clientType = clientType;
     }
 
     public Client() {

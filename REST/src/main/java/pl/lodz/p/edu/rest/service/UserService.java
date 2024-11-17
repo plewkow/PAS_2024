@@ -1,14 +1,22 @@
 package pl.lodz.p.edu.rest.service;
 
+import com.mongodb.client.result.UpdateResult;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.edu.rest.dto.ClientDTO;
+import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.mapper.UserMapper;
 import pl.lodz.p.edu.rest.model.user.*;
 import pl.lodz.p.edu.rest.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper = new UserMapper();
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -35,12 +43,66 @@ public class UserService {
                     user.getLastName());
         };
         userRepository.save(createdUser);
-        System.out.println(createdUser.getRole());
         return new UserDTO(
                 createdUser.getLogin(),
                 createdUser.getPassword(),
                 createdUser.getFirstName(),
                 createdUser.getLastName(),
                 createdUser.getRole());
+    }
+
+    public UserDTO getUserById(ObjectId id) {
+        User user = userRepository.findById(id);
+        if (user.getRole() == Role.CLIENT) {
+            Client client = (Client) user;
+            return new ClientDTO(
+                    client.getLogin(),
+                    client.getPassword(),
+                    client.getFirstName(),
+                    client.getLastName(),
+                    client.getRole(),
+                    client.getClientType());
+        } else {
+            return new UserDTO(
+                    user.getLogin(),
+                    user.getPassword(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getRole());
+        }
+    }
+
+    public List<UserDTO> getUsersByRole(Role role) {
+        List<User> users = userRepository.findByRole(role);
+        return userMapper.toDTO(users);
+    }
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return userMapper.toDTO(users);
+    }
+
+    public UpdateUserDTO updateUser(ObjectId id, UpdateUserDTO userDTO) {
+        UpdateResult result = userRepository.update(id, userDTO.getFirstName(), userDTO.getLastName());
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return userDTO;
+    }
+
+    public UserDTO activateUser(ObjectId id) {
+        UpdateResult result = userRepository.activateUser(id);
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return getUserById(id);
+    }
+
+    public UserDTO deactivateUser(ObjectId id) {
+        UpdateResult result = userRepository.deactivateUser(id);
+        if (result.getModifiedCount() == 0) {
+            return null;
+        }
+        return getUserById(id);
     }
 }
