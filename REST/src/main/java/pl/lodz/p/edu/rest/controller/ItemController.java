@@ -42,25 +42,25 @@ public class ItemController {
         return ResponseEntity.ok(itemDTO);
     }
 
-    @PutMapping("/updateMusic/{id}")
+    @PutMapping("/music/{id}")
     public ResponseEntity<Void> updateMusic(@PathVariable ObjectId id, @RequestBody MusicDTO musicDTO) {
         itemService.updateMusic(id, musicDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/updateMovie/{id}")
+    @PutMapping("/movie/{id}")
     public ResponseEntity<Void> updateMovie(@PathVariable ObjectId id, @RequestBody MovieDTO movieDTO) {
         itemService.updateMovie(id, movieDTO);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/updateComics/{id}")
+    @PutMapping("/comics/{id}")
     public ResponseEntity<Void> updateComics(@PathVariable ObjectId id, @RequestBody ComicsDTO comicsDTO) {
         itemService.updateComics(id, comicsDTO);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/deleteItem/{id}")
+    @DeleteMapping("/{id}")
     public void removeItem(@PathVariable ObjectId id) {
         itemService.removeItem(id);
     }
