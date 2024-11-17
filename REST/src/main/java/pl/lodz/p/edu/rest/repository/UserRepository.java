@@ -68,4 +68,8 @@ public class UserRepository extends AbstractMongoEntity {
                 set("active", false)
         );
     }
+
+    public boolean userExists(String login) {
+        return userCollection.find(Filters.eq("login", login)).first() != null;
+    }
 }
