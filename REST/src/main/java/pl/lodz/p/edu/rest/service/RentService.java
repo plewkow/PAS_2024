@@ -3,6 +3,7 @@ package pl.lodz.p.edu.rest.service;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.*;
+import pl.lodz.p.edu.rest.exception.*;
 import pl.lodz.p.edu.rest.mapper.ItemMapper;
 import pl.lodz.p.edu.rest.model.Rent;
 import pl.lodz.p.edu.rest.model.item.Item;
@@ -13,6 +14,7 @@ import pl.lodz.p.edu.rest.repository.RentRepository;
 import pl.lodz.p.edu.rest.mapper.UserMapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RentService {
@@ -34,7 +36,7 @@ public class RentService {
     public RentDTO rentItem(RentDTO rentDTO) {
         UserDTO userDTO = userService.getUserById(rentDTO.getClientId());
         if (userDTO == null) {
-            throw new IllegalArgumentException("Klient nie istnieje.");
+            throw new UserNotFoundException("User with id " + rentDTO.getItemId() + " not found");
         }
 
         Client client = (Client) userMapper.convertToUser(userDTO);
@@ -42,7 +44,7 @@ public class RentService {
 
         ItemDTO itemDTO = itemService.getItemById(rentDTO.getItemId());
         if (itemDTO == null) {
-            throw new IllegalArgumentException("Przedmiot nie istnieje.");
+            throw new ItemNotFoundException("Item with ID: " + rentDTO.getItemId() + " not found");
         }
 
         System.out.println(itemDTO.getItemName());
@@ -53,12 +55,8 @@ public class RentService {
 
         item.setId(rentDTO.getItemId());
 
-        if (item == null || item.getId() == null) {
-            throw new IllegalArgumentException("Przedmiot nie został znaleziony w bazie.");
-        }
-
         if (!item.isAvailable()) {
-            throw new IllegalStateException("Przedmiot jest już wypożyczony.");
+            throw new ItemAlreadyRentedException("Item is already rented");
         }
 
         try (var session = mongoEntity.getMongoClient().startSession()) {
@@ -80,14 +78,14 @@ public class RentService {
                     rentDTO.getItemId()
             );
         } catch (Exception e) {
-            throw new RuntimeException("Błąd podczas wynajmu: " + e.getMessage(), e);
+            throw new RentOperationException("Error during rental operation: "  + e.getMessage(), e);
         }
     }
 
     public RentDTO getRentById(ObjectId rentId) {
         Rent rent = rentRepository.getRent(rentId);
         if (rent == null) {
-            throw new IllegalArgumentException("Wynajem o podanym ID nie istnieje.");
+            throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
         }
 
         RentDTO rentDTO = new RentDTO(
@@ -105,20 +103,20 @@ public class RentService {
     public RentDTO returnRent(ObjectId rentId) {
         Rent rent = rentRepository.getRent(rentId);
         if (rent == null) {
-            throw new IllegalArgumentException("Wynajem o podanym ID nie istnieje.");
+            throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
         }
 
         Item item = rent.getItem();
         if (item == null) {
-            throw new IllegalArgumentException("Przedmiot nie istnieje w bazie.");
+            throw new ItemNotFoundException("Item with ID: " + rentId + " not found");
         }
 
         LocalDateTime end = LocalDateTime.now();
 
         rent.setEndTime(end);
+        itemService.setAvailable(item.getId());
+        rent.setArchive(true);
 
-        item.setAvailable(true);
-        itemRepository.updateItem(item);
         rentRepository.updateRent(rent);
 
         return new RentDTO(
@@ -129,5 +127,35 @@ public class RentService {
                 rent.getClient().getId(),
                 rent.getItem().getId()
         );
+    }
+
+    public List<Rent> getActiveRents() {
+        return rentRepository.findActiveRents();
+    }
+
+    public List<Rent> getRentsByItem(ObjectId itemId) {
+        return rentRepository.findRentsByItemId(itemId);
+    }
+
+    public List<Rent> getActiveRentsByItem(ObjectId itemId) {
+        return rentRepository.findActiveRentsByItemId(itemId);
+    }
+
+    public List<Rent> getRentsByClient(ObjectId clientId) {
+        return rentRepository.findRentsByClientId(clientId);
+    }
+
+    public List<Rent> getActiveRentsByClient(ObjectId clientId) {
+        return rentRepository.findActiveRentsByClientId(clientId);
+    }
+
+    public boolean isItemRented(ObjectId itemId) {
+        List<Rent> activeRents = rentRepository.findActiveRentsByItemId(itemId);
+        return !activeRents.isEmpty();
+    }
+
+    public boolean hasActiveRentsByClient(ObjectId clientId) {
+        List<Rent> activeRents = rentRepository.findActiveRentsByClientId(clientId);
+        return !activeRents.isEmpty();
     }
 }

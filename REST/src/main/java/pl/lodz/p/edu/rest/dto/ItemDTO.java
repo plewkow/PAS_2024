@@ -6,17 +6,17 @@ public class ItemDTO {
     ObjectId id;
     private int basePrice;
     private String itemName;
-    private boolean available;
+    private boolean available = true;
     protected String itemType;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(ObjectId id, int basePrice, String itemName, boolean available) {
+    public ItemDTO(ObjectId id, int basePrice, String itemName) {
         this.id = id;
         this.basePrice = basePrice;
         this.itemName = itemName;
-        this.available = available;
+//        this.available = available;
     }
 
     public ObjectId getId() {

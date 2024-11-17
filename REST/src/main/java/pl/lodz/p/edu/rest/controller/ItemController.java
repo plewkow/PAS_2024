@@ -2,6 +2,7 @@ package pl.lodz.p.edu.rest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
@@ -23,7 +24,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemDTO> addItem(@RequestBody Map<String, Object> payload) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ItemDTO addItem(@RequestBody Map<String, Object> payload) {
         String itemType = (String) payload.get("itemType");
         ObjectMapper mapper = new ObjectMapper();
         ItemDTO itemDTO = switch (itemType.toLowerCase()) {
@@ -32,32 +34,37 @@ public class ItemController {
             case "comics" -> mapper.convertValue(payload, ComicsDTO.class);
             default -> throw new IllegalArgumentException("Invalid item type: " + itemType);
         };
-
-        ItemDTO addedItem = itemService.addItem(itemDTO);
-        return ResponseEntity.ok(addedItem);
+        return itemService.addItem(itemDTO);
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemDTO> getItem(@PathVariable ObjectId id) {
-        ItemDTO itemDTO = itemService.getItemById(id);
-        return ResponseEntity.ok(itemDTO);
+    @ResponseStatus(HttpStatus.OK)
+    public ItemDTO getItem(@PathVariable ObjectId id) {
+        return itemService.getItemById(id);
     }
 
-//    @GetMapping("/name/{itemName}")
-//    public ResponseEntity<List<ItemDTO>> getItemsByItemName(@PathVariable String itemName) {
-//        List<ItemDTO> items = itemService.getItemsByItemName(itemName);
-//        return ResponseEntity.ok(items);
-//    }
-//
-//    @GetMapping("/type/{itemType}")
-//    public ResponseEntity<List<ItemDTO>> getItemsByItemType(@PathVariable String itemType) {
-//        List<ItemDTO> items = itemService.getItemsByItemType(itemType);
-//        return ResponseEntity.ok(items);
-//    }
+    @GetMapping("/name/{itemName}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ItemDTO> getItemsByItemName(@PathVariable String itemName) {
+        return itemService.getItemsByItemName(itemName);
+    }
+
+    @GetMapping("/type/{itemType}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ItemDTO> getItemsByItemType(@PathVariable String itemType) {
+        return itemService.getItemsByItemType(itemType);
+    }
+
+    @GetMapping("/type/{basePrice}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ItemDTO> getItemsByBasePrice(@PathVariable int basePrice) {
+        return itemService.getItemsByBasePrice(basePrice);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemDTO> updateItem(@PathVariable ObjectId id, @RequestBody Map<String, Object> payload) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateItem(@PathVariable ObjectId id, @RequestBody Map<String, Object> payload) {
         String itemType = (String) payload.get("itemType");
         ObjectMapper mapper = new ObjectMapper();
         ItemDTO itemDTO = switch (itemType.toLowerCase()) {
@@ -68,12 +75,10 @@ public class ItemController {
         };
 
         itemService.updateItem(id, itemDTO);
-
-        return ResponseEntity.ok().build();
     }
 
-
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeItem(@PathVariable ObjectId id) {
         itemService.removeItem(id);
     }

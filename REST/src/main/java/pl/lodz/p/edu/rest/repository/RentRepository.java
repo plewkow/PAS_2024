@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import pl.lodz.p.edu.rest.model.Rent;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class RentRepository extends AbstractMongoEntity {
     private final MongoCollection<Rent> rentCollection;
@@ -42,6 +45,32 @@ public class RentRepository extends AbstractMongoEntity {
         BasicDBObject object = new BasicDBObject();
         object.put("_id", id);
         rentCollection.deleteOne(object);
+    }
+
+    public List<Rent> findActiveRents() {
+        return rentCollection.find(Filters.eq("endTime", null)).into(new ArrayList<>());
+    }
+
+    public List<Rent> findRentsByItemId(ObjectId itemId) {
+        return rentCollection.find(Filters.eq("itemId", itemId)).into(new ArrayList<>());
+    }
+
+    public List<Rent> findActiveRentsByItemId(ObjectId itemId) {
+        return rentCollection.find(Filters.and(
+                Filters.eq("itemId", itemId),
+                Filters.eq("endTime", null)
+        )).into(new ArrayList<>());
+    }
+
+    public List<Rent> findRentsByClientId(ObjectId clientId) {
+        return rentCollection.find(Filters.eq("clientId", clientId)).into(new ArrayList<>());
+    }
+
+    public List<Rent> findActiveRentsByClientId(ObjectId clientId) {
+        return rentCollection.find(Filters.and(
+                Filters.eq("clientId", clientId),
+                Filters.eq("endTime", null)
+        )).into(new ArrayList<>());
     }
 
     @Override

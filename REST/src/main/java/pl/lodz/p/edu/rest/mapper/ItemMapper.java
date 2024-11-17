@@ -6,6 +6,9 @@ import pl.lodz.p.edu.rest.dto.MovieDTO;
 import pl.lodz.p.edu.rest.dto.MusicDTO;
 import pl.lodz.p.edu.rest.model.item.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ItemMapper {
     public static Music toMusic(MusicDTO dto) {
         return new Music(dto.getBasePrice(), dto.getItemName(), dto.getGenre(), dto.isVinyl());
@@ -24,7 +27,6 @@ public class ItemMapper {
                 music.getId(),
                 music.getBasePrice(),
                 music.getItemName(),
-                music.isAvailable(),
                 music.getGenre(),
                 music.isVinyl()
         );
@@ -35,7 +37,6 @@ public class ItemMapper {
                 movie.getId(),
                 movie.getBasePrice(),
                 movie.getItemName(),
-                movie.isAvailable(),
                 movie.getMinutes(),
                 movie.isCasette()
         );
@@ -46,7 +47,6 @@ public class ItemMapper {
                 comics.getId(),
                 comics.getBasePrice(),
                 comics.getItemName(),
-                comics.isAvailable(),
                 comics.getPageNumber()
         );
     }
@@ -58,7 +58,6 @@ public class ItemMapper {
                     item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
-                    item.isAvailable(),
                     music.getGenre(),
                     music.isVinyl()
             );
@@ -68,7 +67,6 @@ public class ItemMapper {
                     item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
-                    item.isAvailable(),
                     movie.getMinutes(),
                     movie.isCasette()
             );
@@ -78,7 +76,6 @@ public class ItemMapper {
                     item.getId(),
                     item.getBasePrice(),
                     item.getItemName(),
-                    item.isAvailable(),
                     comics.getPageNumber()
             );
         }
