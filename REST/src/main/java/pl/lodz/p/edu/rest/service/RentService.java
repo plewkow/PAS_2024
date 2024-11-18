@@ -34,21 +34,21 @@ public class RentService {
     }
 
     public RentDTO rentItem(RentDTO rentDTO) {
-        UserDTO userDTO = userService.getUserById(rentDTO.getClientId());
+        UserDTO userDTO = userService.getUserById(new ObjectId(rentDTO.getClientId()));
         if (userDTO == null) {
             throw new UserNotFoundException("User with id " + rentDTO.getItemId() + " not found");
         }
 
         Client client = (Client) userMapper.convertToUser(userDTO);
 
-        ItemDTO itemDTO = itemService.getItemById(rentDTO.getItemId());
+        ItemDTO itemDTO = itemService.getItemById(new ObjectId(rentDTO.getItemId()));
         if (itemDTO == null) {
             throw new ItemNotFoundException("Item with ID: " + rentDTO.getItemId() + " not found");
         }
 
         Item item = ItemMapper.toItem(itemDTO);
 
-        item.setId(rentDTO.getItemId()); // CZEMU??
+//        item.setId(rentDTO.getItemId()); // CZEMU??
 
         if (!item.isAvailable()) {
             throw new ItemAlreadyRentedException("Item is already rented");

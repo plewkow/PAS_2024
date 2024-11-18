@@ -6,24 +6,34 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class RentDTO {
+    private String id;
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
     private int rentCost;
     private boolean archive;
-    private ObjectId clientId;
-    private ObjectId itemId;
+    private String clientId;
+    private String itemId;
 
     public RentDTO() {
     }
 
-    public RentDTO(LocalDateTime beginTime, LocalDateTime endTime,
-                   int rentCost, boolean archive, ObjectId clientId, ObjectId itemId) {
+    public RentDTO(String id, LocalDateTime beginTime, LocalDateTime endTime,
+                   int rentCost, boolean archive, String clientId, String itemId) {
+        this.id = id;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.rentCost = rentCost;
         this.archive = archive;
         this.clientId = clientId;
         this.itemId = itemId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LocalDateTime getEndTime() {
@@ -58,19 +68,19 @@ public class RentDTO {
         this.archive = archive;
     }
 
-    public ObjectId getItemId() {
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(ObjectId itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
-    public ObjectId getClientId() {
+    public String getClientId() {
         return clientId;
     }
 
-    public void setClientId(ObjectId clientId) {
+    public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 }

@@ -15,12 +15,13 @@ public class RentMapper {
 
     public RentDTO convertToDTO(Rent rent) {
         return new RentDTO(
+                rent.getId().toString(),
                 rent.getBeginTime(),
                 rent.getEndTime(),
                 rent.getRentCost(),
                 rent.isArchive(),
-                rent.getClient().getId(),
-                rent.getItem().getId()
+                rent.getClient().getId().toString(),
+                rent.getItem().getId().toString()
         );
     }
 }
