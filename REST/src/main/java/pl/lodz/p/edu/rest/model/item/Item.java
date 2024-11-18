@@ -18,8 +18,10 @@ public class Item {
 
     @BsonCreator
     public Item(
+            @BsonProperty("id") ObjectId id,
             @BsonProperty("basePrice") int basePrice,
             @BsonProperty("itemName") String itemName) {
+        this.id = id;
         this.basePrice = basePrice;
         this.itemName = itemName;
         this.available = true;

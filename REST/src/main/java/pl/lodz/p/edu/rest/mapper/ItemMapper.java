@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.mapper;
 
+import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
@@ -11,20 +12,20 @@ import java.util.stream.Collectors;
 
 public class ItemMapper {
     public static Music toMusic(MusicDTO dto) {
-        return new Music(dto.getBasePrice(), dto.getItemName(), dto.getGenre(), dto.isVinyl());
+        return new Music(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getGenre(), dto.isVinyl());
     }
 
     public static Movie toMovie(MovieDTO dto) {
-        return new Movie(dto.getBasePrice(), dto.getItemName(), dto.getMinutes(), dto.isCasette());
+        return new Movie(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getMinutes(), dto.isCasette());
     }
 
     public static Comics toComics(ComicsDTO dto) {
-        return new Comics(dto.getBasePrice(), dto.getItemName(), dto.getPagesNumber());
+        return new Comics(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getPagesNumber());
     }
 
     public static MusicDTO toMusicDTO(Music music) {
         return new MusicDTO(
-                music.getId(),
+                music.getId().toString(),
                 music.getBasePrice(),
                 music.getItemName(),
                 music.getGenre(),
@@ -34,7 +35,7 @@ public class ItemMapper {
 
     public static MovieDTO toMovieDTO(Movie movie) {
         return new MovieDTO(
-                movie.getId(),
+                movie.getId().toString(),
                 movie.getBasePrice(),
                 movie.getItemName(),
                 movie.getMinutes(),
@@ -44,7 +45,7 @@ public class ItemMapper {
 
     public static ComicsDTO toComicsDTO(Comics comics) {
         return new ComicsDTO(
-                comics.getId(),
+                comics.getId().toString(),
                 comics.getBasePrice(),
                 comics.getItemName(),
                 comics.getPageNumber()
@@ -52,19 +53,17 @@ public class ItemMapper {
     }
 
     public static ItemDTO toDTO(Item item) {
-        if (item instanceof Music) {
-            Music music = (Music) item;
+        if (item instanceof Music music) {
             return new MusicDTO(
-                    item.getId(),
+                    item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
                     music.getGenre(),
                     music.isVinyl()
             );
-        } else if (item instanceof Movie) {
-            Movie movie = (Movie) item;
+        } else if (item instanceof Movie movie) {
             return new MovieDTO(
-                    item.getId(),
+                    item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
                     movie.getMinutes(),
@@ -73,7 +72,7 @@ public class ItemMapper {
         } else {
             Comics comics = (Comics) item;
             return new ComicsDTO(
-                    item.getId(),
+                    item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
                     comics.getPageNumber()
@@ -82,15 +81,15 @@ public class ItemMapper {
     }
 
     public static Item toItem(ItemDTO itemDTO) {
-        switch (itemDTO.getItemType().toLowerCase()) {
-            case "music":
-                return toMusic((MusicDTO) itemDTO);
-            case "movie":
-                return toMovie((MovieDTO) itemDTO);
-            case "comics":
-                return toComics((ComicsDTO) itemDTO);
-            default:
-                throw new IllegalArgumentException("Nieznany type: " + itemDTO.getItemType());
-        }
+        return switch (itemDTO.getItemType().toLowerCase()) {
+            case "music" -> toMusic((MusicDTO) itemDTO);
+            case "movie" -> toMovie((MovieDTO) itemDTO);
+            case "comics" -> toComics((ComicsDTO) itemDTO);
+            default -> throw new IllegalArgumentException("Nieznany type: " + itemDTO.getItemType());
+        };
+    }
+
+    public static List<ItemDTO> toDTOList(List<Item> items) {
+        return items.stream().map(ItemMapper::toDTO).collect(Collectors.toList());
     }
 }

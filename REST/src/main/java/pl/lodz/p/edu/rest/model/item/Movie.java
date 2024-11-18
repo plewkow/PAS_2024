@@ -5,18 +5,18 @@ import org.bson.types.ObjectId;
 
 @BsonDiscriminator("movie")
 public class Movie extends Item {
-    @BsonId
-    ObjectId id;
     @BsonProperty("minutes")
     private int minutes;
     @BsonProperty("casette")
     private boolean casette;
 
-    public Movie(@BsonProperty("basePrice") int basePrice,
+    public Movie(
+                 @BsonProperty("id") ObjectId id,
+                 @BsonProperty("basePrice") int basePrice,
                  @BsonProperty("itemName") String itemName,
                  @BsonProperty("minutes") int minutes,
                  @BsonProperty("casette") boolean casette) {
-        super(basePrice, itemName);
+        super(id, basePrice, itemName);
         this.itemType = "movie";
         this.minutes = minutes;
         this.casette = casette;
@@ -24,16 +24,6 @@ public class Movie extends Item {
 
     public Movie() {
 
-    }
-
-    @Override
-    public ObjectId getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 
     public int getMinutes() {

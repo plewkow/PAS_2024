@@ -21,6 +21,14 @@ public class UserDTO {
         this.role = role;
     }
 
+    public UserDTO(String login, String password, String firstName, String lastName, Role role) {
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
     public String getId() {
         return id;
     }

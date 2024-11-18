@@ -3,7 +3,7 @@ package pl.lodz.p.edu.rest.dto;
 import org.bson.types.ObjectId;
 
 public class ItemDTO {
-    ObjectId id;
+    private String id;
     private int basePrice;
     private String itemName;
     private boolean available = true;
@@ -12,18 +12,18 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(ObjectId id, int basePrice, String itemName) {
+    public ItemDTO(String id, int basePrice, String itemName) {
         this.id = id;
         this.basePrice = basePrice;
         this.itemName = itemName;
 //        this.available = available;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

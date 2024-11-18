@@ -50,22 +50,23 @@ public class UserMapper {
     }
 
     public User convertToUser(UserDTO userDTO) {
+        ObjectId objectId = userDTO.getId() != null ? new ObjectId(userDTO.getId()) : null;
         return switch (userDTO.getRole()) {
             case CLIENT -> new Client(
-                    new ObjectId(userDTO.getId()),
+                    objectId,
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),
                     userDTO.getLastName(),
                     ClientType.createNoMembership());
             case ADMIN -> new Admin(
-                    new ObjectId(userDTO.getId()),
+                    objectId,
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),
                     userDTO.getLastName());
             case MANAGER -> new Manager(
-                    new ObjectId(userDTO.getId()),
+                    objectId,
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),

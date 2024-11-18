@@ -9,7 +9,7 @@ public class ComicsDTO extends ItemDTO {
 
     }
 
-    public ComicsDTO(ObjectId id, int basePrice, String itemName, int pagesNumber) {
+    public ComicsDTO(String id, int basePrice, String itemName, int pagesNumber) {
         super(id, basePrice, itemName);
         this.itemType = "comics";
         this.pagesNumber = pagesNumber;

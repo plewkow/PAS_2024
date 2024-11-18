@@ -7,31 +7,21 @@ import org.bson.types.ObjectId;
 
 @BsonDiscriminator("comics")
 public class Comics extends Item {
-    @BsonId
-    ObjectId id;
     @BsonProperty("pageNumber")
     private int pageNumber;
 
-    public Comics(@BsonProperty("basePrice") int basePrice,
+    public Comics(
+                  @BsonProperty("id") ObjectId id,
+                  @BsonProperty("basePrice") int basePrice,
                   @BsonProperty("itemName") String itemName,
                   @BsonProperty("pageNumber") int pageNumber) {
-        super(basePrice, itemName);
+        super(id, basePrice, itemName);
         this.itemType = "comics";
         this.pageNumber = pageNumber;
     }
 
     public Comics() {
 
-    }
-
-    @Override
-    public ObjectId getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 
     public int getPageNumber() {

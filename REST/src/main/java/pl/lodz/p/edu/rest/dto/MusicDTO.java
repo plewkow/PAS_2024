@@ -11,7 +11,7 @@ public class MusicDTO extends ItemDTO {
 
     }
 
-    public MusicDTO(ObjectId id, int basePrice, String itemName, MusicGenre genre, boolean vinyl) {
+    public MusicDTO(String id, int basePrice, String itemName, MusicGenre genre, boolean vinyl) {
         super(id, basePrice, itemName);
         this.itemType = "music";
         this.genre = genre;

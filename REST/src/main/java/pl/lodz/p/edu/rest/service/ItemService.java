@@ -45,8 +45,10 @@ public class ItemService {
 
             case "movie":
                 Movie movie = ItemMapper.toMovie((MovieDTO) itemDTO);
+                System.out.println(movie.getId());
                 id = itemRepository.addItem(movie);
                 addedItem = itemRepository.getItemById(id);
+                System.out.println(addedItem.getId());
                 return ItemMapper.toMovieDTO((Movie) addedItem);
 
             case "comics":
@@ -60,7 +62,6 @@ public class ItemService {
         }
     }
 
-
     public ItemDTO getItemById(ObjectId id) {
         Item item = itemRepository.getItemById(id);
         if (item == null) {
@@ -71,113 +72,116 @@ public class ItemService {
 
     public List<ItemDTO> getItemsByBasePrice(int basePrice) {
         List<Item> items = itemRepository.getItemsByBasePrice(basePrice);
-        return items.stream()
-                .map(item -> {
-                    if (item instanceof Music) {
-                        Music music = (Music) item;
-                        return new MusicDTO(
-                                music.getId(),
-                                music.getBasePrice(),
-                                music.getItemName(),
-                                music.getGenre(),
-                                music.isVinyl()
-                        );
-                    } else if (item instanceof Movie) {
-                        Movie movie = (Movie) item;
-                        return new MovieDTO(
-                                movie.getId(),
-                                movie.getBasePrice(),
-                                movie.getItemName(),
-                                movie.getMinutes(),
-                                movie.isCasette()
-                        );
-                    } else if (item instanceof Comics) {
-                        Comics comics = (Comics) item;
-                        return new ComicsDTO(
-                                comics.getId(),
-                                comics.getBasePrice(),
-                                comics.getItemName(),
-                                comics.getPageNumber()
-                        );
-                    } else {
-                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
-                    }
-                })
-                .collect(Collectors.toList());
+        return ItemMapper.toDTOList(items);
+//        return items.stream()
+//                .map(item -> {
+//                    if (item instanceof Music) {
+//                        Music music = (Music) item;
+//                        return new MusicDTO(
+//                                music.getId(),
+//                                music.getBasePrice(),
+//                                music.getItemName(),
+//                                music.getGenre(),
+//                                music.isVinyl()
+//                        );
+//                    } else if (item instanceof Movie) {
+//                        Movie movie = (Movie) item;
+//                        return new MovieDTO(
+//                                movie.getId(),
+//                                movie.getBasePrice(),
+//                                movie.getItemName(),
+//                                movie.getMinutes(),
+//                                movie.isCasette()
+//                        );
+//                    } else if (item instanceof Comics) {
+//                        Comics comics = (Comics) item;
+//                        return new ComicsDTO(
+//                                comics.getId(),
+//                                comics.getBasePrice(),
+//                                comics.getItemName(),
+//                                comics.getPageNumber()
+//                        );
+//                    } else {
+//                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
+//                    }
+//                })
+//                .collect(Collectors.toList());
     }
 
     public List<ItemDTO> getItemsByItemName(String itemName) {
         List<Item> items = itemRepository.getItemsByItemName(itemName);
-        return items.stream()
-                .map(item -> {
-                    if (item instanceof Music) {
-                        Music music = (Music) item;
-                        return new MusicDTO(
-                                music.getId(),
-                                music.getBasePrice(),
-                                music.getItemName(),
-                                music.getGenre(),
-                                music.isVinyl()
-                        );
-                    } else if (item instanceof Movie) {
-                        Movie movie = (Movie) item;
-                        return new MovieDTO(
-                                movie.getId(),
-                                movie.getBasePrice(),
-                                movie.getItemName(),
-                                movie.getMinutes(),
-                                movie.isCasette()
-                        );
-                    } else if (item instanceof Comics) {
-                        Comics comics = (Comics) item;
-                        return new ComicsDTO(
-                                comics.getId(),
-                                comics.getBasePrice(),
-                                comics.getItemName(),
-                                comics.getPageNumber()
-                        );
-                    } else {
-                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
-                    }
-                })
-                .collect(Collectors.toList());
+        return ItemMapper.toDTOList(items);
+//        return items.stream()
+//                .map(item -> {
+//                    if (item instanceof Music) {
+//                        Music music = (Music) item;
+//                        return new MusicDTO(
+//                                music.getId(),
+//                                music.getBasePrice(),
+//                                music.getItemName(),
+//                                music.getGenre(),
+//                                music.isVinyl()
+//                        );
+//                    } else if (item instanceof Movie) {
+//                        Movie movie = (Movie) item;
+//                        return new MovieDTO(
+//                                movie.getId(),
+//                                movie.getBasePrice(),
+//                                movie.getItemName(),
+//                                movie.getMinutes(),
+//                                movie.isCasette()
+//                        );
+//                    } else if (item instanceof Comics) {
+//                        Comics comics = (Comics) item;
+//                        return new ComicsDTO(
+//                                comics.getId(),
+//                                comics.getBasePrice(),
+//                                comics.getItemName(),
+//                                comics.getPageNumber()
+//                        );
+//                    } else {
+//                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
+//                    }
+//                })
+//                .collect(Collectors.toList());
     }
 
     public List<ItemDTO> getItemsByItemType(String itemType) {
         List<Item> items = itemRepository.getItemsByItemType(itemType);
-        return items.stream()
-                .map(item -> {
-                    if (item instanceof Music) {
-                        Music music = (Music) item;
-                        return new MusicDTO(
-                                music.getId(),
-                                music.getBasePrice(),
-                                music.getItemName(),
-                                music.getGenre(),
-                                music.isVinyl()
-                        );
-                    } else if (item instanceof Movie) {
-                        Movie movie = (Movie) item;
-                        return new MovieDTO(
-                                movie.getId(),
-                                movie.getBasePrice(),
-                                movie.getItemName(),
-                                movie.getMinutes(),
-                                movie.isCasette()
-                        );
-                    } else if (item instanceof Comics) {
-                        Comics comics = (Comics) item;
-                        return new ComicsDTO(
-                                comics.getId(),
-                                comics.getBasePrice(),
-                                comics.getItemName(),
-                                comics.getPageNumber()
-                        );
-                    } else {
-                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
-                    }
-                })
-                .collect(Collectors.toList());
+        return ItemMapper.toDTOList(items);
+//        return items.stream()
+//                .map(item -> {
+//                    if (item instanceof Music) {
+//                        Music music = (Music) item;
+//                        return new MusicDTO(
+//                                music.getId(),
+//                                music.getBasePrice(),
+//                                music.getItemName(),
+//                                music.getGenre(),
+//                                music.isVinyl()
+//                        );
+//                    } else if (item instanceof Movie) {
+//                        Movie movie = (Movie) item;
+//                        return new MovieDTO(
+//                                movie.getId(),
+//                                movie.getBasePrice(),
+//                                movie.getItemName(),
+//                                movie.getMinutes(),
+//                                movie.isCasette()
+//                        );
+//                    } else if (item instanceof Comics) {
+//                        Comics comics = (Comics) item;
+//                        return new ComicsDTO(
+//                                comics.getId(),
+//                                comics.getBasePrice(),
+//                                comics.getItemName(),
+//                                comics.getPageNumber()
+//                        );
+//                    } else {
+//                        throw new InvalidItemTypeException("Unknown item type: " + item.getClass());
+//                    }
+//                })
+//                .collect(Collectors.toList());
     }
 
     public void updateItem(ObjectId id, ItemDTO itemDTO) {

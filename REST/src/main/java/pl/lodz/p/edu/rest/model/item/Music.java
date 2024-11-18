@@ -7,18 +7,18 @@ import org.bson.types.ObjectId;
 
 @BsonDiscriminator("music")
 public class Music extends Item {
-    @BsonId
-    ObjectId id;
     @BsonProperty("genre")
     private MusicGenre genre;
     @BsonProperty("vinyl")
     private boolean vinyl;
 
-    public Music(@BsonProperty("basePrice") int basePrice,
+    public Music(
+                 @BsonProperty("id") ObjectId id,
+                 @BsonProperty("basePrice") int basePrice,
                  @BsonProperty("itemName") String itemName,
                  @BsonProperty("genre") MusicGenre genre,
                  @BsonProperty("vinyl") boolean vinyl) {
-        super(basePrice, itemName);
+        super(id, basePrice, itemName);
         this.itemType = "music";
         this.genre = genre;
         this.vinyl = vinyl;
@@ -26,16 +26,6 @@ public class Music extends Item {
 
     public Music() {
 
-    }
-
-    @Override
-    public ObjectId getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 
     public MusicGenre getGenre() {
