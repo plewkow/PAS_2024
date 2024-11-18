@@ -72,4 +72,8 @@ public class UserRepository extends AbstractMongoEntity {
     public boolean userExists(String login) {
         return userCollection.find(Filters.eq("login", login)).first() != null;
     }
+
+    public User findByLogin(String login) {
+        return userCollection.find(Filters.eq("login", login)).first();
+    }
 }

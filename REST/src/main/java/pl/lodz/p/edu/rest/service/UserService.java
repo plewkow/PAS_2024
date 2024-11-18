@@ -57,7 +57,7 @@ public class UserService {
         return userMapper.toDTO(users);
     }
 
-    public UpdateUserDTO updateUser(ObjectId id, UpdateUserDTO userDTO) {
+    public void updateUser(ObjectId id, UpdateUserDTO userDTO) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -65,10 +65,9 @@ public class UserService {
         if (result.getModifiedCount() == 0) {
             throw new RuntimeException("User with id " + id + " not updated");
         }
-        return userDTO;
     }
 
-    public UserDTO activateUser(ObjectId id) {
+    public void activateUser(ObjectId id) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -76,10 +75,9 @@ public class UserService {
         if (result.getModifiedCount() == 0) {
             throw new RuntimeException("User with id " + id + " not updated");
         }
-        return getUserById(id);
     }
 
-    public UserDTO deactivateUser(ObjectId id) {
+    public void deactivateUser(ObjectId id) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -87,7 +85,6 @@ public class UserService {
         if (result.getModifiedCount() == 0) {
             throw new RuntimeException("User with id " + id + " not updated");
         }
-        return getUserById(id);
     }
 
     private boolean userExists(String login) {
