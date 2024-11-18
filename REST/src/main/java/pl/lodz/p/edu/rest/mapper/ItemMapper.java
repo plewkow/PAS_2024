@@ -12,15 +12,29 @@ import java.util.stream.Collectors;
 
 public class ItemMapper {
     public static Music toMusic(MusicDTO dto) {
-        return new Music(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getGenre(), dto.isVinyl());
+        return new Music(dto.getId() != null ? new ObjectId(dto.getId()) : null,
+                dto.getBasePrice(),
+                dto.getItemName(),
+                dto.isAvailable(),
+                dto.getGenre(),
+                dto.isVinyl());
     }
 
     public static Movie toMovie(MovieDTO dto) {
-        return new Movie(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getMinutes(), dto.isCasette());
+        return new Movie(dto.getId() != null ? new ObjectId(dto.getId()) : null,
+                dto.getBasePrice(),
+                dto.getItemName(),
+                dto.isAvailable(),
+                dto.getMinutes(),
+                dto.isCasette());
     }
 
     public static Comics toComics(ComicsDTO dto) {
-        return new Comics(dto.getId() != null ? new ObjectId(dto.getId()) : null, dto.getBasePrice(), dto.getItemName(), dto.getPagesNumber());
+        return new Comics(dto.getId() != null ? new ObjectId(dto.getId()) : null,
+                dto.getBasePrice(),
+                dto.getItemName(),
+                dto.isAvailable(),
+                dto.getPagesNumber());
     }
 
     public static MusicDTO toMusicDTO(Music music) {
@@ -28,6 +42,7 @@ public class ItemMapper {
                 music.getId().toString(),
                 music.getBasePrice(),
                 music.getItemName(),
+                music.isAvailable(),
                 music.getGenre(),
                 music.isVinyl()
         );
@@ -38,6 +53,7 @@ public class ItemMapper {
                 movie.getId().toString(),
                 movie.getBasePrice(),
                 movie.getItemName(),
+                movie.isAvailable(),
                 movie.getMinutes(),
                 movie.isCasette()
         );
@@ -48,6 +64,7 @@ public class ItemMapper {
                 comics.getId().toString(),
                 comics.getBasePrice(),
                 comics.getItemName(),
+                comics.isAvailable(),
                 comics.getPageNumber()
         );
     }
@@ -58,6 +75,7 @@ public class ItemMapper {
                     item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
+                    item.isAvailable(),
                     music.getGenre(),
                     music.isVinyl()
             );
@@ -66,6 +84,7 @@ public class ItemMapper {
                     item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
+                    item.isAvailable(),
                     movie.getMinutes(),
                     movie.isCasette()
             );
@@ -75,6 +94,7 @@ public class ItemMapper {
                     item.getId().toString(),
                     item.getBasePrice(),
                     item.getItemName(),
+                    item.isAvailable(),
                     comics.getPageNumber()
             );
         }

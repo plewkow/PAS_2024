@@ -24,6 +24,13 @@ public class Music extends Item {
         this.vinyl = vinyl;
     }
 
+    public Music(ObjectId id, int basePrice, String itemName, boolean available, MusicGenre genre, boolean vinyl) {
+        super(id, basePrice, itemName, available);
+        this.itemType = "music";
+        this.genre = genre;
+        this.vinyl = vinyl;
+    }
+
     public Music() {
 
     }

@@ -20,6 +20,12 @@ public class Comics extends Item {
         this.pageNumber = pageNumber;
     }
 
+    public Comics(ObjectId id, int basePrice, String itemName, boolean available, int pageNumber) {
+        super(id, basePrice, itemName, available);
+        this.itemType = "comics";
+        this.pageNumber = pageNumber;
+    }
+
     public Comics() {
 
     }

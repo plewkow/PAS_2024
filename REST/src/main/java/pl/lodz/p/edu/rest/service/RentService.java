@@ -48,8 +48,6 @@ public class RentService {
 
         Item item = ItemMapper.toItem(itemDTO);
 
-//        item.setId(rentDTO.getItemId()); // CZEMU??
-
         if (!item.isAvailable()) {
             throw new ItemAlreadyRentedException("Item is already rented");
         }

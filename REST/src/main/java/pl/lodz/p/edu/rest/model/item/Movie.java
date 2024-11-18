@@ -22,6 +22,13 @@ public class Movie extends Item {
         this.casette = casette;
     }
 
+    public Movie(ObjectId id, int basePrice, String itemName, boolean available, int minutes, boolean casette) {
+        super(id, basePrice, itemName, available);
+        this.itemType = "movie";
+        this.minutes = minutes;
+        this.casette = casette;
+    }
+
     public Movie() {
 
     }

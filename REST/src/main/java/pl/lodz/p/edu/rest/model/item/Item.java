@@ -27,6 +27,13 @@ public class Item {
         this.available = true;
     }
 
+    public Item(ObjectId id, int basePrice, String itemName, boolean available) {
+        this.id = id;
+        this.basePrice = basePrice;
+        this.itemName = itemName;
+        this.available = available;
+    }
+
     public Item() {
 
     }

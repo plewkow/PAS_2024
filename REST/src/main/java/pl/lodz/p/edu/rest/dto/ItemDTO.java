@@ -6,17 +6,21 @@ public class ItemDTO {
     private String id;
     private int basePrice;
     private String itemName;
-    private boolean available = true;
+    private boolean available;
     protected String itemType;
 
     public ItemDTO() {
     }
 
     public ItemDTO(String id, int basePrice, String itemName) {
+        this(id, basePrice, itemName, true);
+    }
+
+    public ItemDTO(String id, int basePrice, String itemName, boolean available) {
         this.id = id;
         this.basePrice = basePrice;
         this.itemName = itemName;
-//        this.available = available;
+        this.available = available;
     }
 
     public String getId() {
