@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.model.user.Role;
@@ -12,6 +13,7 @@ public class UserDTO {
     private String lastName;
     private Role role;
 
+    @JsonCreator
     public UserDTO(String id, String login, String password, String firstName, String lastName, Role role) {
         this.id = id;
         this.login = login;
