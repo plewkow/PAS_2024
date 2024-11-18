@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.mapper;
 
+import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.dto.ClientDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.*;
@@ -17,6 +18,7 @@ public class UserMapper {
     public UserDTO convertToDTO(User user) {
         if (user instanceof Client client) {
             return new ClientDTO(
+                    client.getId().toString(),
                     client.getLogin(),
                     client.getPassword(),
                     client.getFirstName(),
@@ -26,6 +28,7 @@ public class UserMapper {
             );
         } else {
             return new UserDTO(
+                    user.getId().toString(),
                     user.getLogin(),
                     user.getPassword(),
                     user.getFirstName(),
@@ -37,6 +40,7 @@ public class UserMapper {
 
     public UserDTO convertToUserDTO(User user) {
         return new UserDTO(
+                user.getId().toString(),
                 user.getLogin(),
                 user.getPassword(),
                 user.getFirstName(),
@@ -48,17 +52,20 @@ public class UserMapper {
     public User convertToUser(UserDTO userDTO) {
         return switch (userDTO.getRole()) {
             case CLIENT -> new Client(
+                    new ObjectId(userDTO.getId()),
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),
                     userDTO.getLastName(),
                     ClientType.createNoMembership());
             case ADMIN -> new Admin(
+                    new ObjectId(userDTO.getId()),
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),
                     userDTO.getLastName());
             case MANAGER -> new Manager(
+                    new ObjectId(userDTO.getId()),
                     userDTO.getLogin(),
                     userDTO.getPassword(),
                     userDTO.getFirstName(),

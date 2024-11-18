@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.exception.*;
 import pl.lodz.p.edu.rest.mapper.ItemMapper;
+import pl.lodz.p.edu.rest.mapper.RentMapper;
 import pl.lodz.p.edu.rest.model.Rent;
 import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.model.user.Client;
@@ -23,14 +24,13 @@ public class RentService {
     private final ItemService itemService;
     private final MongoEntity mongoEntity;
     private final UserMapper userMapper = new UserMapper();
-    private final ItemRepository itemRepository;
+    private final RentMapper rentMapper = new RentMapper();
 
     public RentService(RentRepository rentRepository, UserService userService, ItemService itemService, ItemRepository itemRepository) {
         this.rentRepository = rentRepository;
         this.userService = userService;
         this.itemService = itemService;
         mongoEntity = new MongoEntity();
-        this.itemRepository = itemRepository;
     }
 
     public RentDTO rentItem(RentDTO rentDTO) {
@@ -40,20 +40,15 @@ public class RentService {
         }
 
         Client client = (Client) userMapper.convertToUser(userDTO);
-        System.out.println("Item ID from DTO: " + rentDTO.getItemId());
 
         ItemDTO itemDTO = itemService.getItemById(rentDTO.getItemId());
         if (itemDTO == null) {
             throw new ItemNotFoundException("Item with ID: " + rentDTO.getItemId() + " not found");
         }
 
-        System.out.println(itemDTO.getItemName());
-
-        System.out.println("Item ID from DTO: " + rentDTO.getItemId());
-
         Item item = ItemMapper.toItem(itemDTO);
 
-        item.setId(rentDTO.getItemId());
+        item.setId(rentDTO.getItemId()); // CZEMU??
 
         if (!item.isAvailable()) {
             throw new ItemAlreadyRentedException("Item is already rented");
@@ -69,14 +64,7 @@ public class RentService {
 
             session.commitTransaction();
 
-            return new RentDTO(
-                    rent.getBeginTime(),
-                    rent.getEndTime(),
-                    rent.getRentCost(),
-                    rent.isArchive(),
-                    rentDTO.getClientId(),
-                    rentDTO.getItemId()
-            );
+            return rentMapper.convertToDTO(rent);
         } catch (Exception e) {
             throw new RentOperationException("Error during rental operation: "  + e.getMessage(), e);
         }
@@ -88,19 +76,10 @@ public class RentService {
             throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
         }
 
-        RentDTO rentDTO = new RentDTO(
-                rent.getBeginTime(),
-                rent.getEndTime(),
-                rent.getRentCost(),
-                rent.isArchive(),
-                rent.getClient().getId(),
-                rent.getItem().getId()
-        );
-
-        return rentDTO;
+        return rentMapper.convertToDTO(rent);
     }
 
-    public RentDTO returnRent(ObjectId rentId) {
+    public void returnRent(ObjectId rentId) {
         Rent rent = rentRepository.getRent(rentId);
         if (rent == null) {
             throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
@@ -113,49 +92,67 @@ public class RentService {
 
         LocalDateTime end = LocalDateTime.now();
 
+        // TODO: przerobic na transkacje??
         rent.setEndTime(end);
         itemService.setAvailable(item.getId());
         rent.setArchive(true);
 
         rentRepository.updateRent(rent);
-
-        return new RentDTO(
-                rent.getBeginTime(),
-                rent.getEndTime(),
-                rent.getRentCost(),
-                rent.isArchive(),
-                rent.getClient().getId(),
-                rent.getItem().getId()
-        );
     }
 
-    public List<Rent> getActiveRents() {
-        return rentRepository.findActiveRents();
+    public List<RentDTO> getActiveRents() {
+        List<Rent> rents = rentRepository.findActiveRents();
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
     }
 
-    public List<Rent> getRentsByItem(ObjectId itemId) {
-        return rentRepository.findRentsByItemId(itemId);
+    public List<RentDTO> getRentsByItem(ObjectId itemId) {
+        List<Rent> rents = rentRepository.findRentsByItemId(itemId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
     }
 
-    public List<Rent> getActiveRentsByItem(ObjectId itemId) {
-        return rentRepository.findActiveRentsByItemId(itemId);
+    public List<RentDTO> getActiveRentsByItem(ObjectId itemId) {
+        List<Rent> rents = rentRepository.findActiveRentsByItemId(itemId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
     }
 
-    public List<Rent> getRentsByClient(ObjectId clientId) {
-        return rentRepository.findRentsByClientId(clientId);
+    public List<RentDTO> getRentsByClient(ObjectId clientId) {
+        List<Rent> rents = rentRepository.findRentsByClientId(clientId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
     }
 
-    public List<Rent> getActiveRentsByClient(ObjectId clientId) {
-        return rentRepository.findActiveRentsByClientId(clientId);
+    public List<RentDTO> getActiveRentsByClient(ObjectId clientId) {
+        List<Rent> rents =  rentRepository.findActiveRentsByClientId(clientId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
     }
 
     public boolean isItemRented(ObjectId itemId) {
         List<Rent> activeRents = rentRepository.findActiveRentsByItemId(itemId);
+        if (activeRents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
         return !activeRents.isEmpty();
     }
 
     public boolean hasActiveRentsByClient(ObjectId clientId) {
         List<Rent> activeRents = rentRepository.findActiveRentsByClientId(clientId);
+        if (activeRents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
         return !activeRents.isEmpty();
     }
 }

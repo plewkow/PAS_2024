@@ -23,7 +23,6 @@ public class UserController {
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> getAllUsers(@RequestParam(required = false) Role role) {
-        List<UserDTO> users;
         if (role == null) {
             return userService.getAllUsers();
         } else {

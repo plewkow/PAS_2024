@@ -1,20 +1,32 @@
 package pl.lodz.p.edu.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.model.user.Role;
 
 public class UserDTO {
+    private String id;
     private String login;
     private String password;
     private String firstName;
     private String lastName;
     private Role role;
 
-    public UserDTO(String login, String password, String firstName, String lastName, Role role) {
+    public UserDTO(String id, String login, String password, String firstName, String lastName, Role role) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Role getRole() {

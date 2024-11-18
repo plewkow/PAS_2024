@@ -3,6 +3,7 @@ package pl.lodz.p.edu.rest.repository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
@@ -29,8 +30,9 @@ public class UserRepository extends AbstractMongoEntity {
         mongoClient.close();
     }
 
-    public void save(User user) {
-        userCollection.insertOne(user);
+    public ObjectId save(User user) {
+        InsertOneResult result = userCollection.insertOne(user);
+        return result.getInsertedId().asObjectId().getValue();
     }
     
     public User findById(ObjectId id) {

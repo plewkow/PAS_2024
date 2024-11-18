@@ -28,10 +28,12 @@ public abstract class User {
     }
 
     @BsonCreator
-    protected User(@BsonProperty("login") String login,
+    protected User(@BsonProperty("id") ObjectId id,
+                   @BsonProperty("login") String login,
                    @BsonProperty("password") String password,
                    @BsonProperty("firstName") String firstName,
                    @BsonProperty("lastName") String lastName) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.firstName = firstName;

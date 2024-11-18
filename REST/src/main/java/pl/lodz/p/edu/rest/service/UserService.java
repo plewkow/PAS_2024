@@ -29,7 +29,8 @@ public class UserService {
             throw new DuplicateUserException("User with login " + user.getLogin() + " already exists");
         }
         User createdUser = userMapper.convertToUser(user);
-        userRepository.save(createdUser);
+        ObjectId id = userRepository.save(createdUser);
+        createdUser.setId(id);
         return userMapper.convertToUserDTO(createdUser);
     }
 
