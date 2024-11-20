@@ -56,7 +56,7 @@ public class ItemController {
         return itemService.getItemsByItemType(itemType);
     }
 
-    @GetMapping("/type/{basePrice}")
+    @GetMapping("/baseprice/{basePrice}")
     @ResponseStatus(HttpStatus.OK)
     public List<ItemDTO> getItemsByBasePrice(@PathVariable int basePrice) {
         return itemService.getItemsByBasePrice(basePrice);

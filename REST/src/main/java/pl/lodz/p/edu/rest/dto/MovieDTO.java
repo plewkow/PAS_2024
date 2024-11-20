@@ -10,11 +10,10 @@ public class MovieDTO extends ItemDTO {
     }
 
     public MovieDTO(String id, int basePrice, String itemName, int minutes, boolean casette) {
-//        super(id, basePrice, itemName);
-//        this.itemType = "movie";
-//        this.minutes = minutes;
-//        this.casette = casette;
-        this(id, basePrice, itemName, true, minutes, casette);
+        super(id, basePrice, itemName);
+        this.itemType = "movie";
+        this.minutes = minutes;
+        this.casette = casette;
     }
 
     public MovieDTO(String id, int basePrice, String itemName, boolean available, int minutes, boolean casette) {
