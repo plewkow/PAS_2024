@@ -25,9 +25,11 @@ public class Rent {
 
     @BsonCreator
     public Rent(@BsonProperty("beginTime") LocalDateTime beginTime,
+                @BsonProperty("rentCost") int rentCost,
                 @BsonProperty("client") Client client,
                 @BsonProperty("item") Item item) {
         this.beginTime = beginTime;
+        this.rentCost = rentCost;
         this.client = client;
         this.item = item;
     }

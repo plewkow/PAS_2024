@@ -48,6 +48,13 @@ public class RentController {
         return ResponseEntity.ok(activeRents);
     }
 
+    @GetMapping("inactive")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<RentDTO>> getInactiveRents() {
+        List<RentDTO> inactiveRents = rentService.getInactiveRents();
+        return ResponseEntity.ok(inactiveRents);
+    }
+
     @GetMapping("/item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RentDTO>> getRentsByItem(@PathVariable ObjectId itemId) {
@@ -55,10 +62,18 @@ public class RentController {
         return ResponseEntity.ok(rents);
     }
 
+
     @GetMapping("/active/item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RentDTO>> getActiveRentsByItem(@PathVariable ObjectId itemId) {
         List<RentDTO> activeRents = rentService.getActiveRentsByItem(itemId);
+        return ResponseEntity.ok(activeRents);
+    }
+
+    @GetMapping("/inactive/item/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<RentDTO>> getInactiveRentsByItem(@PathVariable ObjectId itemId) {
+        List<RentDTO> activeRents = rentService.getInactiveRentsByItem(itemId);
         return ResponseEntity.ok(activeRents);
     }
 
@@ -76,6 +91,13 @@ public class RentController {
         return ResponseEntity.ok(activeRents);
     }
 
+    @GetMapping("/inactive/client/{clientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<RentDTO>> getInactiveRentsByClient(@PathVariable ObjectId clientId) {
+        List<RentDTO> activeRents = rentService.getInactiveRentsByClient(clientId);
+        return ResponseEntity.ok(activeRents);
+    }
+
     @GetMapping("/isRented/{itemId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Boolean> isItemRented(@PathVariable ObjectId itemId) {
@@ -83,10 +105,10 @@ public class RentController {
         return ResponseEntity.ok(isRented);
     }
 
-    @GetMapping("/hasActiveRents/{clientId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Boolean> hasActiveRentsByClient(@PathVariable ObjectId clientId) {
-        boolean hasActiveRents = rentService.hasActiveRentsByClient(clientId);
-        return ResponseEntity.ok(hasActiveRents);
-    }
+//    @GetMapping("/hasActiveRents/{clientId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Boolean> hasActiveRentsByClient(@PathVariable ObjectId clientId) {
+//        boolean hasActiveRents = rentService.hasActiveRentsByClient(clientId);
+//        return ResponseEntity.ok(hasActiveRents);
+//    }
 }

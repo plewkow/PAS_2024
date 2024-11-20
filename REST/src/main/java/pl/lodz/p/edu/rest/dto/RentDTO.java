@@ -28,6 +28,28 @@ public class RentDTO {
         this.itemId = itemId;
     }
 
+    public RentDTO(LocalDateTime beginTime, LocalDateTime endTime, int rentCost, boolean archive, String clientId, String itemId) {
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.rentCost = rentCost;
+        this.archive = archive;
+        this.clientId = clientId;
+        this.itemId = itemId;
+    }
+
+    public RentDTO(LocalDateTime beginTime, int rentCost, String clientId, String itemId) {
+        this.beginTime = beginTime;
+        this.rentCost = rentCost;
+        this.clientId = clientId;
+        this.itemId = itemId;
+    }
+
+    public RentDTO(int rentCost, String clientId, String itemId) {
+        this.rentCost = rentCost;
+        this.clientId = clientId;
+        this.itemId = itemId;
+    }
+
     public String getId() {
         return id;
     }

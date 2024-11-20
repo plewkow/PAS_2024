@@ -57,7 +57,7 @@ public class RentService {
 
             itemService.setUnavailable(item.getId());
 
-            Rent rent = new Rent(rentDTO.getBeginTime(), client, item);
+            Rent rent = new Rent(rentDTO.getBeginTime(), rentDTO.getRentCost(), client, item);
             rentRepository.addRent(rent);
 
             session.commitTransaction();
@@ -106,6 +106,14 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
+    public List<RentDTO> getInactiveRents() {
+        List<Rent> rents = rentRepository.findInactiveRents();
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
+    }
+
     public List<RentDTO> getRentsByItem(ObjectId itemId) {
         List<Rent> rents = rentRepository.findRentsByItemId(itemId);
         if (rents == null) {
@@ -116,6 +124,14 @@ public class RentService {
 
     public List<RentDTO> getActiveRentsByItem(ObjectId itemId) {
         List<Rent> rents = rentRepository.findActiveRentsByItemId(itemId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
+    }
+
+    public List<RentDTO> getInactiveRentsByItem(ObjectId itemId) {
+        List<Rent> rents = rentRepository.findInactiveRentsByItemId(itemId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
         }
@@ -138,6 +154,14 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
+    public List<RentDTO> getInactiveRentsByClient(ObjectId clientId) {
+        List<Rent> rents =  rentRepository.findInactiveRentsByClientId(clientId);
+        if (rents == null) {
+            throw new RentNotFoundException("No active rents found");
+        }
+        return rentMapper.toDTO(rents);
+    }
+
     public boolean isItemRented(ObjectId itemId) {
         List<Rent> activeRents = rentRepository.findActiveRentsByItemId(itemId);
         if (activeRents == null) {
@@ -146,11 +170,11 @@ public class RentService {
         return !activeRents.isEmpty();
     }
 
-    public boolean hasActiveRentsByClient(ObjectId clientId) {
-        List<Rent> activeRents = rentRepository.findActiveRentsByClientId(clientId);
-        if (activeRents == null) {
-            throw new RentNotFoundException("No active rents found");
-        }
-        return !activeRents.isEmpty();
-    }
+//    public boolean hasActiveRentsByClient(ObjectId clientId) {
+//        List<Rent> activeRents = rentRepository.findActiveRentsByClientId(clientId);
+//        if (activeRents == null) {
+//            throw new RentNotFoundException("No active rents found");
+//        }
+//        return !activeRents.isEmpty();
+//    }
 }
