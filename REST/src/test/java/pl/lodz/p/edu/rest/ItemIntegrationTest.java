@@ -220,7 +220,7 @@ public class ItemIntegrationTest {
     public void testGetAllItemsByItemType() throws JsonProcessingException {
         Map<String, Object> payload = new HashMap<>();
         payload.put("basePrice", 150);
-        payload.put("itemName", "Scoobyxxx"); // Zmieniono na wartość zgodną z odpowiedzią JSON
+        payload.put("itemName", "Scoobyxxx");
         payload.put("itemType", "comics");
         payload.put("pagesNumber", 222);
 
@@ -234,7 +234,7 @@ public class ItemIntegrationTest {
                 .then()
                 .statusCode(201)
                 .body("basePrice", equalTo(150))
-                .body("itemName", equalTo("Scoobyxxx")) // Zmieniono na zgodne z odpowiedzią
+                .body("itemName", equalTo("Scoobyxxx"))
                 .body("itemType", equalTo("comics"))
                 .body("pagesNumber", equalTo(222));
 
@@ -245,7 +245,7 @@ public class ItemIntegrationTest {
                 .then()
                 .statusCode(200)
                 .body("[0].basePrice", equalTo(150))
-                .body("[0].itemName", equalTo("Scoobyxxx")) // Zmieniono na zgodne z odpowiedzią
+                .body("[0].itemName", equalTo("Scoobyxxx"))
                 .body("[0].itemType", equalTo("comics"))
                 .body("[0].pagesNumber", equalTo(222));
     }
@@ -261,19 +261,6 @@ public class ItemIntegrationTest {
 
         String payloadJson = new ObjectMapper().writeValueAsString(payload);
 
-        //TODO dokonczyc musze
-    }
-
-    @Test
-    public void testDeleteMusic() throws JsonProcessingException {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("basePrice", 150);
-        payload.put("itemName", "Scooby");
-        payload.put("itemType", "music");
-        payload.put("genre", 2);
-        payload.put("vinyl", true);
-        String payloadJson = new ObjectMapper().writeValueAsString(payload);
-
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(payloadJson)
@@ -281,7 +268,6 @@ public class ItemIntegrationTest {
                 .post("")
                 .then()
                 .statusCode(201);
-
 
         List<Item> items = itemRepository.getItemsByItemName("Scooby");
 
@@ -291,13 +277,21 @@ public class ItemIntegrationTest {
 
         Item item = items.get(0);
 
+        Map<String, Object> payload1 = new HashMap<>();
+        payload1.put("basePrice", 169);
+        payload1.put("itemName", "Scooby");
+        payload1.put("itemType", "music");
+        payload1.put("genre", 2);
+        payload1.put("vinyl", true);
+
+        String payloadJson1 = new ObjectMapper().writeValueAsString(payload1);
+
         RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body(payloadJson)
+                .body(payloadJson1)
                 .when()
-                .delete("/" + item.getId())
+                .put("/" + item.getId())
                 .then()
                 .statusCode(204);
     }
-
 }
