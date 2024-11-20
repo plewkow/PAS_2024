@@ -113,13 +113,9 @@ public class RentIntegrationTest {
 
         Item item = items.get(0);
 
-//        System.out.println(item);
-//
         RentDTO rentDTO = new RentDTO(100, String.valueOf(userFromDB.getId()), String.valueOf(item.getId()));
 
         String rentJson = new ObjectMapper().writeValueAsString(rentDTO);
-
-        System.out.println(rentJson);
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -128,5 +124,268 @@ public class RentIntegrationTest {
                 .post("/rents")
                 .then()
                 .statusCode(201);
+    }
+
+    @Test
+    public void testReturnItem() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.CLIENT);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(201);
+
+        User userFromDB = userRepository.findByLogin("testowyAdmin");
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/users/" + userFromDB.getId())
+                .then()
+                .statusCode(200)
+                .body("login", equalTo("testowyAdmin"))
+                .body("password", equalTo("testoweHaslo"))
+                .body("firstName", equalTo("Adminek"))
+                .body("lastName", equalTo("Adminowski"))
+                .body("role", equalTo("CLIENT"));
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("basePrice", 150);
+        payload.put("itemName", "Kizo");
+        payload.put("itemType", "music");
+        payload.put("genre", 2);
+        payload.put("vinyl", true);
+
+        String payloadJson = new ObjectMapper().writeValueAsString(payload);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(payloadJson)
+                .when()
+                .post("/items")
+                .then()
+                .statusCode(201)
+                .body("basePrice", equalTo(150))
+                .body("itemName", equalTo("Kizo"))
+                .body("itemType", equalTo("music"))
+                .body("genre", equalTo("Classical"))
+                .body("vinyl", equalTo(true));
+
+        List<Item> items = itemRepository.getItemsByItemName("Kizo");
+
+        if (items.isEmpty()) {
+            throw new AssertionError("No items found with name Kizo");
+        }
+
+        Item item = items.get(0);
+
+        RentDTO rentDTO = new RentDTO(100, String.valueOf(userFromDB.getId()), String.valueOf(item.getId()));
+
+        String rentJson = new ObjectMapper().writeValueAsString(rentDTO);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(rentJson)
+                .when()
+                .post("/rents")
+                .then()
+                .statusCode(201);
+
+        List<Rent> rents = rentRepository.findActiveRents();
+
+        Rent rent = rents.get(0);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .put("/rents/return/" + rent.getId())
+                .then()
+                .statusCode(204);
+    }
+
+    @Test
+    public void testGetRent() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.CLIENT);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(201);
+
+        User userFromDB = userRepository.findByLogin("testowyAdmin");
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/users/" + userFromDB.getId())
+                .then()
+                .statusCode(200)
+                .body("login", equalTo("testowyAdmin"))
+                .body("password", equalTo("testoweHaslo"))
+                .body("firstName", equalTo("Adminek"))
+                .body("lastName", equalTo("Adminowski"))
+                .body("role", equalTo("CLIENT"));
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("basePrice", 150);
+        payload.put("itemName", "Kizo");
+        payload.put("itemType", "music");
+        payload.put("genre", 2);
+        payload.put("vinyl", true);
+
+        String payloadJson = new ObjectMapper().writeValueAsString(payload);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(payloadJson)
+                .when()
+                .post("/items")
+                .then()
+                .statusCode(201)
+                .body("basePrice", equalTo(150))
+                .body("itemName", equalTo("Kizo"))
+                .body("itemType", equalTo("music"))
+                .body("genre", equalTo("Classical"))
+                .body("vinyl", equalTo(true));
+
+        List<Item> items = itemRepository.getItemsByItemName("Kizo");
+
+        if (items.isEmpty()) {
+            throw new AssertionError("No items found with name Kizo");
+        }
+
+        Item item = items.get(0);
+
+        RentDTO rentDTO = new RentDTO(100, String.valueOf(userFromDB.getId()), String.valueOf(item.getId()));
+
+        String rentJson = new ObjectMapper().writeValueAsString(rentDTO);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(rentJson)
+                .when()
+                .post("/rents")
+                .then()
+                .statusCode(201);
+
+        List<Rent> rents = rentRepository.findActiveRents();
+
+        Rent rent = rents.get(0);
+
+        System.out.println(rent.getId());
+
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/rents/" + rent.getId())
+                .then()
+                .statusCode(200)
+                .body("rentCost", equalTo(100))
+                .body("clientId", equalTo(String.valueOf(userFromDB.getId())))
+                .body("itemId", equalTo(String.valueOf(item.getId())));
+    }
+
+    @Test
+    public void testGetActiveRents() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.CLIENT);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(201);
+
+        User userFromDB = userRepository.findByLogin("testowyAdmin");
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/users/" + userFromDB.getId())
+                .then()
+                .statusCode(200)
+                .body("login", equalTo("testowyAdmin"))
+                .body("password", equalTo("testoweHaslo"))
+                .body("firstName", equalTo("Adminek"))
+                .body("lastName", equalTo("Adminowski"))
+                .body("role", equalTo("CLIENT"));
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("basePrice", 150);
+        payload.put("itemName", "Kizo");
+        payload.put("itemType", "music");
+        payload.put("genre", 2);
+        payload.put("vinyl", true);
+
+        String payloadJson = new ObjectMapper().writeValueAsString(payload);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(payloadJson)
+                .when()
+                .post("/items")
+                .then()
+                .statusCode(201)
+                .body("basePrice", equalTo(150))
+                .body("itemName", equalTo("Kizo"))
+                .body("itemType", equalTo("music"))
+                .body("genre", equalTo("Classical"))
+                .body("vinyl", equalTo(true));
+
+        List<Item> items = itemRepository.getItemsByItemName("Kizo");
+
+        if (items.isEmpty()) {
+            throw new AssertionError("No items found with name Kizo");
+        }
+
+        Item item = items.get(0);
+
+        RentDTO rentDTO = new RentDTO(100, String.valueOf(userFromDB.getId()), String.valueOf(item.getId()));
+
+        String rentJson = new ObjectMapper().writeValueAsString(rentDTO);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(rentJson)
+                .when()
+                .post("/rents")
+                .then()
+                .statusCode(201);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/rents/active")
+                .then()
+                .statusCode(200)
+                .body("[0].rentCost", equalTo(100))
+                .body("[0].clientId", equalTo(String.valueOf(userFromDB.getId())))
+                .body("[0].itemId", equalTo(String.valueOf(item.getId())));
     }
 }
