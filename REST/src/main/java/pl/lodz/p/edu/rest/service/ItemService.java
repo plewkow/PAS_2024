@@ -152,4 +152,9 @@ public class ItemService {
         item.setAvailable(false);
         itemRepository.updateItem(item);
     }
+
+    public List<ItemDTO> getAllItems() {
+        List<Item> items = itemRepository.getAllItems();
+        return ItemMapper.toDTOList(items);
+    }
 }

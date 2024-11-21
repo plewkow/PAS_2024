@@ -44,6 +44,12 @@ public class ItemController {
         return itemService.getItemById(id);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<ItemDTO> getAllItems() {
+        return itemService.getAllItems();
+    }
+
     @GetMapping("/name/{itemName}")
     @ResponseStatus(HttpStatus.OK)
     public List<ItemDTO> getItemsByItemName(@PathVariable String itemName) {

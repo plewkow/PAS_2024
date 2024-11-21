@@ -62,4 +62,8 @@ public class ItemRepository extends AbstractMongoEntity {
     public void close() throws Exception {
         mongoClient.close();
     }
+
+    public List<Item> getAllItems() {
+        return itemCollection.find().into(new ArrayList<>());
+    }
 }
