@@ -59,6 +59,25 @@ public class UserIntegrationTest {
     }
 
     @Test
+    public void testCreateUserWithMissingProperty() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                null,
+                Role.ADMIN);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(500);
+    }
+
+    @Test
     public void testGetUser() throws JsonProcessingException {
         UserDTO user = new UserDTO("testowyAdmin",
                 "testoweHaslo",
