@@ -5,6 +5,7 @@ import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
 import pl.lodz.p.edu.rest.dto.MusicDTO;
+import pl.lodz.p.edu.rest.exception.InvalidItemTypeException;
 import pl.lodz.p.edu.rest.model.item.*;
 
 import java.util.List;
@@ -105,7 +106,7 @@ public class ItemMapper {
             case "music" -> toMusic((MusicDTO) itemDTO);
             case "movie" -> toMovie((MovieDTO) itemDTO);
             case "comics" -> toComics((ComicsDTO) itemDTO);
-            default -> throw new IllegalArgumentException("Nieznany type: " + itemDTO.getItemType());
+            default -> throw new InvalidItemTypeException("Nieznany type: " + itemDTO.getItemType());
         };
     }
 

@@ -78,24 +78,31 @@ public class RentService {
     }
 
     public void returnRent(ObjectId rentId) {
-        Rent rent = rentRepository.getRent(rentId);
-        if (rent == null) {
-            throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
+        try (var session = mongoEntity.getMongoClient().startSession()) {
+            session.startTransaction();
+
+            Rent rent = rentRepository.getRent(rentId);
+            if (rent == null) {
+                throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
+            }
+
+            Item item = rent.getItem();
+            if (item == null) {
+                throw new ItemNotFoundException("Item associated with rent ID: " + rentId + " not found");
+            }
+
+            LocalDateTime end = LocalDateTime.now();
+
+            rent.setEndTime(end);
+            rent.setArchive(true);
+            rentRepository.updateRent(rent);
+
+            itemService.setAvailable(item.getId());
+
+            session.commitTransaction();
+        } catch (Exception e) {
+            throw new RentOperationException("Error during return operation: " + e.getMessage(), e);
         }
-
-        Item item = rent.getItem();
-        if (item == null) {
-            throw new ItemNotFoundException("Item with ID: " + rentId + " not found");
-        }
-
-        LocalDateTime end = LocalDateTime.now();
-
-        // TODO: przerobic na transkacje??
-        rent.setEndTime(end);
-        itemService.setAvailable(item.getId());
-        rent.setArchive(true);
-
-        rentRepository.updateRent(rent);
     }
 
     public List<RentDTO> getActiveRents() {
