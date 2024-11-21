@@ -572,6 +572,4 @@ public class RentIntegrationTest {
                 .statusCode(409);
     }
 
-
-
 }

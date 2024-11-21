@@ -8,11 +8,7 @@ import java.time.LocalDateTime;
 
 public class RentDTO {
     private String id;
-    @NotNull(message = "Begin time cannot be null")
-    @PastOrPresent(message = "Begin time must be in the past or present")
     private LocalDateTime beginTime;
-    @NotNull(message = "End time cannot be null")
-    @Future(message = "End time must be in the future")
     private LocalDateTime endTime;
     @Min(value = 0, message = "Rent cost must be at least 0")
     private int rentCost;
