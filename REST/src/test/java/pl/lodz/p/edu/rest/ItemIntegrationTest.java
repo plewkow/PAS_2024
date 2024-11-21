@@ -296,10 +296,27 @@ public class ItemIntegrationTest {
                 .delete("/" + item.getId())
                 .then()
                 .statusCode(204);
-//                .body("[0].basePrice", equalTo(150))
-//                .body("[0].itemName", equalTo("Scoobyxxx"))
-//                .body("[0].itemType", equalTo("comics"))
-//                .body("[0].pagesNumber", equalTo(222));
 
     }
+
+    @Test
+    public void testAddItemWrong() throws JsonProcessingException {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("basePrice", 150);
+        payload.put("item", "Scooby");
+        payload.put("type", "music");
+        payload.put("genre", 88);
+        payload.put("vinyl", true);
+
+        String payloadJson = new ObjectMapper().writeValueAsString(payload);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(payloadJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(500);
+    }
+
 }
