@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.dto;
 
+import jakarta.validation.constraints.*;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
@@ -9,9 +10,14 @@ public class RentDTO {
     private String id;
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
+    @Min(value = 0, message = "Rent cost must be at least 0")
     private int rentCost;
     private boolean archive;
+    @NotNull(message = "Client ID cannot be null")
+    @NotEmpty(message = "Client ID cannot be empty")
     private String clientId;
+    @NotNull(message = "Item ID cannot be null")
+    @NotEmpty(message = "Item ID cannot be empty")
     private String itemId;
 
     public RentDTO() {

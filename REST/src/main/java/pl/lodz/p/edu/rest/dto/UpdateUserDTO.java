@@ -1,9 +1,12 @@
 package pl.lodz.p.edu.rest.dto;
 
+import jakarta.validation.constraints.NotNull;
 import pl.lodz.p.edu.rest.model.user.Role;
 
 public class UpdateUserDTO {
+    @NotNull(message = "Last name cannot be null")
     private String firstName;
+    @NotNull(message = "Role cannot be null")
     private String lastName;
 
     public UpdateUserDTO() {

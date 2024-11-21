@@ -1,8 +1,11 @@
 package pl.lodz.p.edu.rest.dto;
 
-import org.bson.types.ObjectId;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class ComicsDTO extends ItemDTO {
+    @NotNull(message = "Pages number cannot be null")
+    @Min(value = 0, message = "Pages number must be at least 0")
     private int pagesNumber;
 
     public ComicsDTO() {

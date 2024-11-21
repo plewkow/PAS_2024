@@ -2,15 +2,24 @@ package pl.lodz.p.edu.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.model.user.Role;
 
 public class UserDTO {
     private String id;
+    @NotNull(message = "Login cannot be null")
+    @Size(min = 3, max = 20, message = "Login must be between 3 and 20 characters")
     private String login;
+    @NotNull(message = "Password cannot be null")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+    @NotNull(message = "First name cannot be null")
     private String firstName;
+    @NotNull(message = "Last name cannot be null")
     private String lastName;
+    @NotNull(message = "Role cannot be null")
     private Role role;
 
     @JsonCreator
