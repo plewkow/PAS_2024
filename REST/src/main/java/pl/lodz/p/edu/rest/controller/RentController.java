@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.controller;
 
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class RentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RentDTO rentItem(@RequestBody RentDTO rentDTO) {
+    public RentDTO rentItem(@RequestBody @Valid RentDTO rentDTO) {
         if (rentDTO.getBeginTime() == null) {
             rentDTO.setBeginTime(LocalDateTime.now());
         }

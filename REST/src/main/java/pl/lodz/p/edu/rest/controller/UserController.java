@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.controller;
 
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class UserController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO addUser(@RequestBody UserDTO userDTO) {
+    public UserDTO addUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.addUser(userDTO);
     }
 
@@ -44,7 +45,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable ObjectId id, @RequestBody UpdateUserDTO userDTO) {
+    public void updateUser(@PathVariable ObjectId id, @RequestBody @Valid UpdateUserDTO userDTO) {
         userService.updateUser(id, userDTO);
     }
 

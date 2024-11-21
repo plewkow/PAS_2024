@@ -1,12 +1,18 @@
 package pl.lodz.p.edu.rest.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.bson.types.ObjectId;
 
 public class ItemDTO {
     private String id;
+    @NotNull(message = "Base price cannot be null")
+    @Min(value = 0, message = "Base price must be at least 0")
     private int basePrice;
+    @NotNull(message = "Item name cannot be null")
     private String itemName;
     private boolean available = true;
+    @NotNull(message = "Item type cannot be null")
     protected String itemType;
 
     public ItemDTO() {

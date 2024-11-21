@@ -1,9 +1,13 @@
 package pl.lodz.p.edu.rest.dto;
 
-import org.bson.types.ObjectId;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class MovieDTO extends ItemDTO {
+    @NotNull(message = "Minutes cannot be null")
+    @Min(value = 0, message = "Minutes must be at least 0")
     private int minutes;
+    @NotNull(message = "Casette cannot be null")
     private boolean casette;
 
     public MovieDTO() {

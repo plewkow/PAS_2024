@@ -1,10 +1,13 @@
 package pl.lodz.p.edu.rest.dto;
 
+import jakarta.validation.constraints.NotNull;
 import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.model.item.MusicGenre;
 
 public class MusicDTO extends ItemDTO {
+    @NotNull(message = "Genre cannot be null")
     private MusicGenre genre;
+    @NotNull(message = "Vinyl cannot be null")
     private boolean vinyl;
 
     public MusicDTO() {
