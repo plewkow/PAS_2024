@@ -92,6 +92,126 @@ public class UserIntegrationTest {
     }
 
     @Test
+    public void testGetUsersByFirstName() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.ADMIN);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(201);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .param("firstName", "Adm")
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .body("[0].login", equalTo("testowyAdmin"))
+                .body("[0].password", equalTo("testoweHaslo"))
+                .body("[0].firstName", equalTo("Adminek"))
+                .body("[0].lastName", equalTo("Adminowski"))
+                .body("[0].role", equalTo("ADMIN"));
+    }
+
+    @Test
+    public void testGetUsersByFirstNameError() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.ADMIN);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(201);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .param("firstName", "NieAdm")
+                .when()
+                .get()
+                .then()
+                .statusCode(404);
+    }
+
+    @Test
+    public void testGetUsersByFirstNameAndRoleError() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.ADMIN);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(201);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .param("firstName", "NieAdm")
+                .param("role", Role.ADMIN)
+                .when()
+                .get()
+                .then()
+                .statusCode(404);
+    }
+
+    @Test
+    public void testGetUsersByFirstNameAndRole() throws JsonProcessingException {
+        UserDTO user = new UserDTO("testowyAdmin",
+                "testoweHaslo",
+                "Adminek",
+                "Adminowski",
+                Role.ADMIN);
+
+        String userJson = new ObjectMapper().writeValueAsString(user);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .post("")
+                .then()
+                .statusCode(201);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .param("firstName", "Adm")
+                .param("role", Role.ADMIN)
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .body("[0].login", equalTo("testowyAdmin"))
+                .body("[0].password", equalTo("testoweHaslo"))
+                .body("[0].firstName", equalTo("Adminek"))
+                .body("[0].lastName", equalTo("Adminowski"))
+                .body("[0].role", equalTo("ADMIN"));
+    }
+
+    @Test
     public void testGetAllUsers() throws JsonProcessingException {
         UserDTO user = new UserDTO("testowyAdmin",
                 "testoweHaslo",
