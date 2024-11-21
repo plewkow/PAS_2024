@@ -58,6 +58,22 @@ public class UserService {
         return userMapper.toDTO(users);
     }
 
+    public List<UserDTO> getUsersByFirstName(String firstName) {
+        List<User> users = userRepository.findByFirstName(firstName);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("Users with first name " + firstName + " not found");
+        }
+        return userMapper.toDTO(users);
+    }
+
+    public List<UserDTO> getUsersByRoleAndFirstName(Role role, String firstName) {
+        List<User> users = userRepository.findByRoleAndFirstName(role, firstName);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("Users with role " + role + " and first name " + firstName + " not found");
+        }
+        return userMapper.toDTO(users);
+    }
+
     public void updateUser(ObjectId id, UpdateUserDTO userDTO) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");

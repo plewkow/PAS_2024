@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 import pl.lodz.p.edu.rest.model.user.Role;
@@ -41,6 +42,18 @@ public class UserRepository extends AbstractMongoEntity {
 
     public List<User> findByRole(Role role) {
         return userCollection.find(Filters.eq("role", role)).into(new ArrayList<>());
+    }
+
+    public List<User> findByFirstName(String firstName) {
+        Bson filter = Filters.regex("firstName", firstName, "i");
+        return userCollection.find(filter).into(new ArrayList<>());
+    }
+
+    public List<User> findByRoleAndFirstName(Role role, String firstName) {
+        Bson roleFilter = Filters.eq("role", role);
+        Bson firstNameFilter = Filters.regex("firstName", firstName, "i");
+        Bson combinedFilter = Filters.and(roleFilter, firstNameFilter);
+        return userCollection.find(combinedFilter).into(new ArrayList<>());
     }
 
     public List<User> findAll() {

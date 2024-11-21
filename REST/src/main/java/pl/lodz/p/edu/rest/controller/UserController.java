@@ -23,8 +23,14 @@ public class UserController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDTO> getAllUsers(@RequestParam(required = false) Role role) {
-        if (role == null) {
+    public List<UserDTO> getAllUsers(
+            @RequestParam(required = false) Role role,
+            @RequestParam(required = false) String firstName) {
+        if (role != null && firstName != null) {
+            return userService.getUsersByRoleAndFirstName(role, firstName);
+        } else if (firstName != null) {
+            return userService.getUsersByFirstName(firstName);
+        } else if (role == null) {
             return userService.getAllUsers();
         } else {
             return userService.getUsersByRole(role);
