@@ -3,12 +3,12 @@ package pl.lodz.p.edu.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.edu.rest.dto.ComicsDTO;
 import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.dto.MovieDTO;
 import pl.lodz.p.edu.rest.dto.MusicDTO;
+import pl.lodz.p.edu.rest.exception.InvalidItemTypeException;
 import pl.lodz.p.edu.rest.service.ItemService;
 
 import java.util.List;
@@ -36,7 +36,6 @@ public class ItemController {
         };
         return itemService.addItem(itemDTO);
     }
-
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -77,9 +76,8 @@ public class ItemController {
             case "music" -> mapper.convertValue(payload, MusicDTO.class);
             case "movie" -> mapper.convertValue(payload, MovieDTO.class);
             case "comics" -> mapper.convertValue(payload, ComicsDTO.class);
-            default -> throw new IllegalArgumentException("Invalid item type: " + itemType);
+            default -> throw new InvalidItemTypeException("Invalid item type: " + itemType);
         };
-
         itemService.updateItem(id, itemDTO);
     }
 

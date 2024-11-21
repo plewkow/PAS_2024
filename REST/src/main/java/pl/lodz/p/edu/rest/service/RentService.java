@@ -176,12 +176,4 @@ public class RentService {
         }
         return !activeRents.isEmpty();
     }
-
-//    public boolean hasActiveRentsByClient(ObjectId clientId) {
-//        List<Rent> activeRents = rentRepository.findActiveRentsByClientId(clientId);
-//        if (activeRents == null) {
-//            throw new RentNotFoundException("No active rents found");
-//        }
-//        return !activeRents.isEmpty();
-//    }
 }

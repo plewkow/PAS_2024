@@ -18,11 +18,6 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(int basePrice, String itemName) {
-        this.basePrice = basePrice;
-        this.itemName = itemName;
-    }
-
     public ItemDTO(String id, int basePrice, String itemName) {
         this.id = id;
         this.basePrice = basePrice;

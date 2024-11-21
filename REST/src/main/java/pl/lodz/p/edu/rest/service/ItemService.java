@@ -18,7 +18,6 @@ import pl.lodz.p.edu.rest.repository.ItemRepository;
 import pl.lodz.p.edu.rest.repository.RentRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestScope
 @Service
@@ -45,10 +44,8 @@ public class ItemService {
 
             case "movie":
                 Movie movie = ItemMapper.toMovie((MovieDTO) itemDTO);
-                System.out.println(movie.getId());
                 id = itemRepository.addItem(movie);
                 addedItem = itemRepository.getItemById(id);
-                System.out.println(addedItem.getId());
                 return ItemMapper.toMovieDTO((Movie) addedItem);
 
             case "comics":

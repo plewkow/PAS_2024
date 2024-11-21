@@ -1,7 +1,6 @@
 package pl.lodz.p.edu.rest.repository;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
@@ -15,10 +14,6 @@ import java.util.List;
 @Repository
 public class RentRepository extends AbstractMongoEntity {
     private final MongoCollection<Rent> rentCollection;
-
-//    public RentRepository(MongoCollection<Rent> rentCollection) {
-//        this.rentCollection = rentCollection;
-//    }
 
     public RentRepository() {
         initDbConnection();
@@ -39,12 +34,6 @@ public class RentRepository extends AbstractMongoEntity {
         BasicDBObject object = new BasicDBObject();
         object.put("_id", rent.getId());
         rentCollection.replaceOne(object, rent);
-    }
-
-    public void removeRent(ObjectId id) {
-        BasicDBObject object = new BasicDBObject();
-        object.put("_id", id);
-        rentCollection.deleteOne(object);
     }
 
     public List<Rent> findActiveRents() {

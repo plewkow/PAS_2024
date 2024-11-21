@@ -63,7 +63,6 @@ public class RentController {
         return ResponseEntity.ok(rents);
     }
 
-
     @GetMapping("/active/item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RentDTO>> getActiveRentsByItem(@PathVariable ObjectId itemId) {
@@ -105,11 +104,4 @@ public class RentController {
         boolean isRented = rentService.isItemRented(itemId);
         return ResponseEntity.ok(isRented);
     }
-
-//    @GetMapping("/hasActiveRents/{clientId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<Boolean> hasActiveRentsByClient(@PathVariable ObjectId clientId) {
-//        boolean hasActiveRents = rentService.hasActiveRentsByClient(clientId);
-//        return ResponseEntity.ok(hasActiveRents);
-//    }
 }

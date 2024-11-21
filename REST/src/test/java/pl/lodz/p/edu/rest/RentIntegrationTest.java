@@ -14,16 +14,13 @@ import pl.lodz.p.edu.rest.model.Rent;
 import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.User;
-import pl.lodz.p.edu.rest.model.user.*;
 import pl.lodz.p.edu.rest.repository.ItemRepository;
 import pl.lodz.p.edu.rest.repository.MongoEntity;
 import pl.lodz.p.edu.rest.repository.RentRepository;
 import pl.lodz.p.edu.rest.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -289,9 +286,6 @@ public class RentIntegrationTest {
         List<Rent> rents = rentRepository.findActiveRents();
 
         Rent rent = rents.get(0);
-
-        System.out.println(rent.getId());
-
 
         RestAssured.given()
                 .contentType(ContentType.JSON)

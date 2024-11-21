@@ -5,15 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import pl.lodz.p.edu.rest.dto.ItemDTO;
 import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.repository.ItemRepository;
 import pl.lodz.p.edu.rest.repository.MongoEntity;
-import pl.lodz.p.edu.rest.service.ItemService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -318,5 +315,4 @@ public class ItemIntegrationTest {
                 .then()
                 .statusCode(500);
     }
-
 }
