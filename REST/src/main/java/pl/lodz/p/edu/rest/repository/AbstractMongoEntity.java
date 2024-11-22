@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
+import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.ValidationAction;
 import com.mongodb.client.model.ValidationOptions;
 import org.bson.Document;
@@ -110,6 +111,11 @@ public abstract class AbstractMongoEntity implements AutoCloseable  {
         CreateCollectionOptions createCollectionOptions = new CreateCollectionOptions()
                 .validationOptions(validationOptions);
         database.createCollection("users", createCollectionOptions);
+
+        database.getCollection("users").createIndex(
+                new Document("login", 1),
+                new IndexOptions().unique(true)
+        );
     }
 
     private void createItemCollection() {
