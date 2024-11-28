@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Rejestracja zakończona</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Rejestracja zakończona sukcesem!</h1>
+<p>Dziękujemy za rejestrację, <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span>.</p>
+<p>Twój login to: <span th:text="${client.login}"></span></p>
+<a href="/">Powrót na stronę główną</a>
+</body>
+</html>

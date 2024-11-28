@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Rejestracja</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Rejestracja Klienta</h1>
+<form action="/register" method="post" th:object="${clientDTO}">
+  <div>
+    <label for="login">Login:</label>
+    <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
+  </div>
+  <div>
+    <label for="password">Hasło:</label>
+    <input type="password" id="password" th:field="*{password}" placeholder="Wprowadź hasło" required>
+  </div>
+  <div>
+    <label for="firstName">Imię:</label>
+    <input type="text" id="firstName" th:field="*{firstName}" placeholder="Wprowadź imię" required>
+  </div>
+  <div>
+    <label for="lastName">Nazwisko:</label>
+    <input type="text" id="lastName" th:field="*{lastName}" placeholder="Wprowadź nazwisko" required>
+  </div>
+  </div>
+
+  <div>
+    <button type="submit">Zarejestruj</button>
+  </div>
+</form>
+
+<div th:if="${error}">
+  <p style="color: red;" th:text="${error}"></p>
+</div>
+</body>
+</html>

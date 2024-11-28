@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="abef6eb0-5f95-4fb4-9b85-7747273335b6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/ClientDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/ComicsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/ItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/MovieDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/MusicDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/RentDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/UpdateUserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/Rent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/item/Comics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/item/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/item/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/item/Music.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/item/MusicGenre.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/Admin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/ClientType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/Manager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/model/user/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/main/java/pl/lodz/p/edu/mvc/service/RentService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2pUhJxV5oEFJL862H7ItlPtZprP" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.MVC [clean].executor": "Run",
+    "Maven.MVC [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.MvcApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/plewkowicz/Studia/PAS/PAS_2024/MVC",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+      <recent name="$PROJECT_DIR$/src/main/java/pl/lodz/p/edu/mvc/dto" />
+      <recent name="$PROJECT_DIR$/src/main/java/pl/lodz/p/edu/mvc/model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MvcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="MVC" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="pl.lodz.p.edu.mvc.MvcApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.22855.74" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.22855.74" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="abef6eb0-5f95-4fb4-9b85-7747273335b6" name="Changes" comment="" />
+      <created>1732826493501</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732826493501</updated>
+      <workItem from="1732826494507" duration="10278000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="jakarta.servlet.ServletException" package="jakarta.servlet" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
