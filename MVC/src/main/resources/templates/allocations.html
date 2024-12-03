@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Allocations List</title>
+</head>
+<body>
+<h1>List of Allocations</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>rentCost</th>
+        <th>clientId</th>
+        <th>itemId</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iteracja po liście alokacji -->
+    <tr th:each="rent : ${rents}">
+        <td th:text="${rent.id}"></td>
+        <td th:text="${rent.rentCost}"></td>
+        <td th:text="${rent.clientId}"></td>
+        <td th:text="${rent.itemId}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -8,12 +8,21 @@ import pl.lodz.p.edu.mvc.dto.ClientDTO;
 import pl.lodz.p.edu.mvc.dto.RentDTO;
 import pl.lodz.p.edu.mvc.service.RentService;
 
+import java.util.List;
+
 @Controller
 public class RentController {
     private final RentService rentService;
 
     public RentController(RentService rentService) {
         this.rentService = rentService;
+    }
+
+    @GetMapping("/")
+    public String showAllocations(Model model) {
+        List<RentDTO> rents = rentService.getRents();
+        model.addAttribute("rents", rents);
+        return "allocations";
     }
 
     @GetMapping("/createRent")

@@ -12,6 +12,8 @@ import pl.lodz.p.edu.mvc.model.Rent;
 import pl.lodz.p.edu.mvc.model.user.Client;
 import pl.lodz.p.edu.mvc.model.user.Role;
 
+import java.util.List;
+
 @Service
 public class RentService {
     private final RestTemplate restTemplate;
@@ -46,6 +48,13 @@ public class RentService {
         }
     }
 
+    public List<RentDTO> getRents() {
+        try {
+            return restTemplate.getForObject(apiUrl + "/rents/active", List.class);
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            throw new RuntimeException("Failed to create rent: " + ex.getResponseBodyAsString(), ex);
+        }
+    }
 
 //    public Rent createRent(Long clientId, Long resourceId) {
 //        return restTemplate.postForObject(apiUrl + "/allocations",
