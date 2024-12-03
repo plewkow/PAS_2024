@@ -3,6 +3,7 @@ package pl.lodz.p.edu.mvc.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.lodz.p.edu.mvc.dto.ClientDTO;
 import pl.lodz.p.edu.mvc.dto.RentDTO;
@@ -21,6 +22,11 @@ public class RentController {
     @GetMapping("/")
     public String showAllocations(Model model) {
         List<RentDTO> rents = rentService.getRents();
+
+        if (rents.isEmpty()) {
+            model.addAttribute("message", "Brak rentów");
+        }
+
         model.addAttribute("rents", rents);
         return "allocations";
     }
@@ -41,5 +47,11 @@ public class RentController {
             model.addAttribute("errorMessage", e.getMessage());
             return "errorPage";
         }
+    }
+
+    @PostMapping("/return/{id}")
+    public String returnRent(@PathVariable String id) {
+        rentService.returnRent(id);
+        return "redirect:/rents";
     }
 }

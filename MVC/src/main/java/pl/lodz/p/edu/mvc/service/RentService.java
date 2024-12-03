@@ -56,6 +56,15 @@ public class RentService {
         }
     }
 
+    public void returnRent(String id) {
+        try {
+            restTemplate.put(apiUrl + "/rents/return/" + id, null);
+//            restTemplate.put(apiUrl + "/rents/" + id);
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            throw new RuntimeException("Failed to return rent: " + ex.getResponseBodyAsString(), ex);
+        }
+    }
+
 //    public Rent createRent(Long clientId, Long resourceId) {
 //        return restTemplate.postForObject(apiUrl + "/allocations",
 //                new Allocation(clientId, resourceId), Allocation.class);
