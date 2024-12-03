@@ -1,8 +1,11 @@
 package pl.lodz.p.edu.mvc.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.lodz.p.edu.mvc.dto.ClientDTO;
@@ -38,7 +41,11 @@ public class RentController {
     }
 
     @PostMapping("/createRent")
-    public String registerClient(RentDTO rentDTO, Model model) {
+    public String registerClient(@Valid @ModelAttribute RentDTO rentDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "create_allocation";
+        }
+
         try {
             RentDTO rent = rentService.createRent(rentDTO);
             model.addAttribute("rent", rent);

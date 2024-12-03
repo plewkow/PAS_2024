@@ -1,14 +1,20 @@
 package pl.lodz.p.edu.mvc.dto;
 
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDateTime;
 
 public class RentDTO {
     private String id;
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
+    @NotNull
+    @DecimalMin(value = "1", message = "Rent cost must be greater than 1")
     private int rentCost;
     private boolean archive;
+    @NotNull(message = "Client id cannot be null")
     private String clientId;
+    @NotNull(message = "Item id cannot be null")
     private String itemId;
 
     public RentDTO() {
