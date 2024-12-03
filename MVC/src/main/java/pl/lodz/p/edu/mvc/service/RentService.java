@@ -2,8 +2,11 @@ package pl.lodz.p.edu.mvc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import pl.lodz.p.edu.mvc.dto.ClientDTO;
+import pl.lodz.p.edu.mvc.dto.RentDTO;
 import pl.lodz.p.edu.mvc.dto.UserDTO;
 import pl.lodz.p.edu.mvc.model.Rent;
 import pl.lodz.p.edu.mvc.model.user.Client;
@@ -27,6 +30,19 @@ public class RentService {
             return createdClient;
         } catch (Exception e) {
             throw new RuntimeException("Failed to register client: " + e.getMessage(), e);
+        }
+    }
+
+    public RentDTO createRent(RentDTO rentDTO) {
+        try {
+            RentDTO createdRent = restTemplate.postForObject(apiUrl + "/rents", rentDTO, RentDTO.class);
+
+            return createdRent;
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            throw new RuntimeException("Failed to create rent: " + ex.getResponseBodyAsString(), ex);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Failed to create rent: " + e.getMessage(), e);
         }
     }
 

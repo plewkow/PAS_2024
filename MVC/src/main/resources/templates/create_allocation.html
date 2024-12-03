@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Utwórz Alokację</title>
+</head>
+<body>
+<h2>Utwórz nową alokację</h2>
+
+<form action="/createRent" th:object="${rentDTO}" method="post">
+    <div>
+        <label for="rentCost">Koszt wynajmu:</label>
+        <input type="number" id="rentCost" th:field="*{rentCost}" placeholder="Podaj koszt wynajmu"/>
+    </div>
+
+    <div>
+        <label for="clientId">Id Klienta:</label>
+        <input type="text" id="clientId" th:field="*{clientId}" placeholder="Podaj id klienta"/>
+    </div>
+
+    <div>
+        <label for="itemId">Id Przedmiotu:</label>
+        <input type="text" id="itemId" th:field="*{itemId}" placeholder="Podaj id przedmiotu"/>
+    </div>
+
+    <div>
+        <button type="submit">Utwórz alokację</button>
+    </div>
+</form>
+</body>
+</html>
