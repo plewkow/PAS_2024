@@ -2,14 +2,24 @@ package pl.lodz.p.edu.mvc.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.bson.types.ObjectId;
 import pl.lodz.p.edu.mvc.model.user.Role;
 
 public class UserDTO {
     private String id;
+    @NotBlank(message = "login jest wymagany")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "login może zawierać tylko litery, cyfry i podkreślenia")
     private String login;
+    @NotBlank(message = "haslo jest wymagane")
+    @Size(min = 8, message = "hasło musi mieć co najmniej 8 znaków")
     private String password;
+    @NotBlank(message = "imie jest wymagane")
     private String firstName;
+    @NotBlank(message = "nazwisko jest wymagane")
     private String lastName;
     private Role role;
 
