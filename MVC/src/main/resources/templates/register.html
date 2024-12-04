@@ -3,20 +3,21 @@
 <head>
   <title>Rejestracja</title>
   <link rel="stylesheet" href="/styles.css">
+  <script src="/registerValidation.js" defer></script>
 </head>
 <body>
 <div th:fragment="body">
   <h1>Rejestracja Klienta</h1>
-  <form action="/register" method="post" th:object="${clientDTO}">
+  <form action="/register" method="post" th:object="${clientDTO}" id="registerForm" onsubmit="return confirmRegistration();">
     <div>
       <label for="login">Login:</label>
       <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
-      <p th:errors="*{login}" style="color: red;"></p>
+      <p id="loginError" style="color: red;"></p>
     </div>
     <div>
       <label for="password">Hasło:</label>
       <input type="password" id="password" th:field="*{password}" placeholder="Wprowadź hasło" required>
-      <p th:errors="*{password}" style="color: red;"></p>
+      <p id="passwordError" style="color: red;"></p>
     </div>
     <div>
       <label for="firstName">Imię:</label>
@@ -30,10 +31,6 @@
       <button type="submit">Zarejestruj</button>
     </div>
   </form>
-
-  <div th:if="${error}">
-    <p style="color: red;" th:text="${error}"></p>
-  </div>
 </div>
 </body>
 </html>

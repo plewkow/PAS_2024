@@ -12,6 +12,7 @@ import pl.lodz.p.edu.mvc.model.user.Role;
 public class UserDTO {
     private String id;
     @NotBlank(message = "login jest wymagany")
+    @Size(min=8, max=20, message = "login musi miec pomiedzy 3 a 20 znakow")
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "login może zawierać tylko litery, cyfry i podkreślenia")
     private String login;
     @NotBlank(message = "haslo jest wymagane")
