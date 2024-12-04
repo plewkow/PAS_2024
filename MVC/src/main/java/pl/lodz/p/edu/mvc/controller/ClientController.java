@@ -1,19 +1,22 @@
 package pl.lodz.p.edu.mvc.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.lodz.p.edu.mvc.dto.ClientDTO;
+import pl.lodz.p.edu.mvc.service.ClientService;
 import pl.lodz.p.edu.mvc.service.RentService;
 
 @Controller
 public class ClientController {
-    private final RentService rentService;
+    private final ClientService clientService;
 
-    public ClientController(RentService rentService) {
-        this.rentService = rentService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @GetMapping("/register")
@@ -23,13 +26,16 @@ public class ClientController {
     }
 
     @PostMapping("/register")
-    public String registerClient(ClientDTO clientDTO, Model model) {
+    public String registerClient(@Valid ClientDTO clientDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
         try {
-            ClientDTO registeredClient = rentService.registerClient(clientDTO);
+            ClientDTO registeredClient = clientService.registerClient(clientDTO);
             model.addAttribute("client", registeredClient);
             return "registration_success";
         } catch (Exception e) {
-            model.addAttribute("error", "Registration failed: " + e.getMessage());
+            model.addAttribute("error", "Błąd rejestracji: " + e.getMessage());
             return "register";
         }
     }
