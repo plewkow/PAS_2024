@@ -2,29 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Utwórz Alokację</title>
+    <title>Utwórz wypożyczenie</title>
+    <script src="/rentValidation.js" defer></script>
 </head>
 <body>
-<h2>Utwórz nową alokację</h2>
+<h2>Utwórz nowe wypożyczenie</h2>
 
-<form action="/createRent" th:object="${rentDTO}" method="post">
+<form form id="rentForm" action="/createRent" th:object="${rentDTO}" method="post" onsubmit="return confirmRent();">
     <div>
         <label for="rentCost">Koszt wynajmu:</label>
         <input type="number" id="rentCost" th:field="*{rentCost}" placeholder="Podaj koszt wynajmu" required/>
+        <p id="rentCostError" style="color: red;"></p>
     </div>
 
     <div>
         <label for="clientId">Id Klienta:</label>
         <input type="text" id="clientId" th:field="*{clientId}" placeholder="Podaj id klienta" required/>
+        <p id="clientIdError" style="color: red;"></p>
     </div>
 
     <div>
         <label for="itemId">Id Przedmiotu:</label>
         <input type="text" id="itemId" th:field="*{itemId}" placeholder="Podaj id przedmiotu" required/>
+        <p id="itemIdError" style="color: red;"></p>
     </div>
-
     <div>
-        <button type="submit">Utwórz alokację</button>
+        <button type="submit">Utwórz wypożyczenie</button>
     </div>
 </form>
 </body>
