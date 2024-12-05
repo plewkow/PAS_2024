@@ -13,8 +13,10 @@
 
   <div class="content">
     <h1 th:text="#{registerEndSuccess}">!</h1>
-    <p th:text="#{thanksForLogin}">, <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span>.</p>
-    <p th:text="#{yourLogin}">: <span th:text="${client.login}"></span></p>
+    <p th:text="#{thanksForLogin}"></p>
+    <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span>
+    <p th:text="#{yourLogin}"></p>
+    <span th:text="${client.login}"></span>
     <a href="/" th:text="#{returnToHome}"></a>
   </div>
 </main>

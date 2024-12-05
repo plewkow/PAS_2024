@@ -16,9 +16,9 @@
         <h1 th:text="#{listOfRents}"></h1>
 
         <div>
-            <label for="search">Filtruj po ID klienta:</label>
-            <input type="text" id="search" value="${clientId}" placeholder="Wpisz ID klienta...">
-            <button id="resetFilter" type="button">Pokaż wszystkie</button>
+            <label for="search" th:text="#{searchLabel}"></label>
+            <input type="text" id="search" th:placeholder="#{searchPlaceholder}">
+            <button id="resetFilter" type="button" th:text="#{resetFilterButton}"></button>
         </div>
 
         <div th:if="${message}">
@@ -54,69 +54,7 @@
 
 <div th:replace="~{fragments/footer.html :: footer}"></div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchInput = document.getElementById('search');
-        const resetFilterButton = document.getElementById('resetFilter');
-        const rentsTableBody = document.querySelector("#rentsTable tbody");
-
-        function loadRents(clientId = '') {
-            const url = clientId ? `/rents/active/clientId/${clientId}` : '/rents/active';
-            console.log("Request URL: ", url);
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Response data: ", data);
-                    rentsTableBody.innerHTML = '';
-                    if (data.length === 0) {
-                        rentsTableBody.innerHTML = "<tr><td colspan='5'>Brak wyników</td></tr>";
-                    } else {
-                        data.forEach(rent => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${rent.id}</td>
-                                <td>${rent.rentCost}</td>
-                                <td>${rent.clientId}</td>
-                                <td>${rent.itemId}</td>
-                                <td>
-                                    <form action="/return/${rent.id}" method="POST">
-                                        <button class="return" type="submit">Return</button>
-                                    </form>
-                                </td>
-                            `;
-                            rentsTableBody.appendChild(row);
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error("Błąd ładowania danych: ", error);
-                });
-        }
-
-        searchInput.addEventListener('input', function() {
-            const clientId = searchInput.value.trim();
-            console.log("Client ID przy zmianie: ", clientId);
-            if (clientId) {
-                loadRents(clientId);
-            } else {
-                loadRents();
-            }
-        });
-
-        resetFilterButton.addEventListener('click', () => {
-            searchInput.value = '';
-            loadRents();
-        });
-
-        loadRents();
-    });
-</script>
+<script src="/filterRents.js" defer></script>
 
 </body>
 </html>

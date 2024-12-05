@@ -13,14 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const validateLogin = () => {
         const login = loginInput.value.trim();
+        const regex = /^[a-zA-Z0-9_]+$/;
+
         if (login.length < 3 || login.length > 20) {
             loginError.textContent = "Login musi mieć od 3 do 20 znaków.";
+            return false;
+        }
+        else if (!regex.test(login)) {
+            loginError.textContent = "Login może zawierać tylko litery, cyfry i podkreślenia.";
             return false;
         } else {
             loginError.textContent = "";
             return true;
         }
-    };
+    }
 
     const validatePassword = () => {
         const password = passwordInput.value.trim();

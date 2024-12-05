@@ -34,6 +34,16 @@ public class RentController {
         return "allocations";
     }
 
+    @GetMapping("/rents/active")
+    @ResponseBody
+    public ResponseEntity<List<RentDTO>> getAllRents() {
+        List<RentDTO> rents = rentService.getRents();
+        if (rents.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+        }
+        return ResponseEntity.ok(rents);
+    }
+
     @GetMapping("/rents/active/clientId/{clientId}")
     public ResponseEntity<List<RentDTO>> showAllocationsByClient(@PathVariable String clientId) {
         List<RentDTO> rents;
