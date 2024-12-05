@@ -1,8 +1,8 @@
 <aside th:fragment="sidebar" class="aside">
     <ul>
-        <li><a href="/">Strona główna</a></li>
-        <li><a href="/rents">Rents</a></li>
-        <li><a href="/createRent">Utwórz wypożycznie</a></li>
-        <li><a href="/register">Utwórz klienta</a></li>
+        <li><a href="/" th:text="#{home}"></a></li>
+        <li><a href="/rents" th:text="#{listOfRents}"></a></li>
+        <li><a href="/createRent" th:text="#{createRent}"></a></li>
+        <li><a href="/register" th:text="#{createClient}"></a></li>
     </ul>
 </aside>

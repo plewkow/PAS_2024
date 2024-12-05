@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sukces alokacji</title>
+    <title th:text="#{allocationSukces}"></title>
     <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
@@ -11,9 +11,8 @@
 <main class="main">
     <div th:replace="~{fragments/sidebar.html :: sidebar}"></div>
 
-    <div class="content">
-        Gratulacje utworzyłes nową alokację!
-        <a href="/createRent">Powrót by stworzyć kolejną</a>
+    <div class="content" th:text="#{gratulationAllocation}">
+        <a href="/createRent" th:text="#{backToRent}"></a>
     </div>
 </main>
 
