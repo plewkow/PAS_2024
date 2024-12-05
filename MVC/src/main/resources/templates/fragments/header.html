@@ -1,6 +1,6 @@
 <header th:fragment="header" class="header">
     <ul class="breadcrumb">
-        <li><a href="/">Home</a></li>
+        <li><a href="/" th:text="#{home}"></a></li>
         <li th:text="${currentPage}"></li>
     </ul>
 </header>

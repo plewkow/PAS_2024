@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Utwórz wypożyczenie</title>
+    <title th:text="#{createRent}"></title>
     <script src="/rentValidation.js" defer></script>
     <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
@@ -13,27 +13,27 @@
     <div th:replace="~{fragments/sidebar.html :: sidebar}"></div>
 
     <div class="content">
-        <h1>Utwórz nowe wypożyczenie</h1>
+        <h1 th:text="#{createRent}"></h1>
 
 <form form id="rentForm" action="/createRent" th:object="${rentDTO}" method="post">
     <div class="input-div">
-        <label for="rentCost">Koszt wynajmu:</label>
-        <input type="number" id="rentCost" th:field="*{rentCost}" placeholder="Podaj koszt wynajmu" required/>
+        <label for="rentCost" th:text="#{rentCost}"></label>
+        <input type="number" id="rentCost" th:field="*{rentCost}" th:placeholder="#{giveRentCost}" required/>
         <p id="rentCostError" style="color: red;"></p>
     </div>
 
     <div class="input-div">
         <label for="clientId">Id Klienta:</label>
-        <input type="text" id="clientId" th:field="*{clientId}" placeholder="Podaj id klienta" required/>
+        <input type="text" id="clientId" th:field="*{clientId}" th:placeholder="#{clientId}" required/>
         <p id="clientIdError" style="color: red;"></p>
     </div>
 
     <div class="input-div">
         <label for="itemId">Id Przedmiotu:</label>
-        <input type="text" id="itemId" th:field="*{itemId}" placeholder="Podaj id przedmiotu" required/>
+        <input type="text" id="itemId" th:field="*{itemId}" th:placeholder="#{itemId}" required/>
         <p id="itemIdError" style="color: red;"></p>
     </div>
-    <button type="submit">Utwórz wypożyczenie</button>
+    <button type="submit" th:text="#{createRent}"></button>
 </form>
     </div>
 </main>

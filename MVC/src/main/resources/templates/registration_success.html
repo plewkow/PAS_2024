@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Sukces rejestracji</title>
+  <title th:text="#{registerSuccess}"></title>
   <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
@@ -12,10 +12,10 @@
   <div th:replace="~{fragments/sidebar.html :: sidebar}"></div>
 
   <div class="content">
-    <h1>Rejestracja zakończona sukcesem!</h1>
-    <p>Dziękujemy za rejestrację, <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span>.</p>
-    <p>Twój login to: <span th:text="${client.login}"></span></p>
-    <a href="/">Powrót na stronę główną</a>
+    <h1 th:text="#{registerEndSuccess}">!</h1>
+    <p th:text="#{thanksForLogin}">, <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span>.</p>
+    <p th:text="#{yourLogin}">: <span th:text="${client.login}"></span></p>
+    <a href="/" th:text="#{returnToHome}"></a>
   </div>
 </main>
 

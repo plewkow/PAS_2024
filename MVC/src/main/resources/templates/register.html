@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Utwórz klienta</title>
+  <title th:text="#{createClient}"></title>
   <link rel="stylesheet" type="text/css" href="/styles.css" />
   <script src="/registerValidation.js" defer></script>
 </head>
@@ -14,27 +14,27 @@
 
   <div class="content">
     <div th:fragment="body">
-      <h1>Rejestracja Klienta</h1>
-      <form form id="registerForm" action="/register" method="post" th:object="${clientDTO}">
+      <h1 th:text="#{registerClient}"></h1>
+      <form id="registerForm" action="/register" method="post" th:object="${clientDTO}">
         <div class="input-div">
           <label for="login">Login:</label>
-          <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
+          <input type="text" id="login" th:field="*{login}" th:placeholder="#{giveLogin}" required>
           <p id="loginError" style="color: red;"></p>
         </div>
         <div class="input-div">
-          <label for="password">Hasło:</label>
-          <input type="password" id="password" th:field="*{password}" placeholder="Wprowadź hasło" required>
+          <label for="password" th:text="#{password}">:</label>
+          <input type="password" id="password" th:field="*{password}" th:placeholder="#{givePassword}" required>
           <p id="passwordError" style="color: red;"></p>
         </div>
         <div class="input-div">
-          <label for="firstName">Imię:</label>
-          <input type="text" id="firstName" th:field="*{firstName}" placeholder="Wprowadź imię" required>
+          <label for="firstName" th:text="#{name}">:</label>
+          <input type="text" id="firstName" th:field="*{firstName}" th:placeholder="#{giveName}" required>
         </div>
         <div class="input-div">
-          <label for="lastName">Nazwisko:</label>
-          <input type="text" id="lastName" th:field="*{lastName}" placeholder="Wprowadź nazwisko" required>
+          <label for="lastName" th:text="#{lastName}">:</label>
+          <input type="text" id="lastName" th:field="*{lastName}" th:placeholder="#{giveLastName}" required>
         </div>
-          <button type="submit">Zarejestruj</button>
+          <button type="submit" th:text="#{register}"></button>
       </form>
     </div>
   </div>
