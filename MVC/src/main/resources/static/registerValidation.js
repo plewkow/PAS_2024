@@ -4,24 +4,48 @@ function confirmRegistration() {
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registerForm");
-    form.addEventListener("submit", (event) => {
-        let isValid = true;
-        const login = document.getElementById("login").value.trim();
-        const password = document.getElementById("password").value.trim();
+
+    const loginInput = document.getElementById("login");
+    const passwordInput = document.getElementById("password");
+
+    const loginError = document.getElementById("loginError");
+    const passwordError = document.getElementById("passwordError");
+
+    const validateLogin = () => {
+        const login = loginInput.value.trim();
         if (login.length < 3 || login.length > 20) {
-            isValid = false;
-            document.getElementById("loginError").textContent = "Login musi mieć od 3 do 20 znaków.";
+            loginError.textContent = "Login musi mieć od 3 do 20 znaków.";
+            return false;
         } else {
-            document.getElementById("loginError").textContent = "";
+            loginError.textContent = "";
+            return true;
         }
+    };
+
+    const validatePassword = () => {
+        const password = passwordInput.value.trim();
         if (password.length < 8) {
-            isValid = false;
-            document.getElementById("passwordError").textContent = "Hasło musi mieć co najmniej 8 znaków.";
+            passwordError.textContent = "Hasło musi mieć co najmniej 8 znaków.";
+            return false;
         } else {
-            document.getElementById("passwordError").textContent = "";
+            passwordError.textContent = "";
+            return true;
         }
-        if (!isValid) {
+    };
+
+    loginInput.addEventListener("input", validateLogin);
+    passwordInput.addEventListener("input", validatePassword);
+
+    form.addEventListener("submit", (event) => {
+        const isLoginValid = validateLogin();
+        const isPasswordValid = validatePassword();
+
+        if (!isLoginValid || !isPasswordValid) {
             event.preventDefault();
+        } else {
+            if (!confirmRegistration()) {
+                event.preventDefault();
+            }
         }
     });
 });
