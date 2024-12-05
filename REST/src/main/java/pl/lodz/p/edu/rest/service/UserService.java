@@ -34,7 +34,7 @@ public class UserService {
         return userMapper.convertToUserDTO(createdUser);
     }
 
-    public UserDTO getUserById(ObjectId id) {
+    public UserDTO getUserById(String id) {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new UserNotFoundException("User with id " + id + " not found");
@@ -74,7 +74,7 @@ public class UserService {
         return userMapper.toDTO(users);
     }
 
-    public void updateUser(ObjectId id, UpdateUserDTO userDTO) {
+    public void updateUser(String id, UpdateUserDTO userDTO) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -84,7 +84,7 @@ public class UserService {
         }
     }
 
-    public void activateUser(ObjectId id) {
+    public void activateUser(String id) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -94,7 +94,7 @@ public class UserService {
         }
     }
 
-    public void deactivateUser(ObjectId id) {
+    public void deactivateUser(String id) {
         if (!findUserById(id)) {
             throw new UserNotFoundException("User with id " + id + " not found");
         }
@@ -108,7 +108,7 @@ public class UserService {
         return userRepository.userExists(login);
     }
 
-    private boolean findUserById(ObjectId id) {
+    private boolean findUserById(String id) {
         return userRepository.findById(id) != null;
     }
 }

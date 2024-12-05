@@ -36,8 +36,9 @@ public class UserRepository extends AbstractMongoEntity {
         return result.getInsertedId().asObjectId().getValue();
     }
     
-    public User findById(ObjectId id) {
-        return userCollection.find(Filters.eq("_id", id)).first();
+    public User findById(String id) {
+        ObjectId objectId = new ObjectId(id);
+        return userCollection.find(Filters.eq("_id", objectId)).first();
     }
 
     public List<User> findByRole(Role role) {
@@ -60,9 +61,10 @@ public class UserRepository extends AbstractMongoEntity {
         return userCollection.find().into(new ArrayList<>());
     }
 
-    public UpdateResult update(ObjectId id, String firstName, String lastName) {
+    public UpdateResult update(String id, String firstName, String lastName) {
+        ObjectId objectId = new ObjectId(id);
         return userCollection.updateOne(
-                Filters.eq("_id", id),
+                Filters.eq("_id", objectId),
                 combine(
                         set("firstName", firstName),
                         set("lastName", lastName)
@@ -70,16 +72,18 @@ public class UserRepository extends AbstractMongoEntity {
         );
     }
 
-    public UpdateResult activateUser(ObjectId id) {
+    public UpdateResult activateUser(String id) {
+        ObjectId objectId = new ObjectId(id);
         return userCollection.updateOne(
-                Filters.eq("_id", id),
+                Filters.eq("_id", objectId),
                 set("active", true)
         );
     }
 
-    public UpdateResult deactivateUser(ObjectId id) {
+    public UpdateResult deactivateUser(String id) {
+        ObjectId objectId = new ObjectId(id);
         return userCollection.updateOne(
-                Filters.eq("_id", id),
+                Filters.eq("_id", objectId),
                 set("active", false)
         );
     }

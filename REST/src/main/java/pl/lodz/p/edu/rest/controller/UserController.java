@@ -45,25 +45,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO getUser(@PathVariable ObjectId id) {
+    public UserDTO getUser(@PathVariable String id) {
         return userService.getUserById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable ObjectId id, @RequestBody @Valid UpdateUserDTO userDTO) {
+    public void updateUser(@PathVariable String id, @RequestBody @Valid UpdateUserDTO userDTO) {
         userService.updateUser(id, userDTO);
     }
 
     @PutMapping("/activate/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void activateUser(@PathVariable ObjectId id) {
+    public void activateUser(@PathVariable String id) {
         userService.activateUser(id);
     }
 
     @PutMapping("/deactivate/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deactivateUser(@PathVariable ObjectId id) {
+    public void deactivateUser(@PathVariable String id) {
         userService.deactivateUser(id);
     }
 }

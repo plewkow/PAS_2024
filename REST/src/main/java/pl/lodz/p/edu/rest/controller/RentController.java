@@ -31,13 +31,13 @@ public class RentController {
 
     @PutMapping("return/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void returnItem(@PathVariable ObjectId id) {
+    public void returnItem(@PathVariable String id) {
         rentService.returnRent(id);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<RentDTO> getRent(@PathVariable ObjectId id) {
+    public ResponseEntity<RentDTO> getRent(@PathVariable String id) {
         RentDTO rentDTO = rentService.getRentById(id);
         return ResponseEntity.ok(rentDTO);
     }
@@ -58,14 +58,14 @@ public class RentController {
 
     @GetMapping("/item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<RentDTO>> getRentsByItem(@PathVariable ObjectId itemId) {
+    public ResponseEntity<List<RentDTO>> getRentsByItem(@PathVariable String itemId) {
         List<RentDTO> rents = rentService.getRentsByItem(itemId);
         return ResponseEntity.ok(rents);
     }
 
     @GetMapping("/active/item/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<RentDTO>> getActiveRentsByItem(@PathVariable ObjectId itemId) {
+    public ResponseEntity<List<RentDTO>> getActiveRentsByItem(@PathVariable String itemId) {
         List<RentDTO> activeRents = rentService.getActiveRentsByItem(itemId);
         return ResponseEntity.ok(activeRents);
     }
@@ -79,7 +79,7 @@ public class RentController {
 
     @GetMapping("/client/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<RentDTO>> getRentsByClient(@PathVariable ObjectId clientId) {
+    public ResponseEntity<List<RentDTO>> getRentsByClient(@PathVariable String clientId) {
         List<RentDTO> rents = rentService.getRentsByClient(clientId);
         return ResponseEntity.ok(rents);
     }
@@ -93,14 +93,14 @@ public class RentController {
 
     @GetMapping("/inactive/client/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<RentDTO>> getInactiveRentsByClient(@PathVariable ObjectId clientId) {
+    public ResponseEntity<List<RentDTO>> getInactiveRentsByClient(@PathVariable String clientId) {
         List<RentDTO> activeRents = rentService.getInactiveRentsByClient(clientId);
         return ResponseEntity.ok(activeRents);
     }
 
     @GetMapping("/isRented/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Boolean> isItemRented(@PathVariable ObjectId itemId) {
+    public ResponseEntity<Boolean> isItemRented(@PathVariable String itemId) {
         boolean isRented = rentService.isItemRented(itemId);
         return ResponseEntity.ok(isRented);
     }

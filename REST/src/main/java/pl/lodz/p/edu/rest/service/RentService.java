@@ -68,7 +68,7 @@ public class RentService {
         }
     }
 
-    public RentDTO getRentById(ObjectId rentId) {
+    public RentDTO getRentById(String rentId) {
         Rent rent = rentRepository.getRent(rentId);
         if (rent == null) {
             throw new RentNotFoundException("Rent with ID: " + rentId + " not found");
@@ -77,7 +77,7 @@ public class RentService {
         return rentMapper.convertToDTO(rent);
     }
 
-    public void returnRent(ObjectId rentId) {
+    public void returnRent(String rentId) {
         try (var session = mongoEntity.getMongoClient().startSession()) {
             session.startTransaction();
 
@@ -121,7 +121,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getRentsByItem(ObjectId itemId) {
+    public List<RentDTO> getRentsByItem(String itemId) {
         List<Rent> rents = rentRepository.findRentsByItemId(itemId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
@@ -129,7 +129,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getActiveRentsByItem(ObjectId itemId) {
+    public List<RentDTO> getActiveRentsByItem(String itemId) {
         List<Rent> rents = rentRepository.findActiveRentsByItemId(itemId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
@@ -145,7 +145,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getRentsByClient(ObjectId clientId) {
+    public List<RentDTO> getRentsByClient(String clientId) {
         List<Rent> rents = rentRepository.findRentsByClientId(clientId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
@@ -161,7 +161,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getInactiveRentsByClient(ObjectId clientId) {
+    public List<RentDTO> getInactiveRentsByClient(String clientId) {
         List<Rent> rents =  rentRepository.findInactiveRentsByClientId(clientId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
@@ -169,7 +169,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public boolean isItemRented(ObjectId itemId) {
+    public boolean isItemRented(String itemId) {
         List<Rent> activeRents = rentRepository.findActiveRentsByItemId(itemId);
         if (activeRents == null) {
             throw new RentNotFoundException("No active rents found");

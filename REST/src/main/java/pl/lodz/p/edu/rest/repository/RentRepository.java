@@ -26,8 +26,9 @@ public class RentRepository extends AbstractMongoEntity {
         return result.getInsertedId().asObjectId().getValue();
     }
 
-    public Rent getRent(ObjectId id) {
-        return rentCollection.find(Filters.eq("_id", id)).first();
+    public Rent getRent(String id) {
+        ObjectId objectId = new ObjectId(id);
+        return rentCollection.find(Filters.eq("_id", objectId)).first();
     }
 
     public void updateRent(Rent rent) {
@@ -44,13 +45,15 @@ public class RentRepository extends AbstractMongoEntity {
         return rentCollection.find(Filters.ne("endTime", null)).into(new ArrayList<>());
     }
 
-    public List<Rent> findRentsByItemId(ObjectId itemId) {
-        return rentCollection.find(Filters.eq("itemId", itemId)).into(new ArrayList<>());
+    public List<Rent> findRentsByItemId(String itemId) {
+        ObjectId objectId = new ObjectId(itemId);
+        return rentCollection.find(Filters.eq("itemId", objectId)).into(new ArrayList<>());
     }
 
-    public List<Rent> findActiveRentsByItemId(ObjectId itemId) {
+    public List<Rent> findActiveRentsByItemId(String itemId) {
+        ObjectId objectId = new ObjectId(itemId);
         return rentCollection.find(Filters.and(
-                Filters.eq("itemId", itemId),
+                Filters.eq("itemId", objectId),
                 Filters.eq("endTime", null)
         )).into(new ArrayList<>());
     }
@@ -64,8 +67,9 @@ public class RentRepository extends AbstractMongoEntity {
         )).into(new ArrayList<>());
     }
 
-    public List<Rent> findRentsByClientId(ObjectId clientId) {
-        return rentCollection.find(Filters.eq("clientId", clientId)).into(new ArrayList<>());
+    public List<Rent> findRentsByClientId(String clientId) {
+        ObjectId objectId = new ObjectId(clientId);
+        return rentCollection.find(Filters.eq("clientId", objectId)).into(new ArrayList<>());
     }
 
     public List<Rent> findActiveRentsByClientId(String clientId) {
@@ -77,12 +81,10 @@ public class RentRepository extends AbstractMongoEntity {
         )).into(new ArrayList<>());
     }
 
-
-
-
-    public List<Rent> findInactiveRentsByClientId(ObjectId clientId) {
+    public List<Rent> findInactiveRentsByClientId(String clientId) {
+        ObjectId objectId = new ObjectId(clientId);
         return rentCollection.find(Filters.and(
-                Filters.eq("clientId", clientId),
+                Filters.eq("clientId", objectId),
                 Filters.ne("endTime", null)
         )).into(new ArrayList<>());
     }
