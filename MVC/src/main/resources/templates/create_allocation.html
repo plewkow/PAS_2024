@@ -7,15 +7,13 @@
     <script src="/rentValidation.js" defer></script>
 </head>
 <body>
-<h2>Utwórz nowe wypożyczenie</h2>
-
 <div th:replace="~{fragments/header.html :: header}"></div>
 
 <main class="main">
     <div th:replace="~{fragments/sidebar.html :: sidebar}"></div>
 
     <div class="content">
-        <h2>Utwórz nową alokację</h2>
+        <h1>Utwórz nowe wypożyczenie</h1>
 
 <form form id="rentForm" action="/createRent" th:object="${rentDTO}" method="post" onsubmit="return confirmRent();">
     <div class="input-div">
