@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-import pl.lodz.p.edu.mvc.dto.ClientDTO;
 import pl.lodz.p.edu.mvc.dto.RentDTO;
-import pl.lodz.p.edu.mvc.model.user.Role;
 
 import java.util.List;
 
@@ -37,6 +35,14 @@ public class RentService {
     public List<RentDTO> getRents() {
         try {
             return restTemplate.getForObject(apiUrl + "/rents/active", List.class);
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            throw new RuntimeException("Failed to create rent: " + ex.getResponseBodyAsString(), ex);
+        }
+    }
+
+    public List<RentDTO> getRentsByClientId(String clientId) {
+        try {
+            return restTemplate.getForObject(apiUrl + "/rents/active/client/" + clientId, List.class);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             throw new RuntimeException("Failed to create rent: " + ex.getResponseBodyAsString(), ex);
         }

@@ -137,7 +137,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getInactiveRentsByItem(ObjectId itemId) {
+    public List<RentDTO> getInactiveRentsByItem(String itemId) {
         List<Rent> rents = rentRepository.findInactiveRentsByItemId(itemId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");
@@ -153,7 +153,7 @@ public class RentService {
         return rentMapper.toDTO(rents);
     }
 
-    public List<RentDTO> getActiveRentsByClient(ObjectId clientId) {
+    public List<RentDTO> getActiveRentsByClient(String clientId) {
         List<Rent> rents =  rentRepository.findActiveRentsByClientId(clientId);
         if (rents == null) {
             throw new RentNotFoundException("No active rents found");

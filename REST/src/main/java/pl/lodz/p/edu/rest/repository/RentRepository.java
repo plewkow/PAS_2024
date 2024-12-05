@@ -55,10 +55,12 @@ public class RentRepository extends AbstractMongoEntity {
         )).into(new ArrayList<>());
     }
 
-    public List<Rent> findInactiveRentsByItemId(ObjectId itemId) {
+    public List<Rent> findInactiveRentsByItemId(String itemId) {
+        ObjectId objectId = new ObjectId(itemId);
+
         return rentCollection.find(Filters.and(
-                Filters.eq("itemId", itemId),
-                Filters.ne("endTime", null)
+                Filters.eq("item._id", objectId),
+                Filters.eq("endTime", null)
         )).into(new ArrayList<>());
     }
 
@@ -66,12 +68,17 @@ public class RentRepository extends AbstractMongoEntity {
         return rentCollection.find(Filters.eq("clientId", clientId)).into(new ArrayList<>());
     }
 
-    public List<Rent> findActiveRentsByClientId(ObjectId clientId) {
+    public List<Rent> findActiveRentsByClientId(String clientId) {
+        ObjectId objectId = new ObjectId(clientId);
+
         return rentCollection.find(Filters.and(
-                Filters.eq("clientId", clientId),
+                Filters.eq("client._id", objectId),
                 Filters.eq("endTime", null)
         )).into(new ArrayList<>());
     }
+
+
+
 
     public List<Rent> findInactiveRentsByClientId(ObjectId clientId) {
         return rentCollection.find(Filters.and(
