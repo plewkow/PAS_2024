@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const translations = {
+        const translations = {
         "en-US": {
             returnMessage: "Return",
             noResults: "No results",
@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const language = navigator.language || navigator.userLanguage;
+    const language = navigator.language;
 
-    const returnMessage = currentTranslations.returnMessage;
-    const noResults = currentTranslations.noResults;
-    const loadingError = currentTranslations.loadingError;
+    const returnMessage = translations[language]?.returnMessage;
+    const noResults = translations[language]?.noResults;
+    const loadingError = translations[language]?.loadingError;
 
     const searchInput = document.getElementById('search');
     const resetFilterButton = document.getElementById('resetFilter');
