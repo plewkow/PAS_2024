@@ -14,7 +14,7 @@
   <div class="content">
     <div th:fragment="body">
       <h1>Rejestracja Klienta</h1>
-      <form form id="registerForm" action="/register" method="post" th:object="${clientDTO}" onsubmit="return confirmRegistration();">
+      <form form id="registerForm" action="/register" method="post" th:object="${clientDTO}">
         <div class="input-div">
           <label for="login">Login:</label>
           <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
