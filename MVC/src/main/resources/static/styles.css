@@ -5,6 +5,9 @@ body {
     padding: 0;
     background: #f4f4f9;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
@@ -12,40 +15,38 @@ h1 {
 }
 
 form {
-    background: #fff;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    width: 300px;
 }
 
-form div {
-    margin-bottom: 10px;
+.input-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-input, select, button {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px;
+input {
+    padding: 6px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 6px;
 }
 
 button {
+    align-self: center;
+    padding: 6px;
+    border-radius: 6px;
     background: #5cb85c;
-    color: #fff;
+    color: white;
     border: none;
+    transition: all;
     cursor: pointer;
+    transition-duration: 300ms;
+    margin-top: 12px;
 }
 
 button:hover {
-    background: #4cae4c;
+    opacity: 0.8;
 }
 
 p {
@@ -64,8 +65,8 @@ a:hover {
 ul.breadcrumb {
     padding: 10px 16px;
     list-style: none;
-    background-color: #eee;
-    margin-top: 0;
+    background-color: #84aff5;
+    margin: 0;
 }
 
 ul.breadcrumb li {
@@ -87,4 +88,81 @@ ul.breadcrumb li a {
 ul.breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
+}
+
+.main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.aside {
+    flex-grow: 1;
+    padding: 10px;
+    width: 200px;
+    background-color: #84aff5;
+}
+
+.aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    background-color: #84aff5;
+}
+
+.content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Usunięcie przerw między komórkami */
+    margin: 20px 0;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #007bff; /* Kolor nagłówka */
+    color: white;
+}
+
+th, td {
+    padding: 10px 15px; /* Odstępy wewnątrz komórek */
+    border: 1px solid #ddd; /* Subtelne obramowanie */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Kolor dla wierszy nieparzystych */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff; /* Kolor dla wierszy parzystych */
+}
+
+tbody tr:hover {
+    background-color: #e6f7ff; /* Kolor podświetlenia wiersza */
+}
+
+.return {
+    background-color: #e60e23; /* Kolor przycisku */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
 }

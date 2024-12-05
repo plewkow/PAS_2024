@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Rejestracja</title>
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/registerValidation.js" defer></script>
+  <title>Utwórz klienta</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
-<div th:fragment="body">
-  <h1>Rejestracja Klienta</h1>
-  <form form id="registerForm" action="/register" method="post" th:object="${clientDTO}" onsubmit="return confirmRegistration();">
-    <div>
-      <label for="login">Login:</label>
-      <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
-      <p id="loginError" style="color: red;"></p>
+
+<div th:replace="~{fragments/header.html :: header}"></div>
+
+<main class="main">
+  <div th:replace="~{fragments/sidebar.html :: sidebar}"></div>
+
+  <div class="content">
+    <div th:fragment="body">
+      <h1>Rejestracja Klienta</h1>
+      <form form id="registerForm" action="/register" method="post" th:object="${clientDTO}" onsubmit="return confirmRegistration();">
+        <div class="input-div">
+          <label for="login">Login:</label>
+          <input type="text" id="login" th:field="*{login}" placeholder="Wprowadź login" required>
+          <p id="loginError" style="color: red;"></p>
+        </div>
+        <div class="input-div">
+          <label for="password">Hasło:</label>
+          <input type="password" id="password" th:field="*{password}" placeholder="Wprowadź hasło" required>
+          <p id="passwordError" style="color: red;"></p>
+        </div>
+        <div class="input-div">
+          <label for="firstName">Imię:</label>
+          <input type="text" id="firstName" th:field="*{firstName}" placeholder="Wprowadź imię" required>
+        </div>
+        <div class="input-div">
+          <label for="lastName">Nazwisko:</label>
+          <input type="text" id="lastName" th:field="*{lastName}" placeholder="Wprowadź nazwisko" required>
+        </div>
+          <button type="submit">Zarejestruj</button>
+      </form>
     </div>
-    <div>
-      <label for="password">Hasło:</label>
-      <input type="password" id="password" th:field="*{password}" placeholder="Wprowadź hasło" required>
-      <p id="passwordError" style="color: red;"></p>
-    </div>
-    <div>
-      <label for="firstName">Imię:</label>
-      <input type="text" id="firstName" th:field="*{firstName}" placeholder="Wprowadź imię" required>
-    </div>
-    <div>
-      <label for="lastName">Nazwisko:</label>
-      <input type="text" id="lastName" th:field="*{lastName}" placeholder="Wprowadź nazwisko" required>
-    </div>
-    <div>
-      <button type="submit">Zarejestruj</button>
-    </div>
-  </form>
-</div>
+  </div>
+</main>
+
+<div th:replace="~{fragments/footer.html :: footer}"></div>
+
 </body>
 </html>

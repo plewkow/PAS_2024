@@ -22,6 +22,7 @@ public class ClientController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("clientDTO", new ClientDTO());
+        model.addAttribute("currentPage", "register");
         return "register";
     }
 

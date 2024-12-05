@@ -22,7 +22,7 @@ public class RentController {
         this.rentService = rentService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/rents")
     public String showAllocations(Model model) {
         List<RentDTO> rents = rentService.getRents();
 
@@ -31,12 +31,20 @@ public class RentController {
         }
 
         model.addAttribute("rents", rents);
+        model.addAttribute("currentPage", "Rents");
         return "allocations";
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("currentPage", null);
+        return "home";
     }
 
     @GetMapping("/createRent")
     public String showRegistrationForm(Model model) {
         model.addAttribute("rentDTO", new RentDTO());
+        model.addAttribute("currentPage", "createRent");
         return "create_allocation";
     }
 
