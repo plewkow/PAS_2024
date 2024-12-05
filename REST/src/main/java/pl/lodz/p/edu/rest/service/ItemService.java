@@ -39,19 +39,22 @@ public class ItemService {
             case "music":
                 Music music = ItemMapper.toMusic((MusicDTO) itemDTO);
                 id = itemRepository.addItem(music);
-                addedItem = itemRepository.getItemById(id);
+                String idAsString1 = id.toHexString();
+                addedItem = itemRepository.getItemById(idAsString1);
                 return ItemMapper.toMusicDTO((Music) addedItem);
 
             case "movie":
                 Movie movie = ItemMapper.toMovie((MovieDTO) itemDTO);
                 id = itemRepository.addItem(movie);
-                addedItem = itemRepository.getItemById(id);
+                String idAsString2 = id.toHexString();
+                addedItem = itemRepository.getItemById(idAsString2);
                 return ItemMapper.toMovieDTO((Movie) addedItem);
 
             case "comics":
                 Comics comics = ItemMapper.toComics((ComicsDTO) itemDTO);
                 id = itemRepository.addItem(comics);
-                addedItem = itemRepository.getItemById(id);
+                String idAsString3 = id.toHexString();
+                addedItem = itemRepository.getItemById(idAsString3);
                 return ItemMapper.toComicsDTO((Comics) addedItem);
 
             default:
@@ -59,7 +62,7 @@ public class ItemService {
         }
     }
 
-    public ItemDTO getItemById(ObjectId id) {
+    public ItemDTO getItemById(String id) {
         Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new ItemNotFoundException("Item with ID: " + id + " not found");
@@ -82,7 +85,7 @@ public class ItemService {
         return ItemMapper.toDTOList(items);
     }
 
-    public void updateItem(ObjectId id, ItemDTO itemDTO) {
+    public void updateItem(String id, ItemDTO itemDTO) {
         Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new ItemNotFoundException("Item with ID: " + id + " not found");
@@ -119,7 +122,7 @@ public class ItemService {
         itemRepository.updateItem(item);
     }
 
-    public void removeItem(ObjectId id) {
+    public void removeItem(String id) {
         Item item = itemRepository.getItemById(id);
         if (item == null) {
             throw new ItemNotFoundException("Item with ID: " + id + " not found");
@@ -129,11 +132,14 @@ public class ItemService {
         if (!activeRents.isEmpty()) {
             throw new ItemAlreadyRentedException("Item cannot be removed because it is currently rented.");
         }
-        itemRepository.removeItem(id);
+
+        ObjectId objectId = new ObjectId(id);
+        itemRepository.removeItem(objectId);
     }
 
     public void setAvailable(ObjectId id) {
-        Item item = itemRepository.getItemById(id);
+        String idAsString = id.toHexString();
+        Item item = itemRepository.getItemById(idAsString);
         if (item == null) {
             throw new ItemNotFoundException("Item with ID: " + id + " not found");
         }
@@ -142,7 +148,8 @@ public class ItemService {
     }
 
     public void setUnavailable(ObjectId id) {
-        Item item = itemRepository.getItemById(id);
+        String idAsString = id.toHexString();
+        Item item = itemRepository.getItemById(idAsString);
         if (item == null) {
             throw new ItemNotFoundException("Item with ID: " + id + " not found");
         }

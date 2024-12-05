@@ -28,8 +28,9 @@ public class ItemRepository extends AbstractMongoEntity {
         return result.getInsertedId().asObjectId().getValue();
     }
 
-    public Item getItemById(ObjectId id) {
-        return itemCollection.find(Filters.eq("_id", id)).first();
+    public Item getItemById(String id) {
+        ObjectId objectId = new ObjectId(id);
+        return itemCollection.find(Filters.eq("_id", objectId)).first();
     }
 
     public List<Item> getItemsByBasePrice(int basePrice) {

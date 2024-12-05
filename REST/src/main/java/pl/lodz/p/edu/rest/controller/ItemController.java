@@ -39,7 +39,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ItemDTO getItem(@PathVariable ObjectId id) {
+    public ItemDTO getItem(@PathVariable String id) {
         return itemService.getItemById(id);
     }
 
@@ -69,7 +69,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateItem(@PathVariable ObjectId id, @RequestBody Map<String, Object> payload) {
+    public void updateItem(@PathVariable String id, @RequestBody Map<String, Object> payload) {
         String itemType = (String) payload.get("itemType");
         ObjectMapper mapper = new ObjectMapper();
         ItemDTO itemDTO = switch (itemType.toLowerCase()) {
@@ -83,7 +83,7 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeItem(@PathVariable ObjectId id) {
+    public void removeItem(@PathVariable String id) {
         itemService.removeItem(id);
     }
 }

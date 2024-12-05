@@ -34,14 +34,14 @@ public class RentService {
     }
 
     public RentDTO rentItem(RentDTO rentDTO) {
-        UserDTO userDTO = userService.getUserById(new ObjectId(rentDTO.getClientId()));
+        UserDTO userDTO = userService.getUserById(rentDTO.getClientId());
         if (userDTO == null) {
             throw new UserNotFoundException("User with id " + rentDTO.getItemId() + " not found");
         }
 
         Client client = (Client) userMapper.convertToUser(userDTO);
 
-        ItemDTO itemDTO = itemService.getItemById(new ObjectId(rentDTO.getItemId()));
+        ItemDTO itemDTO = itemService.getItemById(rentDTO.getItemId());
         if (itemDTO == null) {
             throw new ItemNotFoundException("Item with ID: " + rentDTO.getItemId() + " not found");
         }
