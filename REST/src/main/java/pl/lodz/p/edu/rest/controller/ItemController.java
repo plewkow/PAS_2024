@@ -1,6 +1,7 @@
 package pl.lodz.p.edu.rest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemDTO addItem(@RequestBody Map<String, Object> payload) {
+    public ItemDTO addItem(@RequestBody @Valid Map<String, Object> payload) {
         String itemType = (String) payload.get("itemType");
         ObjectMapper mapper = new ObjectMapper();
         ItemDTO itemDTO = switch (itemType.toLowerCase()) {
