@@ -22,10 +22,12 @@ public class ClientService {
         try {
             clientDTO.setRole(Role.CLIENT);
             return restTemplate.postForObject(apiUrl + "/users", clientDTO, ClientDTO.class);
+        } catch (HttpClientErrorException.Conflict ex) {
+            throw new RuntimeException("Login już istnieje. Wybierz inny.", ex);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
-            throw new RuntimeException("Failed to register client: " + ex.getStatusCode() + " - " + ex.getResponseBodyAsString(), ex);
+            throw new RuntimeException("Błąd rejestracji: " + ex.getStatusCode() + " - " + ex.getResponseBodyAsString(), ex);
         } catch (Exception ex) {
-            throw new RuntimeException("Failed to register client: " + ex.getMessage(), ex);
+            throw new RuntimeException("Błąd rejestracji: " + ex.getMessage(), ex);
         }
     }
 }

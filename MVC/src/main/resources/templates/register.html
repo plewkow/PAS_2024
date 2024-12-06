@@ -19,7 +19,7 @@
         <div class="input-div">
           <label for="login">Login:</label>
           <input type="text" id="login" th:field="*{login}" th:placeholder="#{giveLogin}" required>
-          <p id="loginError" style="color: red;"></p>
+          <p id="loginError" class="error" style="color: red;" th:text="${loginUniqueError != null ? loginUniqueError : ''}"></p>
         </div>
         <div class="input-div">
           <label for="password" th:text="#{password}">:</label>
