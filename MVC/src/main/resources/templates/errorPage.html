@@ -13,7 +13,8 @@
 
     <div class="content">
         <h1 th:text="#{errorOccured}"></h1>
-        <p th:text="#{errorMessage}">: <span th:text="${errorMessage}"></span></p>
+        <p th:text="#{errorMessage}">:</p>
+        <span th:text="${error}"></span>
     </div>
 </main>
 

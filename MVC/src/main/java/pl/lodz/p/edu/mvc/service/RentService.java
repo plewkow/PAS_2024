@@ -27,9 +27,6 @@ public class RentService {
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             throw new RuntimeException("Failed to create rent: " + ex.getResponseBodyAsString(), ex);
         }
-        catch (Exception e) {
-            throw new RuntimeException("Failed to create rent: " + e.getMessage(), e);
-        }
     }
 
     public List<RentDTO> getRents() {

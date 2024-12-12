@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.mvc.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,19 +72,39 @@ public class RentController {
     }
 
     @PostMapping("/createRent")
-    public String registerClient(@Valid @ModelAttribute RentDTO rentDTO, BindingResult bindingResult, Model model) {
+    public String registerClient(@Valid @ModelAttribute RentDTO rentDTO, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
             return "create_allocation";
         }
 
         try {
             RentDTO rent = rentService.createRent(rentDTO);
-            model.addAttribute("rent", rent);
-            return "create_success";
+            session.setAttribute("rent", rent);
+            return "redirect:/create_success";
         } catch (RuntimeException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "errorPage";
+            model.addAttribute("error", e.getMessage());
+            session.setAttribute("error",  e.getMessage());
+            return "redirect:/errorCreateRent";
         }
+    }
+
+    @GetMapping("/errorCreateRent")
+    public String showErrorPage(HttpSession session, Model model) {
+        String err = session.getAttribute("error").toString();
+        if (err == null) {
+            err = "Error during creating rent";
+        }
+        model.addAttribute("error", err);
+        return "errorPage";
+    }
+
+    @GetMapping("/create_success")
+    public String showRegistrationSuccess(HttpSession session, Model model) {
+        RentDTO rent = (RentDTO) session.getAttribute("rent");
+        if (rent != null) {
+            model.addAttribute("rent", rent);
+        }
+        return "create_success";
     }
 
     @PostMapping("/return/{id}")
