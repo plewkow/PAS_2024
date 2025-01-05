@@ -4,6 +4,7 @@ import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.edu.rest.dto.LoginDTO;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.exception.DuplicateUserException;
@@ -38,6 +39,14 @@ public class UserService {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new UserNotFoundException("User with id " + id + " not found");
+        }
+        return userMapper.convertToUserDTO(user);
+    }
+
+    public UserDTO getUserByLogin(LoginDTO login) {
+        User user = userRepository.findByLogin(login.getLogin());
+        if (user == null) {
+            throw new UserNotFoundException("User with login " + login + " not found");
         }
         return userMapper.convertToUserDTO(user);
     }
