@@ -46,7 +46,7 @@ public class UserService {
     public UserDTO getUserByLogin(LoginDTO login) {
         User user = userRepository.findByLogin(login.getLogin());
         if (user == null) {
-            throw new UserNotFoundException("User with login " + login + " not found");
+            throw new UserNotFoundException("User with login " + login.getLogin() + " not found");
         }
         return userMapper.convertToUserDTO(user);
     }
