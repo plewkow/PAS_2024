@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.edu.rest.dto.LoginDTO;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.Role;
@@ -35,6 +36,12 @@ public class UserController {
         } else {
             return userService.getUsersByRole(role);
         }
+    }
+
+    @GetMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserByLogin(@RequestBody LoginDTO login) {
+        return userService.getUserByLogin(login);
     }
 
     @PostMapping()
