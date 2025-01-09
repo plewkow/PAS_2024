@@ -19,6 +19,9 @@ const Navbar = () => {
       <NavigationMenuLink asChild>
         <NavLink to="/users">Users</NavLink>
       </NavigationMenuLink>
+      <NavigationMenuLink asChild>
+        <NavLink to="/rents">Rents</NavLink>
+      </NavigationMenuLink>
     </NavigationMenu>
   );
 };

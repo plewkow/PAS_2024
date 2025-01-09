@@ -2,7 +2,7 @@ import { Route, Routes, useLocation } from "react-router";
 import App from "./App";
 import Navbar from "./components/Navbar";
 import { Toaster } from "./components/ui/toaster";
-import { Login, Register, User, Users } from "./pages";
+import { Login, Register, User, Users, Rents } from "./pages";
 
 const Layout = () => {
   const location = useLocation();
@@ -17,6 +17,7 @@ const Layout = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User />} />
+        <Route path="/rents" element={<Rents />} />
       </Routes>
       <Toaster />
     </>

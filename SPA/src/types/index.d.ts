@@ -7,3 +7,26 @@ export interface User {
   role: string;
   clientType?: { discount: number; maxArticles: number, clientTypeInfo: string }; // TODO: Wyjebac zeby moglo nie byc clientTypeInfo (backend)
 }
+
+export interface Item {
+  id: number;
+  basePrice: number;
+  itemName: string;
+  itemType: string;
+  available: boolean;
+  minutes?: number;
+  casette?: boolean;
+  pageNumber?: number;
+  genre?: string;
+  vinyl?: boolean;
+}
+
+export interface Rent {
+  id: number;
+  client: User;
+  item: Item;
+  beginTime: Date;
+  endTime?: Date;
+  rentCost: number;
+  archive: boolean;
+}
