@@ -49,7 +49,7 @@ public class RentController {
         return ResponseEntity.ok(activeRents);
     }
 
-    @GetMapping("inactive")
+    @GetMapping("/inactive")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<RentDTO>> getInactiveRents() {
         List<RentDTO> inactiveRents = rentService.getInactiveRents();

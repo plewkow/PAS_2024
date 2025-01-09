@@ -28,10 +28,18 @@ const UserDetails = () => {
     };
 
     const fetchInactiveRents = async () => {
-      const inactiveRentsResponse = await fetch(`/api/rents/inactive/client/${id}`);
-      const inactiveRentsData = await inactiveRentsResponse.json();
-      setInactiveRents(inactiveRentsData);
+      try {
+        const inactiveRentsResponse = await fetch(`/api/rents/inactive?clientId=${id}`);
+        if (!inactiveRentsResponse.ok) {
+          throw new Error("Failed to fetch inactive rents");
+        }
+        const inactiveRentsData = await inactiveRentsResponse.json();
+        setInactiveRents(inactiveRentsData);
+      } catch (error) {
+        console.error("Error fetching inactive rents:", error);
+      }
     };
+    
 
     const fetchItems = async () => {
       const itemsResponse = await fetch(`/api/items`);
