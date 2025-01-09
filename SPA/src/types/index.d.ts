@@ -22,11 +22,11 @@ export interface Item {
 }
 
 export interface Rent {
-  id: number;
-  client: User;
-  item: Item;
-  beginTime: Date;
+  id?: number;
+  clientId: number;
+  itemId: number;
+  beginTime?: Date;
   endTime?: Date;
-  rentCost: number;
-  archive: boolean;
+  rentCost?: number;
+  archive?: boolean;
 }

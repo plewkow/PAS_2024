@@ -8,15 +8,15 @@ import {
     TableRow,
   } from "@/components/ui/table";
   import { Item } from "@/types";
-  // import { useNavigate } from "react-router";
 
   interface ItemsTableProps {
     musicItems: Item[];
     movieItems: Item[];
     comicsItems: Item[];
+    onRentItem: (itemId: number) => void;
   }
   
-  const ItemsTable: React.FC<ItemsTableProps> = ({ musicItems, comicsItems, movieItems }) => {
+  const ItemsTable: React.FC<ItemsTableProps> = ({ musicItems, comicsItems, movieItems, onRentItem }) => {    
     return (
       <div>
       <Table>
@@ -29,6 +29,7 @@ import {
             <TableHead>Genre</TableHead>
             <TableHead>Vinyl</TableHead>
             <TableHead>Available</TableHead>
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -41,6 +42,9 @@ import {
                 <TableCell>{item.genre}</TableCell>
                 <TableCell>{item.vinyl ? "Yes" : "No"}</TableCell>
                 <TableCell>{item.available ? "Yes" : "No"}</TableCell>
+                <TableCell>
+                  <button onClick={() => onRentItem(item.id)}>Rent</button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -51,7 +55,6 @@ import {
         </TableBody>
       </Table>
 
-      {/* Comics Items Table */}
       <Table>
         <TableCaption>Comics Items</TableCaption>
         <TableHeader>
@@ -61,6 +64,7 @@ import {
             <TableHead>Price</TableHead>
             <TableHead>Pages</TableHead>
             <TableHead>Available</TableHead>
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -72,6 +76,9 @@ import {
                 <TableCell>{item.basePrice} PLN</TableCell>
                 <TableCell>{item.pageNumber}</TableCell>
                 <TableCell>{item.available ? "Yes" : "No"}</TableCell>
+                <TableCell>
+                  <button onClick={() => onRentItem(item.id)}>Rent</button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -82,7 +89,6 @@ import {
         </TableBody>
       </Table>
 
-      {/* Movie Items Table */}
       <Table>
         <TableCaption>Movie Items</TableCaption>
         <TableHeader>
@@ -93,6 +99,7 @@ import {
             <TableHead>Duration (min)</TableHead>
             <TableHead>Casette</TableHead>
             <TableHead>Available</TableHead>
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -105,6 +112,9 @@ import {
                 <TableCell>{item.minutes} min</TableCell>
                 <TableCell>{item.casette ? "Yes" : "No"}</TableCell>
                 <TableCell>{item.available ? "Yes" : "No"}</TableCell>
+                <TableCell>
+                  <button onClick={() => onRentItem(item.id)}>Rent</button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -119,4 +129,3 @@ import {
   };
   
   export default ItemsTable;
-  
