@@ -1,12 +1,12 @@
 import ItemsTable from "@/components/ItemsTable";
 import RentsTable from "@/components/RentsTable"; 
-import { Item } from "@/types";
+import { Item, Rent } from "@/types";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast"; 
 
 const Rents = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const [rents, setRents] = useState<any[]>([]); 
+  const [rents, setRents] = useState<Rent[]>([]); 
   const { toast } = useToast(); 
 
   useEffect(() => {

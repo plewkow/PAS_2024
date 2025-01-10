@@ -167,7 +167,7 @@ const UserDetailTable = ({ user }: UserDetailsProps) => {
   };
 
   return (
-    <div className="my-6">
+    <div className="">
       <Table>
         <TableCaption>User Details</TableCaption>
         <TableHeader>
@@ -222,7 +222,7 @@ const UserDetailTable = ({ user }: UserDetailsProps) => {
       </Table>
 
       {userData && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-4 space-x-4">
           <Button onClick={onActivate}>
             Activate account
           </Button>
