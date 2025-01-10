@@ -223,18 +223,14 @@ const UserDetailTable = ({ user }: UserDetailsProps) => {
 
       {userData && (
         <div className="flex justify-center mt-4">
-          <Button onClick={onActivate} disabled={userData.role === "ACTIVE" || loading}>
-            {loading ? "Activating..." : "Activate"}
+          <Button onClick={onActivate}>
+            Activate account
           </Button>
-          <Button
-            onClick={onDeactivate}
-            disabled={userData.role === "INACTIVE" || loading}
-            className="ml-2"
-          >
-            {loading ? "Deactivating..." : "Deactivate"}
+          <Button onClick={onDeactivate}>
+            Deactivate account
           </Button>
-          <Button onClick={onSave} disabled={loading} className="ml-2">
-            {loading ? "Saving..." : "Save Changes"}
+          <Button onClick={onSave}>
+            Save changes
           </Button>
         </div>
       )}
