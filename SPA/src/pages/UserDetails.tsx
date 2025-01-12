@@ -43,7 +43,7 @@ const UserDetails = () => {
 
     const fetchInactiveRents = async () => {
       try {
-        const response = await fetch(`/api/rents/inactive?clientId=${id}`);
+        const response = await fetch(`/api/rents/inactive/client/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch inactive rents");
         }

@@ -21,15 +21,17 @@ public class UserDTO {
     private String lastName;
     @NotNull(message = "Role cannot be null")
     private Role role;
+    private boolean isActive;
 
     @JsonCreator
-    public UserDTO(String id, String login, String password, String firstName, String lastName, Role role) {
+    public UserDTO(String id, String login, String password, String firstName, String lastName, Role role, boolean isActive) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.isActive = isActive;
     }
 
     public UserDTO(String login, String password, String firstName, String lastName, Role role) {
@@ -38,6 +40,7 @@ public class UserDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.isActive = true;
     }
 
     public String getId() {
@@ -86,5 +89,13 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

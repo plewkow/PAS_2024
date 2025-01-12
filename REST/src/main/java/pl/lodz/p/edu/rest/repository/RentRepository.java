@@ -84,7 +84,7 @@ public class RentRepository extends AbstractMongoEntity {
     public List<Rent> findInactiveRentsByClientId(String clientId) {
         ObjectId objectId = new ObjectId(clientId);
         return rentCollection.find(Filters.and(
-                Filters.eq("clientId", objectId),
+                Filters.eq("client._id", objectId),
                 Filters.ne("endTime", null)
         )).into(new ArrayList<>());
     }

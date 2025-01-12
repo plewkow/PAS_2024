@@ -9,8 +9,8 @@ public class ClientDTO extends UserDTO {
     @NotNull(message = "Client type cannot be null")
     private ClientType clientType;
 
-    public ClientDTO(String id, String login, String password, String firstName, String lastName, Role role, ClientType clientType) {
-        super(id, login, password, firstName, lastName, role);
+    public ClientDTO(String id, String login, String password, String firstName, String lastName, Role role, ClientType clientType, boolean active) {
+        super(id, login, password, firstName, lastName, role, active);
         this.clientType = clientType;
     }
 

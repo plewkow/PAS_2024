@@ -186,24 +186,26 @@ const Rents = () => {
     <div className="px-16 pb-8">
       <h1 className="text-bold text-3xl my-8">Lista przedmiotów</h1>
 
+      <div className="space-y-12">
       <ItemsTable
         items={musicItems}
         title="Music Items"
         columns={musicColumns}
         onRentItem={handleRentItem}
-      />
+        />
       <ItemsTable
         items={comicsItems}
-        title="Music Items"
+        title="Comics Items"
         columns={comicsColumns}
         onRentItem={handleRentItem}
-      />
+        />
       <ItemsTable
         items={movieItems}
-        title="Music Items"
+        title="Movie Items"
         columns={movieColumns}
         onRentItem={handleRentItem}
-      />
+        />
+        </div>
 
       <h1 className="text-bold text-3xl my-8 mt-12">
         Lista wypożyczeń

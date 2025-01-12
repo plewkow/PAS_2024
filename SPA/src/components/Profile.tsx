@@ -22,6 +22,7 @@ const Profile = ({ user }: UserDetailsProps) => {
 
   const [userData, setUserData] = useState<User | null>(user);
   const [loading, setLoading] = useState(false);
+  const [isUserActive, setIsUserActive] = useState(user?.isActive || false);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [actionType, setActionType] = useState<
@@ -39,6 +40,7 @@ const Profile = ({ user }: UserDetailsProps) => {
     }
     setActionType("activate");
     setIsDialogOpen(true);
+    setIsUserActive(true);
   };
 
   const onDeactivate = () => {
@@ -52,6 +54,7 @@ const Profile = ({ user }: UserDetailsProps) => {
     }
     setActionType("deactivate");
     setIsDialogOpen(true);
+    setIsUserActive(false);
   };
 
   const onSave = () => {
@@ -127,8 +130,8 @@ const Profile = ({ user }: UserDetailsProps) => {
 
       {userData && (
         <div className="flex justify-center mt-4 space-x-4">
-          <Button onClick={onActivate}>Activate account</Button>
-          <Button onClick={onDeactivate}>Deactivate account</Button>
+          <Button disabled={isUserActive} onClick={onActivate}>Activate account</Button>
+          <Button disabled={!isUserActive} onClick={onDeactivate}>Deactivate account</Button>
           <Button onClick={onSave}>Save changes</Button>
         </div>
       )}

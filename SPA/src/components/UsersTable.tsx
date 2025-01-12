@@ -22,7 +22,7 @@ const UsersTable = ({ users }: { users: User[] }) => {
       <TableCaption>A list of users.</TableCaption>
       <TableHeader className="bg-blue-50">
         <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
+          <TableHead className="w-[100px]">Login</TableHead>
           <TableHead>First Name</TableHead>
           <TableHead>Last Name</TableHead>
           <TableHead>Role</TableHead>

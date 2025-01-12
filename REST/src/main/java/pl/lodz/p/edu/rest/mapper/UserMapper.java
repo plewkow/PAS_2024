@@ -24,7 +24,8 @@ public class UserMapper {
                     client.getFirstName(),
                     client.getLastName(),
                     client.getRole(),
-                    client.getClientType()
+                    client.getClientType(),
+                    client.getActive()
             );
         } else {
             return new UserDTO(
@@ -33,7 +34,8 @@ public class UserMapper {
                     user.getPassword(),
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getRole()
+                    user.getRole(),
+                    user.getActive()
             );
         }
     }
@@ -45,7 +47,8 @@ public class UserMapper {
                 user.getPassword(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole()
+                user.getRole(),
+                user.getActive()
         );
     }
 
