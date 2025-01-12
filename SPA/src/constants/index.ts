@@ -13,7 +13,7 @@ export const comicsColumns: Column[] = [
   { label: "ID", field: "id" },
   { label: "Item Name", field: "itemName" },
   { label: "Price", field: "basePrice" },
-  { label: "Pages", field: "pageNumber" },
+  { label: "Pages", field: "pagesNumber" },
   { label: "Available", field: "available" },
 ];
 

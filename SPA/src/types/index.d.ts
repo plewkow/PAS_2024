@@ -16,7 +16,7 @@ export interface Item {
   available: boolean;
   minutes?: number;
   casette?: boolean;
-  pageNumber?: number;
+  pagesNumber?: number;
   genre?: string;
   vinyl?: boolean;
 }
