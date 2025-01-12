@@ -74,7 +74,7 @@ import {
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.itemName}</TableCell>
                 <TableCell>{item.basePrice} PLN</TableCell>
-                <TableCell>{item.pageNumber}</TableCell>
+                <TableCell>{item.pagesNumber}</TableCell>
                 <TableCell>{item.available ? "Yes" : "No"}</TableCell>
                 <TableCell>
                   <button onClick={() => onRentItem(item.id)}>Rent</button>
