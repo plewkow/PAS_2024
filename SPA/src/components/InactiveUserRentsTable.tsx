@@ -6,20 +6,23 @@ import {
   TableRow,
   TableHead,
   TableCaption,
-  TableHeader
+  TableHeader,
 } from "@/components/ui/table";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 interface InactiveUserRentsTableProps {
   rents: Rent[];
   items: Item[];
 }
 
-const InactiveUserRentsTable = ({ rents, items }: InactiveUserRentsTableProps) => {
+const InactiveUserRentsTable = ({
+  rents,
+  items,
+}: InactiveUserRentsTableProps) => {
   return (
     <Table>
       <TableCaption>Inactive rents.</TableCaption>
-      <TableHeader>
+      <TableHeader className="bg-blue-50">
         <TableRow>
           <TableHead className="w-[100px]">ID</TableHead>
           <TableHead>Item ID</TableHead>
@@ -31,14 +34,22 @@ const InactiveUserRentsTable = ({ rents, items }: InactiveUserRentsTableProps) =
       <TableBody>
         {rents.length > 0 ? (
           rents.map((rent: Rent) => {
-            const item = items.find(i => i.id === rent.itemId);
+            const item = items.find((i) => i.id === rent.itemId);
             return (
               <TableRow key={rent.id}>
                 <TableCell>{rent.id}</TableCell>
                 <TableCell>{rent.itemId}</TableCell>
                 <TableCell>{item ? item.itemName : "Item not found"}</TableCell>
-                <TableCell>{rent.beginTime ? format(new Date(rent.beginTime), 'yyyy-MM-dd HH:mm') : 'Not available'}</TableCell>
-                <TableCell>{rent.endTime ? format(new Date(rent.endTime), 'yyyy-MM-dd HH:mm') : 'Item is still rented'}</TableCell>
+                <TableCell>
+                  {rent.beginTime
+                    ? format(new Date(rent.beginTime), "yyyy-MM-dd HH:mm")
+                    : "Not available"}
+                </TableCell>
+                <TableCell>
+                  {rent.endTime
+                    ? format(new Date(rent.endTime), "yyyy-MM-dd HH:mm")
+                    : "Item is still rented"}
+                </TableCell>
               </TableRow>
             );
           })

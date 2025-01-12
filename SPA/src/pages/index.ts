@@ -1,7 +1,7 @@
 import Login from "./Login";
 import Users from "./Users";
 import Register from "./Register";
-import User from "./User";
+import UserDetails from "./UserDetails";
 import Rents from "./Rents"
 
-export { Login, Users, Register, User, Rents };
+export { Login, Users, Register, UserDetails, Rents };

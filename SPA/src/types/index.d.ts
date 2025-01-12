@@ -30,3 +30,8 @@ export interface Rent {
   rentCost?: number;
   archive?: boolean;
 }
+
+export interface Column {
+  label: string;
+  field: keyof Item;
+}

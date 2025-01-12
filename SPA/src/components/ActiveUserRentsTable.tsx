@@ -19,7 +19,7 @@ const ActiveUserRentsTable = ({ rents, items }: ActiveUserRentsTableProps) => {
     return (
       <Table>
         <TableCaption>Active rents.</TableCaption>
-        <TableHeader>
+        <TableHeader className="bg-blue-50">
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>Item ID</TableHead>

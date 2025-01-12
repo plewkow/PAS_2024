@@ -20,7 +20,7 @@ const UsersTable = ({ users }: { users: User[] }) => {
   return (
     <Table>
       <TableCaption>A list of users.</TableCaption>
-      <TableHeader>
+      <TableHeader className="bg-blue-50">
         <TableRow>
           <TableHead className="w-[100px]">ID</TableHead>
           <TableHead>First Name</TableHead>

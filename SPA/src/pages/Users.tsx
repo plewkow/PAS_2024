@@ -32,7 +32,7 @@ const Users = () => {
   }
 
   return (
-    <div>
+    <div className="px-16 pb-8">
       <h1 className="text-bold text-5xl text-center my-8">List of Users</h1>
       <div className="flex justify-center mb-4">
         <Input

@@ -1,131 +1,72 @@
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table";
-  import { Item } from "@/types";
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Column, Item } from "@/types";
+import { Button } from "./ui/button";
+import { booleanFields } from "@/constants";
 
-  interface ItemsTableProps {
-    musicItems: Item[];
-    movieItems: Item[];
-    comicsItems: Item[];
-    onRentItem: (itemId: number) => void;
-  }
-  
-  const ItemsTable: React.FC<ItemsTableProps> = ({ musicItems, comicsItems, movieItems, onRentItem }) => {    
-    return (
-      <div>
-      <Table>
-        <TableCaption>Music Items</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Item Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Genre</TableHead>
-            <TableHead>Vinyl</TableHead>
-            <TableHead>Available</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {musicItems.length > 0 ? (
-            musicItems.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.itemName}</TableCell>
-                <TableCell>{item.basePrice} PLN</TableCell>
-                <TableCell>{item.genre}</TableCell>
-                <TableCell>{item.vinyl ? "Yes" : "No"}</TableCell>
-                <TableCell>{item.available ? "Yes" : "No"}</TableCell>
-                <TableCell>
-                  <button onClick={() => onRentItem(item.id)}>Rent</button>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={5}>No music items found.</TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+interface ItemsTableProps {
+  items: Item[];
+  title: string;
+  columns: Column[];
+  onRentItem: (itemId: number) => void;
+}
 
-      <Table>
-        <TableCaption>Comics Items</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Item Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Pages</TableHead>
-            <TableHead>Available</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {comicsItems.length > 0 ? (
-            comicsItems.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.itemName}</TableCell>
-                <TableCell>{item.basePrice} PLN</TableCell>
-                <TableCell>{item.pageNumber}</TableCell>
-                <TableCell>{item.available ? "Yes" : "No"}</TableCell>
-                <TableCell>
-                  <button onClick={() => onRentItem(item.id)}>Rent</button>
+const ItemsTable: React.FC<ItemsTableProps> = ({
+  items,
+  title,
+  columns,
+  onRentItem,
+}) => {
+  return (
+    <Table>
+      <TableCaption>{title}</TableCaption>
+      <TableHeader className="bg-blue-50">
+        <TableRow>
+          {columns.map((col) => (
+            <TableHead key={col.field}>{col.label}</TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {items.length > 0 ? (
+          items.map((item) => (
+            <TableRow key={item.id} className={`${item.available ? "bg-green-300" : "bg-red-300"}`}>
+              {columns.map((col) => (
+                <TableCell key={col.field}>
+                  {booleanFields.includes(col.field)
+                    ? item[col.field]
+                      ? "Yes"
+                      : "No"
+                    : item[col.field]}
                 </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={4}>No comics items found.</TableCell>
+              ))}
+              <TableCell>
+                <Button
+                  disabled={!item.available}
+                  onClick={() => onRentItem(item.id)}
+                >
+                  Rent
+                </Button>
+              </TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={columns.length + 1}>
+              No {title.toLowerCase()} items found.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  );
+};
 
-      <Table>
-        <TableCaption>Movie Items</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Item Name</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Duration (min)</TableHead>
-            <TableHead>Casette</TableHead>
-            <TableHead>Available</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {movieItems.length > 0 ? (
-            movieItems.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.id}</TableCell>
-                <TableCell>{item.itemName}</TableCell>
-                <TableCell>{item.basePrice} PLN</TableCell>
-                <TableCell>{item.minutes} min</TableCell>
-                <TableCell>{item.casette ? "Yes" : "No"}</TableCell>
-                <TableCell>{item.available ? "Yes" : "No"}</TableCell>
-                <TableCell>
-                  <button onClick={() => onRentItem(item.id)}>Rent</button>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={5}>No movie items found.</TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      </div>
-    );
-  };
-  
-  export default ItemsTable;
+export default ItemsTable;
