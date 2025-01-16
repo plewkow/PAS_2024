@@ -18,6 +18,7 @@ export interface Item {
   minutes?: number;
   casette?: boolean;
   pagesNumber?: number;
+  publisher?: string;
   genre?: string;
   vinyl?: boolean;
 }
@@ -35,4 +36,5 @@ export interface Rent {
 export interface Column {
   label: string;
   field: keyof Item;
+  width?: number;
 }

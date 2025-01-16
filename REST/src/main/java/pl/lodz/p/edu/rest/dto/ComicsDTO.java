@@ -8,14 +8,18 @@ public class ComicsDTO extends ItemDTO {
     @Min(value = 0, message = "Pages number must be at least 0")
     private int pagesNumber;
 
+    @NotNull(message = "Publisher cannot be null")
+    private String publisher;
+
     public ComicsDTO() {
 
     }
 
-    public ComicsDTO(String id, int basePrice, String itemName, boolean available, int pagesNumber) {
+    public ComicsDTO(String id, int basePrice, String itemName, boolean available, int pagesNumber, String publisher) {
         super(id, basePrice, itemName, available);
         this.itemType = "comics";
         this.pagesNumber = pagesNumber;
+        this.publisher = publisher;
     }
 
     public int getPagesNumber() {
@@ -24,5 +28,13 @@ public class ComicsDTO extends ItemDTO {
 
     public void setPagesNumber(int pagesNumber) {
         this.pagesNumber = pagesNumber;
+    }
+
+    public @NotNull(message = "Publisher cannot be null") String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(@NotNull(message = "Publisher cannot be null") String publisher) {
+        this.publisher = publisher;
     }
 }

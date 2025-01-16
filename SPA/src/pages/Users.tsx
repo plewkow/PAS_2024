@@ -21,7 +21,6 @@ const Users = () => {
 
   useEffect(() => {
     const filtered = users.filter((user) =>
-      // user.id.toString().includes(searchId)
       user.login.toString().startsWith(searchLogin)
   );
     setFilteredUsers(filtered);

@@ -14,6 +14,7 @@ export const comicsColumns: Column[] = [
   { label: "Item Name", field: "itemName" },
   { label: "Price", field: "basePrice" },
   { label: "Pages", field: "pagesNumber" },
+  { label: "Publisher", field: "publisher" },
   { label: "Available", field: "available" },
 ];
 

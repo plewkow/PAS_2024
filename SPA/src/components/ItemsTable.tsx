@@ -25,21 +25,32 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
   onRentItem,
 }) => {
   return (
-    <Table>
+    <Table className="table-fixed">
       <TableCaption>{title}</TableCaption>
       <TableHeader className="bg-blue-50">
         <TableRow>
           {columns.map((col) => (
-            <TableHead key={col.field}>{col.label}</TableHead>
+            <TableHead
+              key={col.field}
+              style={{ width: col.width ? `${col.width}px` : "auto" }}
+            >
+              {col.label}
+            </TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
         {items.length > 0 ? (
           items.map((item) => (
-            <TableRow key={item.id} className={`${item.available ? "bg-green-300" : "bg-red-300"}`}>
+            <TableRow
+              key={item.id}
+              className={`${item.available ? "bg-green-300" : "bg-red-300"}`}
+            >
               {columns.map((col) => (
-                <TableCell key={col.field}>
+                <TableCell
+                  key={col.field}
+                  style={{ width: col.width ? `${col.width}px` : "auto" }}
+                >
                   {booleanFields.includes(col.field)
                     ? item[col.field]
                       ? "Yes"

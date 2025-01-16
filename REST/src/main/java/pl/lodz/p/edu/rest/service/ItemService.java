@@ -113,6 +113,7 @@ public class ItemService {
                 Comics comics = (Comics) item;
                 ComicsDTO comicsDTO = (ComicsDTO) itemDTO;
                 comics.setPageNumber(comicsDTO.getPagesNumber());
+                comics.setPublisher(comicsDTO.getPublisher());
                 break;
 
             default:

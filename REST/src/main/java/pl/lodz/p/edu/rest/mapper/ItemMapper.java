@@ -35,7 +35,8 @@ public class ItemMapper {
                 dto.getBasePrice(),
                 dto.getItemName(),
                 dto.isAvailable(),
-                dto.getPagesNumber());
+                dto.getPagesNumber(),
+                dto.getPublisher());
     }
 
     public static MusicDTO toMusicDTO(Music music) {
@@ -66,7 +67,8 @@ public class ItemMapper {
                 comics.getBasePrice(),
                 comics.getItemName(),
                 comics.isAvailable(),
-                comics.getPageNumber()
+                comics.getPageNumber(),
+                comics.getPublisher()
         );
     }
 
@@ -96,7 +98,8 @@ public class ItemMapper {
                     item.getBasePrice(),
                     item.getItemName(),
                     item.isAvailable(),
-                    comics.getPageNumber()
+                    comics.getPageNumber(),
+                    comics.getPublisher()
             );
         }
     }
