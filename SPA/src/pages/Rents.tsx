@@ -1,13 +1,29 @@
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import ItemsTable from "@/components/ItemsTable";
 import RentsTable from "@/components/RentsTable";
 import { Item, Rent } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { comicsColumns, movieColumns, musicColumns } from "@/constants";
 
 const Rents = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [rents, setRents] = useState<Rent[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogAction, setDialogAction] = useState<"rent" | "return" | null>(
+    null
+  );
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedRentId, setSelectedRentId] = useState<number | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -62,9 +78,26 @@ const Rents = () => {
     fetchItems();
   }, []);
 
-  const musicItems = items.filter((item) => item.itemType === "music");
-  const comicsItems = items.filter((item) => item.itemType === "comics");
-  const movieItems = items.filter((item) => item.itemType === "movie");
+  const handleOpenDialog = (
+    action: "rent" | "return",
+    itemId: number,
+    rentId?: number
+  ) => {
+    setDialogAction(action);
+    setSelectedItemId(itemId);
+    setSelectedRentId(rentId || null);
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogConfirm = async () => {
+    setIsDialogOpen(false);
+
+    if (dialogAction === "rent" && selectedItemId !== null) {
+      await handleRentItem(selectedItemId);
+    } else if (dialogAction === "return" && selectedRentId !== null) {
+      await handleReturnItem(selectedRentId, selectedItemId!);
+    }
+  };
 
   const handleRentItem = async (itemId: number) => {
     const userId = localStorage.getItem("userID");
@@ -95,7 +128,7 @@ const Rents = () => {
       if (!response.ok) {
         toast({
           title: "Rent failed",
-          description: "Fail to rent this item.",
+          description: "Failed to rent this item.",
           variant: "destructive",
         });
         return;
@@ -139,11 +172,12 @@ const Rents = () => {
     if (!userId) {
       toast({
         title: "Error",
-        description: "You need to be logged in to rent an item.",
+        description: "You need to be logged in to return an item.",
         variant: "destructive",
       });
       return;
     }
+
     try {
       const response = await fetch(`/api/rents/return/${rentId}`, {
         method: "PUT",
@@ -184,33 +218,56 @@ const Rents = () => {
 
   return (
     <div className="px-16 pb-8">
-      <h1 className="text-bold text-3xl my-8">Lista przedmiotów</h1>
-
+      <h1 className="text-bold text-3xl my-8">Items List</h1>
       <div className="space-y-12">
-      <ItemsTable
-        items={musicItems}
-        title="Music Items"
-        columns={musicColumns}
-        onRentItem={handleRentItem}
+        <ItemsTable
+          items={items.filter((item) => item.itemType === "music")}
+          title="Music Items"
+          columns={musicColumns}
+          onRentItem={(itemId) => handleOpenDialog("rent", itemId)}
         />
-      <ItemsTable
-        items={comicsItems}
-        title="Comics Items"
-        columns={comicsColumns}
-        onRentItem={handleRentItem}
+        <ItemsTable
+          items={items.filter((item) => item.itemType === "comics")}
+          title="Comics Items"
+          columns={comicsColumns}
+          onRentItem={(itemId) => handleOpenDialog("rent", itemId)}
         />
-      <ItemsTable
-        items={movieItems}
-        title="Movie Items"
-        columns={movieColumns}
-        onRentItem={handleRentItem}
+        <ItemsTable
+          items={items.filter((item) => item.itemType === "movie")}
+          title="Movie Items"
+          columns={movieColumns}
+          onRentItem={(itemId) => handleOpenDialog("rent", itemId)}
         />
-        </div>
+      </div>
+      <h1 className="text-bold text-3xl my-8 mt-12">Rents List</h1>
+      <RentsTable
+          rents={rents}
+          onReturnItem={async (rentId, itemId) => {
+          handleOpenDialog("return", itemId, rentId);
+          return Promise.resolve();
+        }}
+      />
 
-      <h1 className="text-bold text-3xl my-8 mt-12">
-        Lista wypożyczeń
-      </h1>
-      <RentsTable rents={rents} onReturnItem={handleReturnItem} />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {dialogAction === "rent" ? "Rent Item" : "Return Item"}
+            </DialogTitle>
+            <DialogDescription>
+              {dialogAction === "rent"
+                ? "Are you sure you want to rent this item?"
+                : "Are you sure you want to return this item?"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-between mt-4">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleDialogConfirm}>Confirm</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { User } from "@/types";
+import { User } from "@/types"
+import { useToast } from "@/hooks/use-toast";
 
 const UserDetailsTable = ({
   userData,
@@ -32,14 +33,25 @@ const UserDetailsTable = ({
     }));
   };
 
+  const { toast } = useToast();
+
   const handleInputChange = (field: string, value: string) => {
-    if (userData) {
-      setUserData({
-        ...userData,
-        [field]: value,
+    if (value.length < 2 || value.length > 50) {
+      toast({
+        title: "Invalid input",
+        description: "Value must be between 2 and 50 characters long.",
+        variant: "destructive",
       });
+      return;
     }
+  
+    setUserData({
+      ...userData,
+      [field]: value,
+    });
   };
+
+  
   const renderEditField = (field: string, value: string) => {
     return isEditing[field] ? (
       <input
