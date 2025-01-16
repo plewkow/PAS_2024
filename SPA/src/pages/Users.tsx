@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [searchId, setSearchId] = useState<string>("");
+  const [searchLogin, setSearchLogin] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -22,13 +22,13 @@ const Users = () => {
   useEffect(() => {
     const filtered = users.filter((user) =>
       // user.id.toString().includes(searchId)
-      user.id.toString().startsWith(searchId)
+      user.login.toString().startsWith(searchLogin)
   );
     setFilteredUsers(filtered);
-  }, [searchId, users]);
+  }, [searchLogin, users]);
 
-  const handleSearchIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchId(event.target.value);
+  const handleSearchLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchLogin(event.target.value);
   }
 
   return (
@@ -36,9 +36,9 @@ const Users = () => {
       <h1 className="text-bold text-5xl text-center my-8">List of Users</h1>
       <div className="flex justify-center mb-4">
         <Input
-            placeholder="Search by ID"
-            value={searchId}
-            onChange={handleSearchIdChange}
+            placeholder="Search by login"
+            value={searchLogin}
+            onChange={handleSearchLoginChange}
             className="border rounded px-2 py-1 w-1/3"
           />
       </div>

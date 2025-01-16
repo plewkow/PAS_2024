@@ -22,7 +22,8 @@ const UsersTable = ({ users }: { users: User[] }) => {
       <TableCaption>A list of users.</TableCaption>
       <TableHeader className="bg-blue-50">
         <TableRow>
-          <TableHead className="w-[100px]">Login</TableHead>
+          <TableHead className="w-[100px]">User ID</TableHead>
+          <TableHead>Login</TableHead>
           <TableHead>First Name</TableHead>
           <TableHead>Last Name</TableHead>
           <TableHead>Role</TableHead>
@@ -33,6 +34,7 @@ const UsersTable = ({ users }: { users: User[] }) => {
           users.map((user: User) => (
             <TableRow key={user.id} onClick={() => clickHandler(user.id)}>
               <TableCell>{user.id}</TableCell>
+              <TableCell>{user.login}</TableCell>
               <TableCell>{user.firstName}</TableCell>
               <TableCell>{user.lastName}</TableCell>
               <TableCell>{user.role}</TableCell>
