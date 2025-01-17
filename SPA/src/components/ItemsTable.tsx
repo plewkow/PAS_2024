@@ -37,6 +37,9 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
               {col.label}
             </TableHead>
           ))}
+          <TableHead>
+            Action
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
