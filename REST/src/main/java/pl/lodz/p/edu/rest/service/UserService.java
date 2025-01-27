@@ -3,11 +3,17 @@ package pl.lodz.p.edu.rest.service;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.LoginDTO;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.exception.DuplicateUserException;
+import pl.lodz.p.edu.rest.exception.InvalidCredentialsException;
 import pl.lodz.p.edu.rest.exception.UserNotFoundException;
 import pl.lodz.p.edu.rest.mapper.UserMapper;
 import pl.lodz.p.edu.rest.model.user.*;
@@ -16,13 +22,15 @@ import pl.lodz.p.edu.rest.repository.UserRepository;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper = new UserMapper();
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDTO addUser(UserDTO user) {
@@ -30,6 +38,7 @@ public class UserService {
             throw new DuplicateUserException("User with login " + user.getLogin() + " already exists");
         }
         User createdUser = userMapper.convertToUser(user);
+        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
         ObjectId id = userRepository.save(createdUser);
         createdUser.setId(id);
         return userMapper.convertToUserDTO(createdUser);
@@ -48,6 +57,10 @@ public class UserService {
         if (user == null) {
             throw new UserNotFoundException("User with login " + login.getLogin() + " not found");
         }
+        if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid credentials");
+        }
+        // TODO: don't return password
         return userMapper.convertToUserDTO(user);
     }
 
@@ -119,5 +132,14 @@ public class UserService {
 
     private boolean findUserById(String id) {
         return userRepository.findById(id) != null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByLogin(username);
+        if (user == null) {
+            throw new UserNotFoundException("User with login " + username + " not found");
+        }
+        return new UserPrincipal(user);
     }
 }

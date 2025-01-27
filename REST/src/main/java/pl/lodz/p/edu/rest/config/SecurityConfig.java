@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,16 +10,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.lodz.p.edu.rest.security.JwtFilter;
+import pl.lodz.p.edu.rest.security.JwtTokenProvider;
 import pl.lodz.p.edu.rest.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final JwtFilter jwtFilter;
 
-    private final UserService userService;
-
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
+    @Autowired
+    public SecurityConfig(UserService userService, JwtTokenProvider jwtTokenProvider) {
+        this.jwtFilter = new JwtFilter(jwtTokenProvider, userService);
     }
 
     @Bean
@@ -30,12 +34,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/users", "/api/users/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
