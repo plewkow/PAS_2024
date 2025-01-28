@@ -153,7 +153,7 @@ public class UserService implements UserDetailsService {
         }
 
         String encodedNewPassword = passwordEncoder.encode(dto.getNewPassword());
-        UpdateResult result = userRepository.updatePassword(user.getId().toString(), encodedNewPassword);
+        UpdateResult result = userRepository.updatePassword(user.getLogin(), encodedNewPassword);
         if (result.getModifiedCount() == 0) {
             throw new RuntimeException("Failed to update password for user with login " + username);
         }
