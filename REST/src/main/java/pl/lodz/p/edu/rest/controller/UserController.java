@@ -2,12 +2,11 @@ package pl.lodz.p.edu.rest.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.edu.rest.dto.LoginDTO;
-import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
-import pl.lodz.p.edu.rest.dto.CreateUserDTO;
-import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.model.user.Role;
+import pl.lodz.p.edu.rest.model.user.UserPrincipal;
 import pl.lodz.p.edu.rest.service.UserService;
 
 import java.util.List;
@@ -71,5 +70,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivateUser(@PathVariable String id) {
         userService.deactivateUser(id);
+    }
+
+    @PutMapping("/me/changePassword")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassword(@RequestBody @Valid ChangePasswordDTO dto) {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = userPrincipal.getUsername();
+        userService.changePassword(username, dto);
     }
 }

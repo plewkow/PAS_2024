@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.lodz.p.edu.rest.dto.LoginDTO;
-import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
-import pl.lodz.p.edu.rest.dto.CreateUserDTO;
-import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.exception.DuplicateUserException;
 import pl.lodz.p.edu.rest.exception.InvalidCredentialsException;
 import pl.lodz.p.edu.rest.exception.UserNotFoundException;
@@ -140,5 +137,22 @@ public class UserService implements UserDetailsService {
             throw new UserNotFoundException("User with login " + username + " not found");
         }
         return new UserPrincipal(user);
+    }
+
+    public void changePassword(String username, ChangePasswordDTO dto) {
+        User user = userRepository.findByLogin(username);
+        if (user == null) {
+            throw new UserNotFoundException("User with login " + username + " not found");
+        }
+
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Current password is incorrect");
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(dto.getNewPassword());
+        UpdateResult result = userRepository.updatePassword(user.getId().toString(), encodedNewPassword);
+        if (result.getModifiedCount() == 0) {
+            throw new RuntimeException("Failed to update password for user with login " + username);
+        }
     }
 }

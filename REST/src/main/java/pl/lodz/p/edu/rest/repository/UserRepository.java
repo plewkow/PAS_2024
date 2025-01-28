@@ -95,4 +95,11 @@ public class UserRepository extends AbstractMongoEntity {
     public User findByLogin(String login) {
         return userCollection.find(Filters.eq("login", login)).first();
     }
+
+    public UpdateResult updatePassword(String login, String encodedNewPassword) {
+        return userCollection.updateOne(
+                Filters.eq("login", login),
+                set("password", encodedNewPassword)
+        );
+    }
 }
