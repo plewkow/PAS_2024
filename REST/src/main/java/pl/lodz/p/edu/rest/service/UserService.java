@@ -15,6 +15,7 @@ import pl.lodz.p.edu.rest.exception.UserNotFoundException;
 import pl.lodz.p.edu.rest.mapper.UserMapper;
 import pl.lodz.p.edu.rest.model.user.*;
 import pl.lodz.p.edu.rest.repository.UserRepository;
+import pl.lodz.p.edu.rest.security.JwtTokenProvider;
 
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper = new UserMapper();
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public UserDTO addUser(CreateUserDTO user) {
@@ -154,5 +157,13 @@ public class UserService implements UserDetailsService {
         if (result.getModifiedCount() == 0) {
             throw new RuntimeException("Failed to update password for user with login " + username);
         }
+    }
+
+    public String login(LoginDTO loginDTO) {
+        User user = userRepository.findByLogin(loginDTO.getLogin());
+        if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid login or password");
+        }
+        return jwtTokenProvider.generateToken(user.getLogin(), user.getRole());
     }
 }

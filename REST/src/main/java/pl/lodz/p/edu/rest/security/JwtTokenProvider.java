@@ -1,11 +1,10 @@
 package pl.lodz.p.edu.rest.security;
 
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pl.lodz.p.edu.rest.model.user.Role;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -20,11 +19,12 @@ public class JwtTokenProvider {
     @Value("${app.jwt.expiration}")
     private long expiration;
 
-    public String generateToken(String login) {
+    public String generateToken(String login, Role role) {
         Key key = Keys.hmacShaKeyFor(secret.getBytes());
 
         return Jwts.builder()
                 .subject(login)
+                .claim("role", role.name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
@@ -39,6 +39,17 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String getRole(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
+
+        Jws<Claims> claimsJws = Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+
+        return claimsJws.getBody().get("role", String.class);
     }
 
     public boolean validateToken(String token) {

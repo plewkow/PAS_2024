@@ -36,11 +36,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDTO getUserByLogin(@RequestBody LoginDTO login) {
-        return userService.getUserByLogin(login);
-    }
+//    @PostMapping("/login")
+//    @ResponseStatus(HttpStatus.OK)
+//    public UserDTO getUserByLogin(@RequestBody LoginDTO login) {
+//        return userService.getUserByLogin(login);
+//    }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -81,5 +81,12 @@ public class UserController {
                 .getPrincipal();
         String username = userPrincipal.getUsername();
         userService.changePassword(username, dto);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public TokenDTO login(@RequestBody @Valid LoginDTO dto) {
+        String token = userService.login(dto);
+        return new TokenDTO(token);
     }
 }
