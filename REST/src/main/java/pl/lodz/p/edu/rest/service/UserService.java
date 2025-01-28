@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.LoginDTO;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
+import pl.lodz.p.edu.rest.dto.CreateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.exception.DuplicateUserException;
 import pl.lodz.p.edu.rest.exception.InvalidCredentialsException;
@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserDTO addUser(UserDTO user) {
+    public UserDTO addUser(CreateUserDTO user) {
         if (userExists(user.getLogin())) {
             throw new DuplicateUserException("User with login " + user.getLogin() + " already exists");
         }
@@ -60,7 +60,6 @@ public class UserService implements UserDetailsService {
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
-        // TODO: don't return password
         return userMapper.convertToUserDTO(user);
     }
 

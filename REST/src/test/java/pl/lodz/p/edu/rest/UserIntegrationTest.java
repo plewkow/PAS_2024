@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
-import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.dto.CreateUserDTO;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.User;
 import pl.lodz.p.edu.rest.repository.MongoEntity;
@@ -36,7 +36,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testCreateUser() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -60,7 +60,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testCreateUserWithMissingProperty() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 null,
@@ -79,7 +79,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetUser() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -112,7 +112,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetUsersByFirstName() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -144,7 +144,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetUsersByFirstNameError() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -171,7 +171,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetUsersByFirstNameAndRoleError() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -199,7 +199,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetUsersByFirstNameAndRole() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -232,7 +232,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetAllUsers() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -263,7 +263,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testGetAllUsersByRole() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -295,7 +295,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testUpdateUser() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -328,7 +328,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testActivateUser() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -363,7 +363,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testDeactivateUser() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -391,7 +391,7 @@ public class UserIntegrationTest {
 
     @Test
     public void testCreateUserWithExistingLogin() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",

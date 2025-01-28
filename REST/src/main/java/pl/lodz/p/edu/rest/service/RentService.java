@@ -1,6 +1,5 @@
 package pl.lodz.p.edu.rest.service;
 
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.exception.*;
@@ -9,10 +8,12 @@ import pl.lodz.p.edu.rest.mapper.RentMapper;
 import pl.lodz.p.edu.rest.model.Rent;
 import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.model.user.Client;
+import pl.lodz.p.edu.rest.model.user.User;
 import pl.lodz.p.edu.rest.repository.ItemRepository;
 import pl.lodz.p.edu.rest.repository.MongoEntity;
 import pl.lodz.p.edu.rest.repository.RentRepository;
 import pl.lodz.p.edu.rest.mapper.UserMapper;
+import pl.lodz.p.edu.rest.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,26 +21,24 @@ import java.util.List;
 @Service
 public class RentService {
     private final RentRepository rentRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final ItemService itemService;
     private final MongoEntity mongoEntity;
     private final UserMapper userMapper = new UserMapper();
     private final RentMapper rentMapper = new RentMapper();
 
-    public RentService(RentRepository rentRepository, UserService userService, ItemService itemService, ItemRepository itemRepository) {
+    public RentService(RentRepository rentRepository, UserRepository userRepository, ItemService itemService, ItemRepository itemRepository) {
         this.rentRepository = rentRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.itemService = itemService;
         mongoEntity = new MongoEntity();
     }
 
     public RentDTO rentItem(RentDTO rentDTO) {
-        UserDTO userDTO = userService.getUserById(rentDTO.getClientId());
-        if (userDTO == null) {
+        Client client = (Client) userRepository.findById(rentDTO.getClientId());
+        if (client == null) {
             throw new UserNotFoundException("User with id " + rentDTO.getItemId() + " not found");
         }
-
-        Client client = (Client) userMapper.convertToUser(userDTO);
 
         ItemDTO itemDTO = itemService.getItemById(rentDTO.getItemId());
         if (itemDTO == null) {

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.lodz.p.edu.rest.dto.RentDTO;
-import pl.lodz.p.edu.rest.dto.UserDTO;
+import pl.lodz.p.edu.rest.dto.CreateUserDTO;
 import pl.lodz.p.edu.rest.model.Rent;
 import pl.lodz.p.edu.rest.model.item.Item;
 import pl.lodz.p.edu.rest.model.user.Role;
@@ -50,7 +50,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testRentItem() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -125,7 +125,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testReturnItem() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -211,7 +211,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testGetRent() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -300,7 +300,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testGetActiveRents() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -385,7 +385,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testGetInactiveRents() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",
@@ -481,7 +481,7 @@ public class RentIntegrationTest {
 
     @Test
     public void testRentItemAlreadyRented() throws JsonProcessingException {
-        UserDTO user = new UserDTO("testowyAdmin",
+        CreateUserDTO user = new CreateUserDTO("testowyAdmin",
                 "testoweHaslo",
                 "Adminek",
                 "Adminowski",

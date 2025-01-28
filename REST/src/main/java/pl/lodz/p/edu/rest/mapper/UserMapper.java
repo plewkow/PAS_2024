@@ -2,6 +2,7 @@ package pl.lodz.p.edu.rest.mapper;
 
 import org.bson.types.ObjectId;
 import pl.lodz.p.edu.rest.dto.ClientDTO;
+import pl.lodz.p.edu.rest.dto.CreateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.*;
 
@@ -20,7 +21,6 @@ public class UserMapper {
             return new ClientDTO(
                     client.getId().toString(),
                     client.getLogin(),
-                    client.getPassword(),
                     client.getFirstName(),
                     client.getLastName(),
                     client.getRole(),
@@ -31,7 +31,6 @@ public class UserMapper {
             return new UserDTO(
                     user.getId().toString(),
                     user.getLogin(),
-                    user.getPassword(),
                     user.getFirstName(),
                     user.getLastName(),
                     user.getRole(),
@@ -44,7 +43,6 @@ public class UserMapper {
         return new UserDTO(
                 user.getId().toString(),
                 user.getLogin(),
-                user.getPassword(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getRole(),
@@ -52,28 +50,28 @@ public class UserMapper {
         );
     }
 
-    public User convertToUser(UserDTO userDTO) {
-        ObjectId objectId = userDTO.getId() != null ? new ObjectId(userDTO.getId()) : null;
-        return switch (userDTO.getRole()) {
+    public User convertToUser(CreateUserDTO createUserDTO) {
+        ObjectId objectId = createUserDTO.getId() != null ? new ObjectId(createUserDTO.getId()) : null;
+        return switch (createUserDTO.getRole()) {
             case CLIENT -> new Client(
                     objectId,
-                    userDTO.getLogin(),
-                    userDTO.getPassword(),
-                    userDTO.getFirstName(),
-                    userDTO.getLastName(),
+                    createUserDTO.getLogin(),
+                    createUserDTO.getPassword(),
+                    createUserDTO.getFirstName(),
+                    createUserDTO.getLastName(),
                     ClientType.createNoMembership());
             case ADMIN -> new Admin(
                     objectId,
-                    userDTO.getLogin(),
-                    userDTO.getPassword(),
-                    userDTO.getFirstName(),
-                    userDTO.getLastName());
+                    createUserDTO.getLogin(),
+                    createUserDTO.getPassword(),
+                    createUserDTO.getFirstName(),
+                    createUserDTO.getLastName());
             case MANAGER -> new Manager(
                     objectId,
-                    userDTO.getLogin(),
-                    userDTO.getPassword(),
-                    userDTO.getFirstName(),
-                    userDTO.getLastName());
+                    createUserDTO.getLogin(),
+                    createUserDTO.getPassword(),
+                    createUserDTO.getFirstName(),
+                    createUserDTO.getLastName());
         };
     }
 }

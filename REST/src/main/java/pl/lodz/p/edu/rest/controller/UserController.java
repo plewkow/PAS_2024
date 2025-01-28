@@ -1,12 +1,11 @@
 package pl.lodz.p.edu.rest.controller;
 
 import jakarta.validation.Valid;
-import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.edu.rest.dto.LoginDTO;
 import pl.lodz.p.edu.rest.dto.UpdateUserDTO;
+import pl.lodz.p.edu.rest.dto.CreateUserDTO;
 import pl.lodz.p.edu.rest.dto.UserDTO;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.service.UserService;
@@ -46,7 +45,7 @@ public class UserController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO addUser(@RequestBody @Valid UserDTO userDTO) {
+    public UserDTO addUser(@RequestBody @Valid CreateUserDTO userDTO) {
         return userService.addUser(userDTO);
     }
 
