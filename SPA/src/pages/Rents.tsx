@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,25 +11,40 @@ import { Button } from "@/components/ui/button";
 import ItemsTable from "@/components/ItemsTable";
 import RentsTable from "@/components/RentsTable";
 import { Item, Rent } from "@/types";
-import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { comicsColumns, movieColumns, musicColumns } from "@/constants";
+import { useNavigate } from "react-router";
 
 const Rents = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [rents, setRents] = useState<Rent[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogAction, setDialogAction] = useState<"rent" | "return" | null>(
-    null
-  );
+  const [dialogAction, setDialogAction] = useState<"rent" | "return" | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedRentId, setSelectedRentId] = useState<number | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = window.localStorage.getItem("jwt");
+
+    if (!token) {
+      toast({
+        title: "Authentication Error",
+        description: "You need to be logged in to access rents.",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
+
     const fetchItems = async () => {
       try {
-        const response = await fetch("/api/items");
+        const response = await fetch("/api/items", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           toast({
             title: "Error",
@@ -50,9 +65,14 @@ const Rents = () => {
         console.error(err);
       }
     };
+
     const fetchRents = async () => {
       try {
-        const response = await fetch("/api/rents/active");
+        const response = await fetch("/api/rents/active", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           toast({
             title: "Error",
@@ -76,7 +96,7 @@ const Rents = () => {
 
     fetchRents();
     fetchItems();
-  }, []);
+  }, [toast, navigate]);
 
   const handleOpenDialog = (
     action: "rent" | "return",
@@ -117,10 +137,15 @@ const Rents = () => {
     };
 
     try {
+      const token = window.localStorage.getItem("jwt");
+
+      console.log(rentData); // Sprawdź rentData przed wysłaniem
       const response = await fetch("/api/rents", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+
         },
         body: JSON.stringify(rentData),
       });
@@ -168,6 +193,7 @@ const Rents = () => {
 
   const handleReturnItem = async (rentId: number, itemId: number) => {
     const userId = localStorage.getItem("userID");
+    const token = window.localStorage.getItem("jwt");
 
     if (!userId) {
       toast({
@@ -181,6 +207,9 @@ const Rents = () => {
     try {
       const response = await fetch(`/api/rents/return/${rentId}`, {
         method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -241,8 +270,8 @@ const Rents = () => {
       </div>
       <h1 className="text-bold text-3xl my-8 mt-12">Rents List</h1>
       <RentsTable
-          rents={rents}
-          onReturnItem={async (rentId, itemId) => {
+        rents={rents}
+        onReturnItem={async (rentId, itemId) => {
           handleOpenDialog("return", itemId, rentId);
           return Promise.resolve();
         }}

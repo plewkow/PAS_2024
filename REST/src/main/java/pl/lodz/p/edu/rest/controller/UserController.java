@@ -149,4 +149,15 @@ public class UserController {
             userService.invalidateToken(token);
         }
     }
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getCurrentUser(HttpServletRequest request) {
+        String token = getTokenFromRequest(request);
+        if (token == null || !jwtTokenProvider.validateToken(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or missing token");
+        }
+        String username = jwtTokenProvider.getLogin(token);
+        UserDTO currentUser = userService.getUserByLogin(username);
+        return currentUser;
+    }
 }

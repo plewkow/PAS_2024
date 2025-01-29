@@ -40,49 +40,67 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const response = await fetch("/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        login: values.login,
-        password: values.password,
-      }),
-    });
-  
-    if (!response.ok) {
-      const result = await response.text();
+    try {
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          login: values.login,
+          password: values.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const result = await response.text();
+        toast({
+          title: "Login failed",
+          description: result,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const result = await response.json();
+      const token = result.token;
+
+      if (token) {
+        const userIDResponse = await fetch("/api/users/me", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        const resultID = await userIDResponse.json();
+
+        window.localStorage.setItem("jwt", token);
+        window.localStorage.setItem("userID", resultID.id);
+
+        toast({
+          title: "Login successful",
+          description: "You are now logged in.",
+          variant: "default",
+        });
+
+        navigate("/");
+      } else {
+        toast({
+          title: "Login failed",
+          description: "No token received.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Login failed",
-        description: result,
-        variant: "destructive",
-      });
-      return;
-    }
-  
-    const result = await response.json();
-  
-    const token = result.token;
-  
-    if (token) {
-      window.localStorage.setItem("jwt", token);
-      window.localStorage.setItem("userID", result.id);
-      toast({
-        title: "Login successful",
-        description: "You are now logged in.",
-        variant: "default",
-      });
-  
-      navigate("/");
-    } else {
-      toast({
-        title: "Login failed",
-        description: "No token received.",
+        description: "Something went wrong",
         variant: "destructive",
       });
     }
-  };  
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -114,7 +132,7 @@ const LoginForm = () => {
         />
         <div className="flex justify-center">
           <Button type="submit" className="">
-            Submit
+              Submit
           </Button>
         </div>
       </form>

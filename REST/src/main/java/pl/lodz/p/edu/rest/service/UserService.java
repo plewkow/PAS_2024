@@ -66,6 +66,14 @@ public class UserService implements UserDetailsService {
         return userMapper.convertToUserDTO(user);
     }
 
+    public UserDTO getUserByLogin(String login) {
+        User user = userRepository.findByLogin(login);
+        if (user == null) {
+            throw new UserNotFoundException("User with login " + login + " not found");
+        }
+        return userMapper.convertToUserDTO(user);
+    }
+
     public List<UserDTO> getUsersByRole(Role role) {
         List<User> users = userRepository.findByRole(role);
         if (users.isEmpty()) {

@@ -1,7 +1,8 @@
 import { User } from "@/types";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import jwt_decode from 'jwt-decode';
 import {
   Dialog,
   DialogContent,
@@ -23,11 +24,23 @@ const Profile = ({ user }: UserDetailsProps) => {
   const [userData, setUserData] = useState<User | null>(user);
   const [loading, setLoading] = useState(false);
   const [isUserActive, setIsUserActive] = useState(user?.isActive || false);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [actionType, setActionType] = useState<
-    "activate" | "deactivate" | "save" | null
-  >(null);
+  const [actionType, setActionType] = useState<"activate" | "deactivate" | "save" | null>(null);
+
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("jwt");
+
+    if (token) {
+      try {
+        const decoded: any = jwt_decode(token);
+        setUserRole(decoded.role);
+      } catch (error) {
+        console.error("Error decoding token", error);
+      }
+    }
+  }, []);
 
   const onActivate = () => {
     if (userData?.role === "ACTIVE") {
@@ -65,6 +78,18 @@ const Profile = ({ user }: UserDetailsProps) => {
   const handleDialogConfirm = async () => {
     setLoading(true);
 
+    const token = window.localStorage.getItem("jwt");
+
+    if (!token) {
+      toast({
+        title: "Authentication Error",
+        description: "You must be logged in to perform this action.",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
     if (userData) {
       let endpoint = "";
       let successMessage = "";
@@ -89,11 +114,13 @@ const Profile = ({ user }: UserDetailsProps) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
           },
           body: actionType === "save" ? JSON.stringify(userData) : undefined,
         });
 
         if (!response.ok) throw new Error(errorMessage);
+
         toast({
           title: successMessage,
           description:
@@ -112,8 +139,7 @@ const Profile = ({ user }: UserDetailsProps) => {
             actionType!.charAt(0).toUpperCase() +
             actionType?.slice(1) +
             " Error",
-          // @ts-ignore
-          description: err.message,
+          description: errorMessage,
           variant: "destructive",
         });
       }
@@ -130,8 +156,12 @@ const Profile = ({ user }: UserDetailsProps) => {
 
       {userData && (
         <div className="flex justify-center mt-4 space-x-4">
-          <Button disabled={isUserActive} onClick={onActivate}>Activate account</Button>
-          <Button disabled={!isUserActive} onClick={onDeactivate}>Deactivate account</Button>
+          {(userRole === "ADMIN" || userRole === "MANAGER") && (
+            <>
+              <Button disabled={isUserActive} onClick={onActivate}>Activate account</Button>
+              <Button disabled={!isUserActive} onClick={onDeactivate}>Deactivate account</Button>
+            </>
+          )}
           <Button onClick={onSave}>Save changes</Button>
         </div>
       )}
