@@ -1,5 +1,6 @@
 package pl.lodz.p.edu.rest.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,5 +89,22 @@ public class UserController {
     public TokenDTO login(@RequestBody @Valid LoginDTO dto) {
         String token = userService.login(dto);
         return new TokenDTO(token);
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(HttpServletRequest request) {
+        String token = getTokenFromRequest(request);
+        if (token != null) {
+            userService.invalidateToken(token);
+        }
     }
 }

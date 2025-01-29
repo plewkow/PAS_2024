@@ -35,6 +35,11 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if (token != null && jwtTokenProvider.validateToken(token)) {
+            if (userService.isTokenOnBlackList(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token has been invalidated");
+                return;
+            }
             String login = jwtTokenProvider.getLogin(token);
             String roleString = jwtTokenProvider.getRole(token);
             Role role = Role.valueOf(roleString);

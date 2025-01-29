@@ -18,6 +18,8 @@ import pl.lodz.p.edu.rest.repository.UserRepository;
 import pl.lodz.p.edu.rest.security.JwtTokenProvider;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,6 +27,7 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper = new UserMapper();
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final Set<String> blacklist = ConcurrentHashMap.newKeySet();
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
@@ -165,5 +168,13 @@ public class UserService implements UserDetailsService {
             throw new InvalidCredentialsException("Invalid login or password");
         }
         return jwtTokenProvider.generateToken(user.getLogin(), user.getRole());
+    }
+
+    public void invalidateToken(String token) {
+        blacklist.add(token);
+    }
+
+    public boolean isTokenOnBlackList(String token) {
+        return blacklist.contains(token);
     }
 }
