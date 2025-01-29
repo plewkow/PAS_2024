@@ -5,20 +5,25 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.UserPrincipal;
+import pl.lodz.p.edu.rest.security.JwtTokenProvider;
 import pl.lodz.p.edu.rest.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping()
@@ -41,6 +46,43 @@ public class UserController {
 //    @ResponseStatus(HttpStatus.OK)
 //    public UserDTO getUserByLogin(@RequestBody LoginDTO login) {
 //        return userService.getUserByLogin(login);
+//    }
+
+//    @PostMapping()
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public SignedResponse<UserDTO> addUser(@RequestBody @Valid SignedRequest<CreateUserDTO> request) {
+//        // Pobranie danych z żądania
+//        CreateUserDTO userDTO = request.getData();
+//        String signature = request.getSignature();
+//
+//        // Weryfikacja podpisu
+//        Map<String, Object> expectedData = Map.of(
+//                "login", userDTO.getLogin(),
+//                "firstName", userDTO.getFirstName(),
+//                "lastName", userDTO.getLastName(),
+//                "role", userDTO.getRole().toString()
+//        );
+//
+//        boolean isValid = jwtTokenProvider.verifySignature(signature, expectedData);
+//        if (!isValid) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Niepoprawny podpis!");
+//        }
+//
+//        // Dodanie użytkownika
+//        UserDTO createdUser = userService.addUser(userDTO);
+//
+//        // Przygotowanie danych odpowiedzi
+//        Map<String, Object> responseData = Map.of(
+//                "id", createdUser.getId(),
+//                "login", createdUser.getLogin(),
+//                "role", createdUser.getRole().toString()
+//        );
+//
+//        // Generowanie podpisu odpowiedzi
+//        String responseSignature = jwtTokenProvider.signData(responseData);
+//
+//        // Zwrócenie odpowiedzi
+//        return new SignedResponse<>(createdUser, responseSignature);
 //    }
 
     @PostMapping()
