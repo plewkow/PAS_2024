@@ -45,8 +45,12 @@ const LoginForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ login: values.login }),
+      body: JSON.stringify({
+        login: values.login,
+        password: values.password,
+      }),
     });
+  
     if (!response.ok) {
       const result = await response.text();
       toast({
@@ -56,11 +60,29 @@ const LoginForm = () => {
       });
       return;
     }
+  
     const result = await response.json();
-    window.localStorage.setItem("userID", result.id);
-    // redirect to home page
-    navigate("/");
-  };
+  
+    const token = result.token;
+  
+    if (token) {
+      window.localStorage.setItem("jwt", token);
+      window.localStorage.setItem("userID", result.id);
+      toast({
+        title: "Login successful",
+        description: "You are now logged in.",
+        variant: "default",
+      });
+  
+      navigate("/");
+    } else {
+      toast({
+        title: "Login failed",
+        description: "No token received.",
+        variant: "destructive",
+      });
+    }
+  };  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
