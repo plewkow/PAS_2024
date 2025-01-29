@@ -24,8 +24,6 @@ const UserDetailsTable = ({
     lastName: false,
   });
 
-  console.log(userData);
-
   const toggleEdit = (field: string) => {
     setIsEditing((prev) => ({
       ...prev,

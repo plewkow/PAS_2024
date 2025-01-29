@@ -138,8 +138,6 @@ const Rents = () => {
 
     try {
       const token = window.localStorage.getItem("jwt");
-
-      console.log(rentData); // Sprawdź rentData przed wysłaniem
       const response = await fetch("/api/rents", {
         method: "POST",
         headers: {
