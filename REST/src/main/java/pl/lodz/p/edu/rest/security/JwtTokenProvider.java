@@ -9,7 +9,6 @@ import pl.lodz.p.edu.rest.model.user.Role;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
-import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
@@ -62,27 +61,5 @@ public class JwtTokenProvider {
         } catch (JwtException e) {
             return false;
         }
-    }
-
-    public String signData(Map<String, Object> data) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
-
-        return Jwts.builder()
-                .claims(data)
-                .signWith(key)
-                .compact();
-    }
-
-    public boolean verifySignature(String jws, Map<String, Object> expectedData) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
-
-
-        Claims claims = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(jws)
-                .getPayload();
-
-        return claims.equals(expectedData);
     }
 }

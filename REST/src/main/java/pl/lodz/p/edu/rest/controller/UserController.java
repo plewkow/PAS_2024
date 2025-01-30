@@ -132,7 +132,6 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or missing token");
         }
         String username = jwtTokenProvider.getLogin(token);
-        UserDTO currentUser = userService.getUserByLogin(username);
-        return currentUser;
+        return userService.getUserByLogin(username);
     }
 }
