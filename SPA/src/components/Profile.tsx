@@ -1,8 +1,7 @@
 import { DecodedToken, User } from "@/types";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import jwt_decode from "jwt-decode";
 import {
   Dialog,
   DialogContent,
@@ -33,7 +32,6 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
   >(null);
 
   const token = localStorage.getItem("jwt");
-  const userId = jwtDecode<DecodedToken>(token!).userId;
   const userRole = jwtDecode<DecodedToken>(token!).role;
 
   const onActivate = () => {
