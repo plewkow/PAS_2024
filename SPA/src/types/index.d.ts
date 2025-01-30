@@ -38,3 +38,11 @@ export interface Column {
   field: keyof Item;
   width?: number;
 }
+
+export interface DecodedToken {
+  sub: string;
+  role: string;
+  userId: string;
+  iat: number;
+  exp: number;
+}

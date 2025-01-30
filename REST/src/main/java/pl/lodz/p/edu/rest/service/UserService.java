@@ -175,7 +175,7 @@ public class UserService implements UserDetailsService {
         if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid login or password");
         }
-        return jwtTokenProvider.generateToken(user.getLogin(), user.getRole());
+        return jwtTokenProvider.generateToken(user.getLogin(), user.getId().toHexString(), user.getRole());
     }
 
     public void invalidateToken(String token) {

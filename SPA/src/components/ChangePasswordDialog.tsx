@@ -1,16 +1,27 @@
 import { FC } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import apiClient from "@/lib/apiClient";
 
 interface ChangePasswordDialogProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({ isOpen, setIsOpen }) => {
+const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
+  isOpen,
+  setIsOpen,
+}) => {
   const { toast } = useToast();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -30,25 +41,21 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({ isOpen, setIsOpen
     setLoading(true);
 
     try {
-      const token = window.localStorage.getItem("jwt");
-
-      const response = await fetch("/api/users/me/changePassword", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
+      await apiClient.put("/users/me/changePassword", {
+        currentPassword,
+        newPassword,
       });
-
-      if (!response.ok) throw new Error("Failed to change password");
 
       toast({
         title: "Success",
         description: "Password changed successfully!",
-        variant: "default",
+        variant: "success",
       });
+
       setIsOpen(false);
+      setNewPassword("");
+      setCurrentPassword("");
+      setConfirmPassword("");
     } catch (error) {
       toast({
         title: "Error",
@@ -65,12 +72,29 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({ isOpen, setIsOpen
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
-          <DialogDescription>Enter your current and new password</DialogDescription>
+          <DialogDescription>
+            Enter your current and new password
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
-          <Input type="password" placeholder="Current Password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-          <Input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-          <Input type="password" placeholder="Confirm New Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+          <Input
+            type="password"
+            placeholder="Current Password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Confirm New Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
         </div>
         <div className="flex justify-between mt-4">
           <DialogClose asChild>

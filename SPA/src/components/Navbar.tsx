@@ -7,38 +7,34 @@ import { NavLink, useNavigate } from "react-router";
 import { Home, Users, LogIn, LogOut, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ChangePasswordDialog from "./ChangePasswordDialog";
+import apiClient from "@/lib/apiClient";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const handleLogout = async () => {
-    const response = await fetch("/api/users/logout", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${window.localStorage.getItem("jwt")}`,
-      },
-    });
+    try {
+      await apiClient.post("/users/logout");
 
-    if (response.ok) {
       window.localStorage.removeItem("jwt");
-      navigate("/login");
       toast({
         title: "Logout successful",
         description: "You are now logged out",
-        variant: "default",
-      });
-    } else {
-      const result = await response.text();
+        variant: "success",
+      })
+      navigate("/login");
+    } catch (err) {
       toast({
         title: "Logout failed",
-        description: result,
+        // @ts-ignore
+        description: err.response.data || "Something went wrong",
         variant: "destructive",
       });
     }
   };
 
-  const isLoggedIn = Boolean(window.localStorage.getItem("jwt"));
+  const isLoggedIn = !!window.localStorage.getItem("jwt");
 
   return (
     <NavigationMenu className="w-full bg-gradient-to-r from-blue-900 to-blue-300 p-4">

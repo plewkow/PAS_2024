@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router";
+import { authClient } from "@/lib/apiClient";
 
 const formSchema = z.object({
   login: z.string().min(2).max(50),
@@ -41,61 +42,22 @@ const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          login: values.login,
-          password: values.password,
-        }),
-      });
+      const response = await authClient.post('/users/login', values);
 
-      if (!response.ok) {
-        const result = await response.text();
-        toast({
-          title: "Login failed",
-          description: result,
-          variant: "destructive",
-        });
-        return;
-      }
+      window.localStorage.setItem("jwt", response.data.token);
 
-      const result = await response.json();
-      const token = result.token;
-
-      if (token) {
-        const userIDResponse = await fetch("/api/users/me", {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-
-        const resultID = await userIDResponse.json();
-
-        window.localStorage.setItem("jwt", token);
-        window.localStorage.setItem("userID", resultID.id);
-
-        toast({
-          title: "Login successful",
+      toast({
+        title: "Login successful",
           description: "You are now logged in.",
-          variant: "default",
-        });
+          variant: "success",
+      })
 
-        navigate("/");
-      } else {
-        toast({
-          title: "Login failed",
-          description: "No token received.",
-          variant: "destructive",
-        });
-      }
+      navigate("/");
     } catch (error) {
       toast({
         title: "Login failed",
-        description: "Something went wrong",
+        // @ts-ignore
+        description: error.response.data || "Something went wrong",
         variant: "destructive",
       });
     }

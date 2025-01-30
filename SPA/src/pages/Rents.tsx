@@ -10,67 +10,47 @@ import {
 import { Button } from "@/components/ui/button";
 import ItemsTable from "@/components/ItemsTable";
 import RentsTable from "@/components/RentsTable";
-import { Item, Rent } from "@/types";
+import { DecodedToken, Item, Rent } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { comicsColumns, movieColumns, musicColumns } from "@/constants";
 import { useNavigate } from "react-router";
+import apiClient from "@/lib/apiClient";
+import jwtDecode from "jwt-decode";
 
 const Rents = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [rents, setRents] = useState<Rent[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogAction, setDialogAction] = useState<"rent" | "return" | null>(null);
+  const [dialogAction, setDialogAction] = useState<"rent" | "return" | null>(
+    null
+  );
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedRentId, setSelectedRentId] = useState<number | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = window.localStorage.getItem("jwt");
-  
-    if (!token) {
-      navigate("/login", { replace: true });
-      return;
-    }
-  
     const fetchItems = async () => {
       try {
-        const response = await fetch("/api/items", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          return;
-        }
-        const result = await response.json();
-        setItems(result);
+        const { data } = await apiClient.get("/items");
+        setItems(data);
       } catch (err) {
         console.error(err);
       }
     };
-  
+
     const fetchRents = async () => {
       try {
-        const response = await fetch("/api/rents/active", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          return;
-        }
-        const result = await response.json();
-        setRents(result);
+        const { data } = await apiClient.get("/rents/active");
+        setRents(data);
       } catch (err) {
         console.error(err);
       }
     };
-  
+
     fetchRents();
     fetchItems();
   }, [navigate]);
-  
 
   const handleOpenDialog = (
     action: "rent" | "return",
@@ -94,7 +74,7 @@ const Rents = () => {
   };
 
   const handleRentItem = async (itemId: number) => {
-    const userId = localStorage.getItem("userID");
+    const userId = jwtDecode<DecodedToken>(localStorage.getItem("jwt")!).userId;
 
     if (!userId) {
       toast({
@@ -111,31 +91,12 @@ const Rents = () => {
     };
 
     try {
-      const token = window.localStorage.getItem("jwt");
-      const response = await fetch("/api/rents", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-
-        },
-        body: JSON.stringify(rentData),
-      });
-
-      if (!response.ok) {
-        toast({
-          title: "Rent failed",
-          description: "Failed to rent this item.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      const result = await response.json();
+      const { data } = await apiClient.post("/rents", rentData);
+      console.log(data);
       toast({
         title: "Success",
-        description: `Item rented successfully! Rent ID: ${result.id}`,
-        variant: "default",
+        description: `Item rented successfully! Rent ID: ${data.id}`,
+        variant: "success",
       });
 
       setItems((prevItems) =>
@@ -147,7 +108,7 @@ const Rents = () => {
       setRents((prevRents) => [
         ...prevRents,
         {
-          ...result,
+          ...data,
           clientId: userId,
           itemId: itemId,
           beginTime: new Date(),
@@ -156,16 +117,16 @@ const Rents = () => {
     } catch (err) {
       toast({
         title: "Error",
-        description: "Something went wrong while renting the item.",
+        description:
+          // @ts-ignore
+          err.response.data || "Something went wrong while renting the item.",
         variant: "destructive",
       });
-      console.error(err);
     }
   };
 
   const handleReturnItem = async (rentId: number, itemId: number) => {
-    const userId = localStorage.getItem("userID");
-    const token = window.localStorage.getItem("jwt");
+    const userId = jwtDecode<DecodedToken>(localStorage.getItem("jwt")!).userId;
 
     if (!userId) {
       toast({
@@ -177,27 +138,12 @@ const Rents = () => {
     }
 
     try {
-      const response = await fetch(`/api/rents/return/${rentId}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const result = await response.json();
-        toast({
-          title: "Error",
-          description: result.message || "Something went wrong.",
-          variant: "destructive",
-        });
-        return;
-      }
+      await apiClient.put(`/rents/return/${rentId}`);
 
       toast({
         title: "Success",
         description: "Item returned successfully.",
-        variant: "default",
+        variant: "success",
       });
 
       setRents((prevRents) => prevRents.filter((rent) => rent.id !== rentId));
@@ -210,10 +156,11 @@ const Rents = () => {
     } catch (err) {
       toast({
         title: "Error",
-        description: "Something went wrong while returning the item.",
+        description:
+          // @ts-ignore
+          err.response.data || "Something went wrong while returning the item.",
         variant: "destructive",
       });
-      console.error(err);
     }
   };
 

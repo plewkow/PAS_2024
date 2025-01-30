@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router";
+import { authClient } from "@/lib/apiClient";
 
 const formSchema = z
   .object({
@@ -52,25 +53,24 @@ const RegisterForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { confirmPassword, ...data } = values;
-    const response = await fetch("/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...data, role: "CLIENT" }), // TODO: add role
-    });
-    console.log(response);
-    const result = await response.json();
-    if (!response.ok) {
+    try {
+      await authClient.post("/users", {... data, role: "CLIENT"});
+
       toast({
-        title: "Registration failed",
-        description: result.message,
+        title: "Register successful",
+        description: "Now you can log in to app.",
+        variant: "success",
+      });
+
+      navigate("/");
+    } catch (err) {
+      toast({
+        title: "Login failed",
+        // @ts-ignore
+        description: err.response.data || "Something went wrong",
         variant: "destructive",
       });
     }
-    console.log(result);
-    // redirect to home page
-    navigate("/");
   };
   return (
     <Form {...form}>

@@ -5,6 +5,7 @@ import ActiveUserRentsTable from "@/components/ActiveUserRentsTable";
 import InactiveUserRentsTable from "@/components/InactiveUserRentsTable";
 import Profile from "@/components/Profile";
 import { useToast } from "@/hooks/use-toast";
+import apiClient from "@/lib/apiClient";
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -16,32 +17,12 @@ const UserDetails = () => {
   const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
-    const token = window.localStorage.getItem("jwt");
-
-    if (!token) {
-      toast({
-        title: "Authentication Error",
-        description: "You must be logged in to view the user details.",
-        variant: "destructive",
-      });
-      navigate("/login");
-      return;
-    }
-
     if (!id) return;
 
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`/api/users/${id}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch user details");
-        }
-        const userData = await response.json();
-        setUser(userData);
+        const { data } = await apiClient.get(`/users/${id}`);
+        setUser(data);
       } catch (err) {
         console.error("Error fetching user details:", err);
       }
@@ -49,16 +30,8 @@ const UserDetails = () => {
 
     const fetchActiveRents = async () => {
       try {
-        const response = await fetch(`/api/rents/active/client/${id}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch active rents");
-        }
-        const activeRentsData = await response.json();
-        setActiveRents(activeRentsData);
+        const { data } = await apiClient.get(`/rents/active/client/${id}`);
+        setActiveRents(data);
       } catch (err) {
         console.error("Error fetching active rents:", err);
       }
@@ -66,16 +39,8 @@ const UserDetails = () => {
 
     const fetchInactiveRents = async () => {
       try {
-        const response = await fetch(`/api/rents/inactive/client/${id}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch inactive rents");
-        }
-        const inactiveRentsData = await response.json();
-        setInactiveRents(inactiveRentsData);
+        const { data } = await apiClient.get(`/rents/inactive/client/${id}`);
+        setInactiveRents(data);
       } catch (error) {
         console.error("Error fetching inactive rents:", error);
       }
@@ -83,16 +48,8 @@ const UserDetails = () => {
 
     const fetchItems = async () => {
       try {
-        const response = await fetch(`/api/items`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch items");
-        }
-        const itemsData = await response.json();
-        setItems(itemsData);
+        const {data} = await apiClient.get("/items");
+        setItems(data);
       } catch (error) {
         console.error("Error fetching items:", error);
       }
