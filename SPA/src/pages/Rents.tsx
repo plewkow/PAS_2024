@@ -27,76 +27,50 @@ const Rents = () => {
 
   useEffect(() => {
     const token = window.localStorage.getItem("jwt");
-
+  
     if (!token) {
-      toast({
-        title: "Authentication Error",
-        description: "You need to be logged in to access rents.",
-        variant: "destructive",
-      });
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
-
+  
     const fetchItems = async () => {
       try {
         const response = await fetch("/api/items", {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!response.ok) {
-          toast({
-            title: "Error",
-            description: `Failed to fetch items: ${response.statusText}`,
-            variant: "destructive",
-          });
           return;
         }
         const result = await response.json();
         setItems(result);
       } catch (err) {
-        toast({
-          title: "Error",
-          description:
-            "Something went wrong while fetching items. Please try again later.",
-          variant: "destructive",
-        });
         console.error(err);
       }
     };
-
+  
     const fetchRents = async () => {
       try {
         const response = await fetch("/api/rents/active", {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!response.ok) {
-          toast({
-            title: "Error",
-            description: `Failed to fetch rents: ${response.statusText}`,
-            variant: "destructive",
-          });
           return;
         }
         const result = await response.json();
         setRents(result);
       } catch (err) {
-        toast({
-          title: "Error",
-          description:
-            "Something went wrong while fetching rents. Please try again later.",
-          variant: "destructive",
-        });
         console.error(err);
       }
     };
-
+  
     fetchRents();
     fetchItems();
-  }, [toast, navigate]);
+  }, [navigate]);
+  
 
   const handleOpenDialog = (
     action: "rent" | "return",

@@ -26,7 +26,6 @@ const ChangePasswordDialog = () => {
 
     try {
       const token = window.localStorage.getItem("jwt");
-      if (!token) throw new Error("User not authenticated");
 
       const response = await fetch("/api/users/me/changePassword", {
         method: "PUT",

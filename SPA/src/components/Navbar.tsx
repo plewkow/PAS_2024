@@ -2,9 +2,10 @@ import {
   NavigationMenu,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { NavLink, useNavigate  } from "react-router";
-import { Home, Users, LogIn, LogOut } from "lucide-react";
+import { NavLink, useNavigate } from "react-router";
+import { Home, Users, LogIn, LogOut, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ChangePasswordDialog from "./ChangePasswordDialog";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Navbar = () => {
         "Authorization": `Bearer ${window.localStorage.getItem("jwt")}`,
       },
     });
-  
+
     if (response.ok) {
       window.localStorage.removeItem("jwt");
       navigate("/login");
@@ -35,9 +36,9 @@ const Navbar = () => {
       });
     }
   };
-  
 
   const isLoggedIn = Boolean(window.localStorage.getItem("jwt"));
+
   return (
     <NavigationMenu className="w-full bg-gradient-to-r from-blue-900 to-blue-300 p-4">
       <div className="max-w-7xl flex justify-between items-center w-full">
@@ -47,17 +48,47 @@ const Navbar = () => {
               <Home size={18} /> Home
             </NavLink>
           </NavigationMenuLink>
-          <NavigationMenuLink asChild>
-            <NavLink
-              to="/users"
-              className="flex items-center space-x-2 text-white"
-            >
-              <Users size={18} /> Users
-            </NavLink>
-          </NavigationMenuLink>
+
+          {isLoggedIn && (
+            <>
+              <NavigationMenuLink asChild>
+                <NavLink
+                  to="/users"
+                  className="flex items-center space-x-2 text-white"
+                >
+                  <Users size={18} /> Users
+                </NavLink>
+              </NavigationMenuLink>
+
+              <NavigationMenuLink asChild>
+                <NavLink
+                  to="/rents"
+                  className="flex items-center space-x-2 text-white"
+                >
+                  <FileText size={18} /> Rents
+                </NavLink>
+              </NavigationMenuLink>
+            </>
+          )}
         </div>
+
         <div className="flex space-x-4">
-          {!isLoggedIn ? (
+          {isLoggedIn ? (
+            <>
+              <NavigationMenuLink asChild>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 text-white"
+                >
+                  <LogOut size={18} /> Logout
+                </button>
+              </NavigationMenuLink>
+
+              <NavigationMenuLink asChild>
+                <ChangePasswordDialog />
+              </NavigationMenuLink>
+            </>
+          ) : (
             <>
               <NavigationMenuLink asChild>
                 <NavLink
@@ -76,15 +107,6 @@ const Navbar = () => {
                 </NavLink>
               </NavigationMenuLink>
             </>
-          ) : (
-            <NavigationMenuLink asChild>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 text-white"
-              >
-                <LogOut size={18} /> Logout
-              </button>
-            </NavigationMenuLink>
           )}
         </div>
       </div>

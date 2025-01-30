@@ -13,7 +13,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import UserDetailsTable from "./UserDetailsTable";
-import ChangePasswordDialog from "./ChangePasswordDialog";
+// import ChangePasswordDialog from "./ChangePasswordDialog";
 
 interface UserDetailsProps {
   user: User | null;
@@ -164,7 +164,7 @@ const Profile = ({ user }: UserDetailsProps) => {
             </>
           )}
           <Button onClick={onSave}>Save changes</Button>
-          <ChangePasswordDialog />
+          {/* <ChangePasswordDialog /> */}
         </div>
       )}
 
