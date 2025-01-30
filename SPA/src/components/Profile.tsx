@@ -33,6 +33,7 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
 
   const token = localStorage.getItem("jwt");
   const userRole = jwtDecode<DecodedToken>(token!).role;
+  const userId = jwtDecode<DecodedToken>(token!).userId;
 
   const onActivate = () => {
     if (userData?.role === "ACTIVE") {
@@ -148,7 +149,15 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
               </Button>
             </>
           )}
-          <Button onClick={onSave}>Save changes</Button>
+          <Button
+            className={`${
+              userData.id !== userId && userRole !== "ADMIN" ? "hidden" : ""
+            }`}
+            disabled={userData.id !== userId && userRole !== "ADMIN"}
+            onClick={onSave}
+          >
+            Save changes
+          </Button>
         </div>
       )}
 

@@ -59,7 +59,8 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to change password",
+        // @ts-ignore
+        description: error.response.data || "Failed to change password",
         variant: "destructive",
       });
     }

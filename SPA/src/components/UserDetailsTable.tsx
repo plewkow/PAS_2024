@@ -90,7 +90,17 @@ const UserDetailsTable = ({
                 {renderEditField("firstName", userData.firstName)}
               </TableCell>
               <TableCell>
-                <Button disabled={userData.id !== userId && userRole !== "ADMIN"} onClick={() => toggleEdit("firstName")}>Edit</Button>
+                <Button
+                  className={`${
+                    userData.id !== userId && userRole !== "ADMIN"
+                      ? "hidden"
+                      : ""
+                  }`}
+                  disabled={userData.id !== userId && userRole !== "ADMIN"}
+                  onClick={() => toggleEdit("firstName")}
+                >
+                  Edit
+                </Button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -99,7 +109,17 @@ const UserDetailsTable = ({
                 {renderEditField("lastName", userData.lastName)}
               </TableCell>
               <TableCell>
-                <Button disabled={userData.id !== userId && userRole !== "ADMIN"} onClick={() => toggleEdit("lastName")}>Edit</Button>
+                <Button
+                  className={`${
+                    userData.id !== userId && userRole !== "ADMIN"
+                      ? "hidden"
+                      : ""
+                  }`}
+                  disabled={userData.id !== userId && userRole !== "ADMIN"}
+                  onClick={() => toggleEdit("lastName")}
+                >
+                  Edit
+                </Button>
               </TableCell>
             </TableRow>
             <TableRow>

@@ -29,6 +29,8 @@ const Rents = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const userId = jwtDecode<DecodedToken>(localStorage.getItem("jwt")!).userId;
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -41,7 +43,7 @@ const Rents = () => {
 
     const fetchRents = async () => {
       try {
-        const { data } = await apiClient.get("/rents/active");
+        const { data } = await apiClient.get(`/rents/active/client/${userId}`);
         setRents(data);
       } catch (err) {
         console.error(err);
@@ -74,8 +76,6 @@ const Rents = () => {
   };
 
   const handleRentItem = async (itemId: number) => {
-    const userId = jwtDecode<DecodedToken>(localStorage.getItem("jwt")!).userId;
-
     if (!userId) {
       toast({
         title: "Error",
@@ -126,8 +126,6 @@ const Rents = () => {
   };
 
   const handleReturnItem = async (rentId: number, itemId: number) => {
-    const userId = jwtDecode<DecodedToken>(localStorage.getItem("jwt")!).userId;
-
     if (!userId) {
       toast({
         title: "Error",

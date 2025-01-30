@@ -25,7 +25,7 @@ const ItemsTable: React.FC<ItemsTableProps> = ({
   onRentItem,
 }) => {
   return (
-    <Table className="table-fixed">
+    <Table className="">
       <TableCaption>{title}</TableCaption>
       <TableHeader className="bg-blue-50">
         <TableRow>
