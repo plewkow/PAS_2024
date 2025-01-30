@@ -3,12 +3,14 @@ package pl.lodz.p.edu.rest.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.lodz.p.edu.rest.dto.*;
 import pl.lodz.p.edu.rest.model.user.Role;
 import pl.lodz.p.edu.rest.model.user.UserPrincipal;
+import pl.lodz.p.edu.rest.security.JwsProvider;
 import pl.lodz.p.edu.rest.security.JwtTokenProvider;
 import pl.lodz.p.edu.rest.service.UserService;
 
@@ -20,10 +22,12 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwsProvider jwsProvider;
 
-    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
+    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider, JwsProvider jwsProvider) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.jwsProvider = jwsProvider;
     }
 
     @GetMapping()
@@ -42,49 +46,6 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/login")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserDTO getUserByLogin(@RequestBody LoginDTO login) {
-//        return userService.getUserByLogin(login);
-//    }
-
-//    @PostMapping()
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public SignedResponse<UserDTO> addUser(@RequestBody @Valid SignedRequest<CreateUserDTO> request) {
-//        // Pobranie danych z żądania
-//        CreateUserDTO userDTO = request.getData();
-//        String signature = request.getSignature();
-//
-//        // Weryfikacja podpisu
-//        Map<String, Object> expectedData = Map.of(
-//                "login", userDTO.getLogin(),
-//                "firstName", userDTO.getFirstName(),
-//                "lastName", userDTO.getLastName(),
-//                "role", userDTO.getRole().toString()
-//        );
-//
-//        boolean isValid = jwtTokenProvider.verifySignature(signature, expectedData);
-//        if (!isValid) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Niepoprawny podpis!");
-//        }
-//
-//        // Dodanie użytkownika
-//        UserDTO createdUser = userService.addUser(userDTO);
-//
-//        // Przygotowanie danych odpowiedzi
-//        Map<String, Object> responseData = Map.of(
-//                "id", createdUser.getId(),
-//                "login", createdUser.getLogin(),
-//                "role", createdUser.getRole().toString()
-//        );
-//
-//        // Generowanie podpisu odpowiedzi
-//        String responseSignature = jwtTokenProvider.signData(responseData);
-//
-//        // Zwrócenie odpowiedzi
-//        return new SignedResponse<>(createdUser, responseSignature);
-//    }
-
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO addUser(@RequestBody @Valid CreateUserDTO userDTO) {
@@ -93,14 +54,28 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO getUser(@PathVariable String id) {
-        return userService.getUserById(id);
-    }
+    public ResponseEntity<UserDTO> getUser(@PathVariable String id) {
+        UserDTO user = userService.getUserById(id);
+        String jws = jwsProvider.generateJws(id);
+
+        boolean isValid = jwtTokenProvider.validateToken(jws);
+        System.out.println(isValid);
+        System.out.println(jws);
+
+        return ResponseEntity.ok()
+                .header("ETag", jws)
+                .body(user);
+}
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable String id, @RequestBody @Valid UpdateUserDTO userDTO) {
+    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody @Valid UpdateUserDTO userDTO, @RequestHeader("ETag") String jws) {
+        boolean isValid = jwsProvider.validateJws(jws, id);
+        if (!isValid) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
         userService.updateUser(id, userDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/activate/{id}")

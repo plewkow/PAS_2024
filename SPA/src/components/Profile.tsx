@@ -17,9 +17,10 @@ import apiClient from "@/lib/apiClient";
 
 interface UserDetailsProps {
   user: User | null;
+  etag: string | null;
 }
 
-const Profile = ({ user }: UserDetailsProps) => {
+const Profile = ({ user, etag }: UserDetailsProps) => {
   const { toast } = useToast();
 
   const [userData, setUserData] = useState<User | null>(user);
@@ -101,7 +102,12 @@ const Profile = ({ user }: UserDetailsProps) => {
       try {
         await apiClient.put(
           endpoint,
-          actionType === "save" ? userData : undefined
+          actionType === "save" ? userData : undefined,
+          {
+            headers: {
+              "ETag": etag,
+            }
+          }
         );
 
         toast({

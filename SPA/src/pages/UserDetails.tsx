@@ -15,14 +15,19 @@ const UserDetails = () => {
   const [activeRents, setActiveRents] = useState<Rent[]>([]);
   const [inactiveRents, setInactiveRents] = useState<Rent[]>([]);
   const [items, setItems] = useState<Item[]>([]);
+  const [signature, setSignature] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
     const fetchUserDetails = async () => {
       try {
-        const { data } = await apiClient.get(`/users/${id}`);
-        setUser(data);
+        const response = await apiClient.get(`/users/${id}`);
+        const etag = response.headers.etag;
+        if (etag) {
+          setSignature(etag.replace(/"/g, ""));
+        }
+        setUser(response.data);
       } catch (err) {
         console.error("Error fetching user details:", err);
       }
@@ -48,7 +53,7 @@ const UserDetails = () => {
 
     const fetchItems = async () => {
       try {
-        const {data} = await apiClient.get("/items");
+        const { data } = await apiClient.get("/items");
         setItems(data);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -63,7 +68,7 @@ const UserDetails = () => {
 
   return (
     <div className="px-16 py-8">
-      {user && <Profile user={user} />}
+      {user && <Profile etag={signature} user={user} />}
 
       <ActiveUserRentsTable rents={activeRents} items={items} />
 
