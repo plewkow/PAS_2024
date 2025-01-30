@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuLink,
@@ -10,7 +11,7 @@ import ChangePasswordDialog from "./ChangePasswordDialog";
 const Navbar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-
+  const [isOpen, setIsOpen] = useState(false);
   const handleLogout = async () => {
     const response = await fetch("/api/users/logout", {
       method: "POST",
@@ -85,7 +86,12 @@ const Navbar = () => {
               </NavigationMenuLink>
 
               <NavigationMenuLink asChild>
-                <ChangePasswordDialog />
+                <button
+                  onClick={() => setIsOpen(true)}
+                  className="text-blue-900 bg-white px-4 py-1 rounded-full text-sm"
+                >
+                  Change Password
+                </button>
               </NavigationMenuLink>
             </>
           ) : (
@@ -110,6 +116,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
+      <ChangePasswordDialog isOpen={isOpen} setIsOpen={setIsOpen} />
     </NavigationMenu>
   );
 };
