@@ -1,4 +1,4 @@
-import { User } from "@/types";
+import { DecodedToken, User } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import UserDetailsTable from "./UserDetailsTable";
 import apiClient from "@/lib/apiClient";
+import jwtDecode from "jwt-decode";
 
 interface UserDetailsProps {
   user: User | null;
@@ -31,20 +32,9 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
     "activate" | "deactivate" | "save" | null
   >(null);
 
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = window.localStorage.getItem("jwt");
-
-    if (token) {
-      try {
-        const decoded: any = jwt_decode(token);
-        setUserRole(decoded.role);
-      } catch (error) {
-        console.error("Error decoding token", error);
-      }
-    }
-  }, []);
+  const token = localStorage.getItem("jwt");
+  const userId = jwtDecode<DecodedToken>(token!).userId;
+  const userRole = jwtDecode<DecodedToken>(token!).role;
 
   const onActivate = () => {
     if (userData?.role === "ACTIVE") {
@@ -105,8 +95,8 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
           actionType === "save" ? userData : undefined,
           {
             headers: {
-              "ETag": etag,
-            }
+              ETag: etag,
+            },
           }
         );
 

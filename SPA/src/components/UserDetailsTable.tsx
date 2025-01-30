@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { User } from "@/types"
+import { DecodedToken, User } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import jwtDecode from "jwt-decode";
 
 const UserDetailsTable = ({
   userData,
@@ -23,6 +24,10 @@ const UserDetailsTable = ({
     firstName: false,
     lastName: false,
   });
+
+  const token = localStorage.getItem("jwt");
+  const userId = jwtDecode<DecodedToken>(token!).userId;
+  const userRole = jwtDecode<DecodedToken>(token!).role;
 
   const toggleEdit = (field: string) => {
     setIsEditing((prev) => ({
@@ -42,14 +47,13 @@ const UserDetailsTable = ({
       });
       return;
     }
-  
+
     setUserData({
       ...userData,
       [field]: value,
     });
   };
 
-  
   const renderEditField = (field: string, value: string) => {
     return isEditing[field] ? (
       <input
@@ -86,7 +90,7 @@ const UserDetailsTable = ({
                 {renderEditField("firstName", userData.firstName)}
               </TableCell>
               <TableCell>
-                <Button onClick={() => toggleEdit("firstName")}>Edit</Button>
+                <Button disabled={userData.id !== userId && userRole !== "ADMIN"} onClick={() => toggleEdit("firstName")}>Edit</Button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -95,7 +99,7 @@ const UserDetailsTable = ({
                 {renderEditField("lastName", userData.lastName)}
               </TableCell>
               <TableCell>
-                <Button onClick={() => toggleEdit("lastName")}>Edit</Button>
+                <Button disabled={userData.id !== userId && userRole !== "ADMIN"} onClick={() => toggleEdit("lastName")}>Edit</Button>
               </TableCell>
             </TableRow>
             <TableRow>

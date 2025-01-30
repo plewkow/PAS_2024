@@ -12,7 +12,7 @@ import { useNavigate } from "react-router";
 
 const UsersTable = ({ users }: { users: User[] }) => {
   const navigate = useNavigate();
-  const clickHandler = (id: number) => {
+  const clickHandler = (id: string) => {
     console.log(`User with id ${id} has been clicked.`);
     navigate(`/users/${id}`);
   };
