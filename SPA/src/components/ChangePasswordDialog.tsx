@@ -18,7 +18,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -64,9 +63,6 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
   setIsOpen,
 }) => {
   const { toast } = useToast();
-  // const [currentPassword, setCurrentPassword] = useState("");
-  // const [newPassword, setNewPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,7 +74,7 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { confirmPassword, ...data } = values;
+    const { confirmPassword: _confirmPassword, ...data } = values;
     try {
       setLoading(true);
       await apiClient.put("/users/me/changePassword", data);
@@ -94,7 +90,7 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        // @ts-ignore
+        // @ts-expect-error err is type unkown
         description: error.response.data || "Failed to change password",
         variant: "destructive",
       });
@@ -102,46 +98,6 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
       setLoading(false);
     }
   };
-
-  // const handlePasswordChange = async () => {
-  //   if (newPassword !== confirmPassword) {
-  //     toast({
-  //       title: "Error",
-  //       description: "New passwords do not match",
-  //       variant: "destructive",
-  //     });
-  //     return;
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     await apiClient.put("/users/me/changePassword", {
-  //       currentPassword,
-  //       newPassword,
-  //     });
-
-  //     toast({
-  //       title: "Success",
-  //       description: "Password changed successfully!",
-  //       variant: "success",
-  //     });
-
-  //     setIsOpen(false);
-  //     setNewPassword("");
-  //     setCurrentPassword("");
-  //     setConfirmPassword("");
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error",
-  //       // @ts-ignore
-  //       description: error.response.data || "Failed to change password",
-  //       variant: "destructive",
-  //     });
-  //   }
-
-  //   setLoading(false);
-  // };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

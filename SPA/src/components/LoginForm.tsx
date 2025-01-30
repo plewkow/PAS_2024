@@ -56,7 +56,7 @@ const LoginForm = () => {
     } catch (error) {
       toast({
         title: "Login failed",
-        // @ts-ignore
+        // @ts-expect-error err is type unkown
         description: error.response.data || "Something went wrong",
         variant: "destructive",
       });

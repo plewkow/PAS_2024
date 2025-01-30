@@ -52,7 +52,7 @@ const Rents = () => {
 
     fetchRents();
     fetchItems();
-  }, [navigate]);
+  }, [navigate, userId]);
 
   const handleOpenDialog = (
     action: "rent" | "return",
@@ -118,7 +118,7 @@ const Rents = () => {
       toast({
         title: "Error",
         description:
-          // @ts-ignore
+          // @ts-expect-error err is type unknown
           err.response.data || "Something went wrong while renting the item.",
         variant: "destructive",
       });
@@ -155,7 +155,7 @@ const Rents = () => {
       toast({
         title: "Error",
         description:
-          // @ts-ignore
+          // @ts-expect-error err is type unknown
           err.response.data || "Something went wrong while returning the item.",
         variant: "destructive",
       });

@@ -27,7 +27,7 @@ const Navbar = () => {
     } catch (err) {
       toast({
         title: "Logout failed",
-        // @ts-ignore
+        // @ts-expect-error err is type unkown
         description: err.response.data || "Something went wrong",
         variant: "destructive",
       });

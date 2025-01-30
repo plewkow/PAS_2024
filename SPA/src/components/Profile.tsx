@@ -134,8 +134,9 @@ const Profile = ({ user, etag }: UserDetailsProps) => {
 
   return (
     <div>
-      {/* @ts-ignore */}
-      <UserDetailsTable userData={userData} setUserData={setUserData} />
+      {userData && (
+        <UserDetailsTable userData={userData} setUserData={setUserData} />
+      )}
 
       {userData && (
         <div className="flex justify-center mt-4 space-x-4">

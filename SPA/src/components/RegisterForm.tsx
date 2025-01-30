@@ -52,7 +52,7 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { confirmPassword, ...data } = values;
+    const { confirmPassword: _confirmPassword, ...data } = values;
     try {
       await authClient.post("/users", {... data, role: "CLIENT"});
 
@@ -66,7 +66,7 @@ const RegisterForm = () => {
     } catch (err) {
       toast({
         title: "Login failed",
-        // @ts-ignore
+        // @ts-expect-error err is type unknown
         description: err.response.data || "Something went wrong",
         variant: "destructive",
       });
