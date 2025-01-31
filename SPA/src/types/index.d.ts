@@ -6,7 +6,7 @@ export interface User {
   password: string;
   role: string;
   isActive: boolean;
-  clientType?: { discount: number; maxArticles: number, clientTypeInfo: string }; // TODO: Wyjebac zeby moglo nie byc clientTypeInfo (backend)
+  clientType?: { discount: number; maxArticles: number, clientTypeInfo: string };
 }
 
 export interface Item {

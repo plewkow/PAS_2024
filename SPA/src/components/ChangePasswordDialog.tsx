@@ -159,24 +159,6 @@ const ChangePasswordDialog: FC<ChangePasswordDialogProps> = ({
             </div>
           </form>
         </Form>
-        {/* <Input
-            type="password"
-            placeholder="Current Password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="New Password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="Confirm New Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          /> */}
       </DialogContent>
     </Dialog>
   );
